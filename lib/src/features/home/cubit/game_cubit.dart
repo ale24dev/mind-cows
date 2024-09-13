@@ -12,7 +12,7 @@ class GameCubit extends Cubit<GameState> {
   Future<void> searchForGame() async {
     emit(state.copyWith(status: GameStatus.searching));
 
-    await Future.delayed(const Duration(seconds: 2), () {
+    await Future.delayed(Duration.zero, () {
       emit(state.copyWith(status: GameStatus.playing));
     });
   }

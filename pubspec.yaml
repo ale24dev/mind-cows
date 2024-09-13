@@ -28,6 +28,8 @@ dependencies:
   spider: ^4.2.2
   supabase_flutter: ^2.6.0
 
+  flutter_otp_text_field: ^1.2.0
+
 dev_dependencies:
   bloc_test: ^9.1.7
   build_runner: ^2.4.12

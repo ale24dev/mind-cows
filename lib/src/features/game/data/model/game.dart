@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:my_app/src/core/supabase/table_interface.dart';
-import 'package:my_app/src/features/game/domain/game_status.dart';
+import 'package:my_app/src/features/game/data/model/game_status.dart';
 import 'package:my_app/src/features/player/data/model/player.dart';
 import 'package:my_app/src/features/player/data/model/player_number.dart';
 

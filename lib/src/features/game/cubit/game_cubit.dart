@@ -5,8 +5,8 @@ import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:my_app/src/features/game/data/game_repository.dart';
-import 'package:my_app/src/features/game/domain/game.dart';
-import 'package:my_app/src/features/game/domain/game_status.dart';
+import 'package:my_app/src/features/game/data/model/game.dart';
+import 'package:my_app/src/features/game/data/model/game_status.dart';
 import 'package:my_app/src/features/player/data/model/player.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 

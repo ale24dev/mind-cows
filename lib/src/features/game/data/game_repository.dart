@@ -5,8 +5,8 @@ import 'package:injectable/injectable.dart';
 import 'package:my_app/src/core/exceptions.dart';
 import 'package:my_app/src/core/interceptor.dart';
 import 'package:my_app/src/core/services/game_datasource.dart';
-import 'package:my_app/src/features/game/domain/game.dart';
-import 'package:my_app/src/features/game/domain/game_status.dart';
+import 'package:my_app/src/features/game/data/model/game.dart';
+import 'package:my_app/src/features/game/data/model/game_status.dart';
 import 'package:my_app/src/features/player/data/model/player.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 

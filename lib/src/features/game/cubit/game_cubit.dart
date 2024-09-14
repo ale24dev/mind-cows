@@ -4,7 +4,9 @@ import 'dart:developer';
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
+import 'package:my_app/src/core/utils/object_extensions.dart';
 import 'package:my_app/src/features/game/data/game_repository.dart';
+import 'package:my_app/src/features/game/data/model/attempt.dart';
 import 'package:my_app/src/features/game/data/model/game.dart';
 import 'package:my_app/src/features/game/data/model/game_status.dart';
 import 'package:my_app/src/features/player/data/model/player.dart';
@@ -39,23 +41,19 @@ class GameCubit extends Cubit<GameState> {
           callback: (payload) {
             log('GameCubit: Database change detected');
 
-            final newGameStatusId = payload.newRecord['status'] as int;
-
-            _handleGameStatusChange(
-              newGameStatusId,
-              state.listGameStatus,
-            );
+            getCurrentGame();
           },
         )
         .subscribe();
   }
 
-  Future<void> getCurrentGame(Player player) async {
-    final result = await _gameRepository.getCurrentGame(player);
+  Future<void> getCurrentGame() async {
+    emit(state.copyWith(stateStatus: GameStateStatus.loading));
+    final result = await _gameRepository.getCurrentGame(state.player!);
 
     final game = result.fold(
       (error) {
-        emit(state.copyWith(status: GameStateStatus.error));
+        emit(state.copyWith(stateStatus: GameStateStatus.error));
         return null;
       },
       (response) => response,
@@ -65,24 +63,71 @@ class GameCubit extends Cubit<GameState> {
       return;
     }
 
-    emit(state.copyWith(status: GameStateStatus.inProgress, game: game));
+    emit(state.copyWith(stateStatus: GameStateStatus.success, game: game));
+
+    await Future.delayed(Duration.zero, () {
+      if (game.isInProgress) {
+        getAttemptsInGameByPlayer(game, state.player!);
+      }
+    });
   }
 
   Future<void> findOrCreateGame(
     Player player,
   ) async {
+    emit(state.copyWith(stateStatus: GameStateStatus.loading));
     await _gameRepository.findOrCreateGame(player).then((value) {
       value.fold(
-        (error) => emit(state.copyWith(status: GameStateStatus.error)),
+        (error) => emit(state.copyWith(stateStatus: GameStateStatus.error)),
         (game) {
-          emit(state.copyWith(status: GameStateStatus.searching, game: game));
+          emit(
+            state.copyWith(stateStatus: GameStateStatus.success, game: game),
+          );
         },
       );
     });
   }
 
+  Future<void> getAttemptsInGameByPlayer(Game game, Player player) async {
+    emit(state.copyWith(stateStatus: GameStateStatus.loading));
+    await _gameRepository.getAttemptsInGameByPlayer(game, player).then((value) {
+      value.fold(
+        (error) => emit(state.copyWith(stateStatus: GameStateStatus.error)),
+        (attempts) {
+          emit(
+            state.copyWith(
+              stateStatus: GameStateStatus.success,
+              listAttempts: attempts ?? [],
+            ),
+          );
+        },
+      );
+    });
+  }
+
+  Future<void> insertAttempt(Attempt attempt) async {
+    emit(state.copyWith(stateStatus: GameStateStatus.loading));
+    await _gameRepository
+        .insertAttempt(attempt.copyWith(player: state.player, game: state.game))
+        .then((value) {
+      value.fold(
+        (error) => emit(state.copyWith(stateStatus: GameStateStatus.error)),
+        (gameStatus) {
+          emit(
+            state.copyWith(stateStatus: GameStateStatus.success),
+          );
+        },
+      );
+    });
+    await getAttemptsInGameByPlayer(state.game!, state.player!);
+  }
+
   void setGameStatus(List<GameStatus> listGameStatus) {
     emit(state.copyWith(listGameStatus: listGameStatus));
+  }
+
+  void setUserPlayer(Player player) {
+    emit(state.copyWith(player: player));
   }
 
   void refresh() {
@@ -94,34 +139,5 @@ class GameCubit extends Cubit<GameState> {
     StatusEnum status,
   ) {
     return listGameStatus.firstWhere((element) => element.status == status);
-  }
-
-  void _handleGameStatusChange(
-    int newGameStatusId,
-    List<GameStatus> listGameStatus,
-  ) {
-    final gameStatus = listGameStatus.firstWhere(
-      (element) => element.id == newGameStatusId,
-    );
-    switch (gameStatus.status) {
-      case StatusEnum.searching:
-        emit(
-          state.copyWith(
-            status: GameStateStatus.searching,
-          ),
-        );
-      case StatusEnum.inProgress:
-        emit(
-          state.copyWith(
-            status: GameStateStatus.inProgress,
-          ),
-        );
-      case StatusEnum.finished:
-        emit(
-          state.copyWith(
-            status: GameStateStatus.finished,
-          ),
-        );
-    }
   }
 }

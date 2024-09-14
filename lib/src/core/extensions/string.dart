@@ -9,4 +9,7 @@ extension StringX on String {
       (Match match) => '${match.group(1)}_${match.group(2)}',
     ).toLowerCase();
   }
+
+  /// Convert a string to a list of integers.
+  List<int> get parseOptToNumberValue => split('').map(int.parse).toList();
 }

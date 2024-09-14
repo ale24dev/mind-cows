@@ -1,7 +1,5 @@
 // ignore_for_file: avoid_bool_literals_in_conditional_expressions
 
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gutter/flutter_gutter.dart';
@@ -12,7 +10,6 @@ import 'package:my_app/src/features/game/cubit/game_cubit.dart';
 import 'package:my_app/src/features/home/widgets/game_section.dart';
 import 'package:my_app/src/features/home/widgets/header_section.dart';
 import 'package:my_app/src/features/player/cubit/player_cubit.dart';
-import 'package:my_app/src/features/splash/cubit/app_cubit.dart';
 import 'package:sized_context/sized_context.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -27,11 +24,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
-    final player = context.read<PlayerCubit>().state.player!;
-    context.read<GameCubit>().getCurrentGame(player);
+    context.read<GameCubit>().getCurrentGame();
     context.read<GameCubit>().stream.listen((state) {
       setState(() {
-        headerCollapsed = state.isInProgress ? true : false;
+        headerCollapsed = state.isGameInProgress ? true : false;
       });
     });
     super.initState();
@@ -68,7 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         AnimatedSwitcher(
                           duration: 300.milliseconds,
                           child: headerCollapsed
-                              ? const GameSection()
+                              ? GameSection(game: state.game!)
                               : _SearchGameSection(state: state),
                         ),
                       ],
@@ -105,7 +101,7 @@ class _SearchGameSection extends StatelessWidget {
             width: 80,
           ),
         ),
-        if (state.isSearching) ...[
+        if (state.isGameSearching) ...[
           const Gutter(),
           const CircularProgressIndicator.adaptive(),
         ],

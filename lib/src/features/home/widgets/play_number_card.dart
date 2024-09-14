@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gutter/flutter_gutter.dart';
 import 'package:my_app/src/core/ui/theme.dart';
+import 'package:my_app/src/features/game/data/model/attempt.dart';
 
 class PlayNumberCard extends StatelessWidget {
-  const PlayNumberCard({
-    super.key,
-  });
+  const PlayNumberCard({required this.attempt, required this.index, super.key});
+
+  final Attempt attempt;
+  final int index;
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +16,7 @@ class PlayNumberCard extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
       child: Row(
         children: [
-          const Text('1'),
+          Text(index.toString()),
           const GutterLarge(),
           Expanded(
             child: Container(
@@ -30,12 +32,12 @@ class PlayNumberCard extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     ...List.generate(4, (index) {
-                      return _NumberPlay((index + 1).toString());
+                      return _NumberPlay(attempt.number[index].toString());
                     }),
                     const Gutter(),
-                    const Text('1V'),
+                    Text('${attempt.cows}V'),
                     const Gutter(),
-                    const Text('1T'),
+                    Text('${attempt.bulls}T'),
                   ],
                 ),
               ),

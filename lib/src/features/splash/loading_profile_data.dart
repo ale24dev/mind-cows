@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:my_app/src/features/game/cubit/game_cubit.dart';
 import 'package:my_app/src/features/player/cubit/player_cubit.dart';
 import 'package:my_app/src/router/router.dart';
 
@@ -17,6 +18,8 @@ class _LoadingProfileDataState extends State<LoadingProfileData> {
       body: BlocBuilder<PlayerCubit, PlayerState>(
         builder: (context, state) {
           if (state.status == PlayerStatus.success) {
+            context.read<GameCubit>().setUserPlayer(state.player!);
+
             WidgetsFlutterBinding.ensureInitialized().addPostFrameCallback((_) {
               Navigator.of(context).pushReplacementNamed(AppRoutes.home);
             });

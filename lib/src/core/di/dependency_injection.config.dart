@@ -49,7 +49,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i584.GameCubit>(() => _i584.GameCubit(
           gh<_i454.SupabaseClient>(),
           gh<_i34.GameRepository>(),
-          gh<_i406.PlayerRepository>(),
         ));
     gh.factory<_i126.PlayerCubit>(() => _i126.PlayerCubit(
           gh<_i454.SupabaseClient>(),

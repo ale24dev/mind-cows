@@ -92,14 +92,12 @@ class _SearchGameSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final player = context.read<PlayerCubit>().state.player!;
-    final gameStatus = context.read<AppCubit>().state.gameStatus;
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         GestureDetector(
-          onTap: () => context.read<GameCubit>().searchForGame(
+          onTap: () => context.read<GameCubit>().findOrCreateGame(
                 player,
-                gameStatus,
               ),
           child: Image.asset(
             AppImages.playButton,

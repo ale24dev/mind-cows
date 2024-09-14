@@ -5,7 +5,7 @@ import 'package:my_app/src/features/game/domain/game_status.dart';
 import 'package:my_app/src/features/player/data/model/player.dart';
 
 abstract class GameDataSource {
-  Future<Either<AppException?, Game?>> createGameRoom(Game game);
+  Future<Either<AppException?, Game?>> findOrCreateGame(Player player);
 
   Future<Either<AppException?, List<GameStatus>?>> getAllGameStatus();
 

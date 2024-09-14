@@ -1,13 +1,10 @@
 // ignore_for_file: prefer_interpolation_to_compose_strings
 
-import 'dart:developer';
-
 import 'package:fpdart/fpdart.dart';
 import 'package:injectable/injectable.dart';
 import 'package:my_app/src/core/exceptions.dart';
 import 'package:my_app/src/core/interceptor.dart';
 import 'package:my_app/src/core/services/game_datasource.dart';
-import 'package:my_app/src/core/supabase/query_supabase.dart';
 import 'package:my_app/src/features/game/domain/game.dart';
 import 'package:my_app/src/features/game/domain/game_status.dart';
 import 'package:my_app/src/features/player/data/model/player.dart';
@@ -22,16 +19,11 @@ class GameRepository extends GameDataSource {
 
   final gameStatus = GameStatus.empty();
   @override
-  Future<Either<AppException?, Game?>> createGameRoom(Game game) {
-    log(game.toJson().toString());
-    log(game.columns());
+  Future<Either<AppException?, Game?>> findOrCreateGame(Player player) {
     return _supabaseServiceImpl.query<Game>(
-      table: game.tableName(),
-      request: () => _client
-          .from(game.tableName())
-          .insert(game.toJson())
-          .select(QuerySupabase.game)
-          .single(),
+      table: 'RPC create_game',
+      request: () =>
+          _client.rpc('create_game', params: {'player_id': player.id}),
       queryOption: QueryOption.insert,
       fromJsonParse: Game.fromJson,
     );
@@ -56,6 +48,7 @@ class GameRepository extends GameDataSource {
           _client.rpc('get_current_game', params: {'player_id': player.id}),
       queryOption: QueryOption.select,
       fromJsonParse: Game.fromJson,
+      responseNullable: true,
     );
   }
 }

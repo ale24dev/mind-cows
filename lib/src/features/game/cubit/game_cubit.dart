@@ -8,7 +8,6 @@ import 'package:my_app/src/features/game/data/game_repository.dart';
 import 'package:my_app/src/features/game/domain/game.dart';
 import 'package:my_app/src/features/game/domain/game_status.dart';
 import 'package:my_app/src/features/player/data/model/player.dart';
-import 'package:my_app/src/features/player/data/player_repository.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 part 'game_state.dart';
@@ -19,7 +18,6 @@ class GameCubit extends Cubit<GameState> {
   GameCubit(
     this._client,
     this._gameRepository,
-    this._playerRepository,
   ) : super(const GameState()) {
     log('Initializing GameCubit...');
     _listenGame();
@@ -28,8 +26,6 @@ class GameCubit extends Cubit<GameState> {
   final SupabaseClient _client;
 
   final GameRepository _gameRepository;
-
-  final PlayerRepository _playerRepository;
 
   void _listenGame() {
     final game = Game.empty();
@@ -72,32 +68,10 @@ class GameCubit extends Cubit<GameState> {
     emit(state.copyWith(status: GameStateStatus.inProgress, game: game));
   }
 
-  Future<void> searchForGame(
+  Future<void> findOrCreateGame(
     Player player,
-    List<GameStatus> listGameStatus,
   ) async {
-    final gameStatus =
-        getGameStatusByStatus(listGameStatus, StatusEnum.searching);
-
-    final result = await _playerRepository.createPlayerNumber(player);
-
-    final playerNumber = result.fold(
-      (error) {
-        emit(state.copyWith(status: GameStateStatus.error));
-        return null;
-      },
-      (response) => response,
-    );
-
-    /// If playerNumber is null, then return because there was an error
-    if (playerNumber == null) {
-      return;
-    }
-
-    final game =
-        Game.empty().copyWith(playerNumber1: playerNumber, status: gameStatus);
-
-    await _gameRepository.createGameRoom(game).then((value) {
+    await _gameRepository.findOrCreateGame(player).then((value) {
       value.fold(
         (error) => emit(state.copyWith(status: GameStateStatus.error)),
         (game) {

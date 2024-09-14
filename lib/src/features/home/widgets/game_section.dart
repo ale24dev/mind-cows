@@ -1,8 +1,10 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gutter/flutter_gutter.dart';
 import 'package:my_app/src/core/ui/typography.dart';
+import 'package:my_app/src/features/game/cubit/game_cubit.dart';
 import 'package:my_app/src/features/home/widgets/otp_fields.dart';
 import 'package:my_app/src/features/home/widgets/play_number_card.dart';
 import 'package:sized_context/sized_context.dart';
@@ -46,9 +48,26 @@ class _PlayList extends StatelessWidget {
             style: AppTextStyle().body.copyWith(fontWeight: FontWeight.w600),
           ),
           const GutterSmall(),
-          ...List.generate(4, (index) {
-            return const PlayNumberCard();
-          }),
+          BlocBuilder<GameCubit, GameState>(
+            builder: (context, state) {
+              if (state.isLoading) {
+                return const Center(child: CircularProgressIndicator());
+              }
+
+              if (state.isError) {
+                log('Error');
+              }
+              return Column(
+                children: state.listAttempts.isEmpty
+                    ? [const Text('No attempts')]
+                    : state.listAttempts.asMap().entries.map((entry) {
+                        final index = entry.key + 1;
+                        final value = entry.value;
+                        return PlayNumberCard(attempt: value, index: index);
+                      }).toList(),
+              );
+            },
+          ),
         ],
       ),
     );

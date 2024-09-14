@@ -5,6 +5,8 @@ import 'package:injectable/injectable.dart';
 import 'package:my_app/src/core/exceptions.dart';
 import 'package:my_app/src/core/interceptor.dart';
 import 'package:my_app/src/core/services/game_datasource.dart';
+import 'package:my_app/src/core/supabase/query_supabase.dart';
+import 'package:my_app/src/features/game/data/model/attempt.dart';
 import 'package:my_app/src/features/game/data/model/game.dart';
 import 'package:my_app/src/features/game/data/model/game_status.dart';
 import 'package:my_app/src/features/player/data/model/player.dart';
@@ -49,6 +51,23 @@ class GameRepository extends GameDataSource {
       queryOption: QueryOption.select,
       fromJsonParse: Game.fromJson,
       responseNullable: true,
+    );
+  }
+
+  @override
+  Future<Either<AppException?, List<Attempt>?>> getAttemptsInGameByPlayer(
+    Game game,
+    Player player,
+  ) {
+    return _supabaseServiceImpl.query<List<Attempt>>(
+      table: 'attempt',
+      request: () =>
+          _client.from('attempt').select(QuerySupabase.attempt).match({
+        'game': game.id,
+        'player': player.id,
+      }).order('id', ascending: false),
+      queryOption: QueryOption.select,
+      fromJsonParse: attemptsFromJson,
     );
   }
 }

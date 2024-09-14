@@ -40,6 +40,10 @@ class Game with TableInterface {
 }
 
 extension GameX on Game {
+  bool get isSearching => status.status == StatusEnum.searching;
+  bool get isInProgress => status.status == StatusEnum.inProgress;
+  bool get isFinished => status.status == StatusEnum.finished;
+
   Game copyWith({
     int? id,
     GameStatus? status,

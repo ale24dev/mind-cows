@@ -1,5 +1,7 @@
-// ignore: one_member_abstracts
 abstract class TableInterface {
+  /// Table name in the database.
   String tableName();
+
+  /// Columns to select in the query.
   String columns();
 }

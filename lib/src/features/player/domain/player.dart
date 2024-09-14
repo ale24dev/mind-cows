@@ -1,7 +1,6 @@
 import 'package:my_app/src/core/supabase/table_interface.dart';
 
 class Player extends TableInterface {
-
   Player({
     required this.id,
     required this.username,

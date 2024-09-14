@@ -8,9 +8,11 @@ import 'package:flutter_gutter/flutter_gutter.dart';
 import 'package:my_app/resources/resources.dart';
 import 'package:my_app/src/core/ui/device.dart';
 import 'package:my_app/src/core/ui/extensions.dart';
-import 'package:my_app/src/features/home/cubit/game_cubit.dart';
+import 'package:my_app/src/features/game/cubit/game_cubit.dart';
 import 'package:my_app/src/features/home/widgets/game_section.dart';
 import 'package:my_app/src/features/home/widgets/header_section.dart';
+import 'package:my_app/src/features/player/cubit/player_cubit.dart';
+import 'package:my_app/src/features/splash/cubit/app_cubit.dart';
 import 'package:sized_context/sized_context.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -25,12 +27,14 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
-    super.initState();
+    final player = context.read<PlayerCubit>().state.player!;
+    context.read<GameCubit>().getCurrentGame(player);
     context.read<GameCubit>().stream.listen((state) {
       setState(() {
-        headerCollapsed = state.status.isPlaying ? true : false;
+        headerCollapsed = state.isInProgress ? true : false;
       });
     });
+    super.initState();
   }
 
   @override
@@ -87,18 +91,21 @@ class _SearchGameSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final player = context.read<PlayerCubit>().state.player!;
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         GestureDetector(
-          onTap: () => context.read<GameCubit>().searchForGame(),
+          onTap: () => context.read<GameCubit>().findOrCreateGame(
+                player,
+              ),
           child: Image.asset(
             AppImages.playButton,
             height: 80,
             width: 80,
           ),
         ),
-        if (state.status.isSearching) ...[
+        if (state.isSearching) ...[
           const Gutter(),
           const CircularProgressIndicator.adaptive(),
         ],

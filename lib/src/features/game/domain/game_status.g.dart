@@ -8,11 +8,17 @@ part of 'game_status.dart';
 
 GameStatus _$GameStatusFromJson(Map<String, dynamic> json) => GameStatus(
       id: (json['id'] as num).toInt(),
-      status: json['status'] as String,
+      status: $enumDecode(_$StatusEnumEnumMap, json['status']),
     );
 
 Map<String, dynamic> _$GameStatusToJson(GameStatus instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'status': instance.status,
+      'status': _$StatusEnumEnumMap[instance.status]!,
     };
+
+const _$StatusEnumEnumMap = {
+  StatusEnum.searching: 'searching',
+  StatusEnum.inProgress: 'in_progress',
+  StatusEnum.finished: 'finished',
+};

@@ -5,9 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_app/l10n/l10n.dart';
 import 'package:my_app/src/core/ui/theme.dart';
 import 'package:my_app/src/features/auth/cubit/auth_cubit.dart';
-import 'package:my_app/src/features/auth/views/auth_screen.dart';
-import 'package:my_app/src/features/home/home_screen.dart';
 import 'package:my_app/src/features/player/cubit/player_cubit.dart';
+import 'package:my_app/src/router/router.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -33,11 +32,8 @@ class MyApp extends StatelessWidget {
         darkTheme: theme.dark,
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
-        initialRoute: '/auth',
-        routes: {
-          '/auth': (context) => const AuthScreen(),
-          '/home': (context) => const HomeScreen(),
-        },
+        initialRoute: AppRoutes.splashScreen,
+        routes: routes,
       ),
     );
   }

@@ -1,3 +1,5 @@
+typedef Json = Map<String, dynamic>;
+
 extension LetExtension<T> on T? {
   /// Verify is value is null
   bool get isNull => this == null;

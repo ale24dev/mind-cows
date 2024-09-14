@@ -9,8 +9,8 @@ part of 'player_number.dart';
 PlayerNumber _$PlayerNumberFromJson(Map<String, dynamic> json) => PlayerNumber(
       id: (json['id'] as num).toInt(),
       player: Player.fromJson(json['player'] as Map<String, dynamic>),
-      number: (json['number'] as List<dynamic>)
-          .map((e) => (e as num).toInt())
+      number: (json['number'] as List<dynamic>?)
+          ?.map((e) => (e as num).toInt())
           .toList(),
     );
 

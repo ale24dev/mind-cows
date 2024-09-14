@@ -4,7 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:my_app/src/features/game/data/game_repository.dart';
-import 'package:my_app/src/features/game/domain/game_status.dart';
+import 'package:my_app/src/features/game/data/model/game_status.dart';
 import 'package:rxdart/subjects.dart';
 
 part 'app_state.dart';

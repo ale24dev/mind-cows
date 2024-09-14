@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gutter/flutter_gutter.dart';
@@ -58,7 +56,7 @@ class _PlayList extends StatelessWidget {
               }
 
               if (state.isError) {
-                log('Error');
+                // log('Error');
               }
               return Column(
                 children: state.listAttempts.isEmpty
@@ -125,7 +123,6 @@ class __SendNumberSectionState extends State<_SendNumberSection> {
                   Attempt.empty()
                       .copyWith(number: otpValue.parseOptToNumberValue),
                 );
-            log('OTP enviado: $otpValue');
             otpFieldsKey.currentState?.clearFields();
           },
           icon: Icon(Icons.send, color: Theme.of(context).colorScheme.primary),

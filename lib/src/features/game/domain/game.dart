@@ -1,9 +1,14 @@
+import 'package:json_annotation/json_annotation.dart';
 import 'package:my_app/src/core/supabase/table_interface.dart';
 import 'package:my_app/src/features/game/domain/game_status.dart';
 import 'package:my_app/src/features/player/domain/player.dart';
 import 'package:my_app/src/features/player/domain/player_number.dart';
 
-class Game extends TableInterface {
+part 'game.g.dart';
+
+@JsonSerializable(explicitToJson: true)
+class Game with TableInterface {
+
   Game({
     required this.id,
     required this.status,
@@ -11,11 +16,15 @@ class Game extends TableInterface {
     required this.playerNumber2,
     this.winner,
   });
+
+  factory Game.fromJson(Map<String, dynamic> json) => _$GameFromJson(json);
   final int id;
   final GameStatus status;
   final PlayerNumber playerNumber1;
   final PlayerNumber playerNumber2;
   final Player? winner;
+
+  Map<String, dynamic> toJson() => _$GameToJson(this);
 
   @override
   String columns() => '''

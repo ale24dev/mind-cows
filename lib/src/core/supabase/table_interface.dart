@@ -1,4 +1,4 @@
-abstract class TableInterface {
+mixin TableInterface {
   /// Table name in the database.
   String tableName();
 

@@ -22,13 +22,12 @@ dependencies:
   get_it: ^7.7.0
   injectable: ^2.4.4
   intl: ^0.19.0
+  logger: ^2.3.0
   lottie: ^3.1.2
 
   sized_context: ^1.0.0+4
   spider: ^4.2.2
   supabase_flutter: ^2.6.0
-
-  flutter_otp_text_field: ^1.2.0
 
 dev_dependencies:
   bloc_test: ^9.1.7

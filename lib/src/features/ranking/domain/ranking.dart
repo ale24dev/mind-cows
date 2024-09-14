@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:my_app/src/core/supabase/table_interface.dart';
-import 'package:my_app/src/features/player/domain/player.dart';
+import 'package:my_app/src/features/player/data/model/player.dart';
 
 part 'ranking.g.dart';
 

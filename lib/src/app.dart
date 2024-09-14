@@ -7,6 +7,7 @@ import 'package:my_app/src/core/ui/theme.dart';
 import 'package:my_app/src/features/auth/cubit/auth_cubit.dart';
 import 'package:my_app/src/features/auth/views/auth_screen.dart';
 import 'package:my_app/src/features/home/home_screen.dart';
+import 'package:my_app/src/features/player/cubit/player_cubit.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -19,6 +20,11 @@ class MyApp extends StatelessWidget {
         BlocListener<AuthCubit, AuthState>(
           listener: (context, state) {
             log('Initializaing AuthCubit...');
+          },
+        ),
+        BlocListener<PlayerCubit, PlayerState>(
+          listener: (context, state) {
+            log('Initializaing PlayerCubit...');
           },
         ),
       ],

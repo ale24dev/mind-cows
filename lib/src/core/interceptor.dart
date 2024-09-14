@@ -1,4 +1,5 @@
 import 'package:fpdart/fpdart.dart';
+import 'package:injectable/injectable.dart';
 import 'package:logger/logger.dart';
 import 'package:my_app/src/core/di/dependency_injection.dart';
 import 'package:my_app/src/core/exceptions.dart';
@@ -7,7 +8,9 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 enum QueryOption { select, insert, uploadStorage, update, delete }
 
-abstract class SupabaseServiceImpl {
+@singleton
+class SupabaseServiceImpl {
+  SupabaseServiceImpl();
   /// Executes a query to the database.
   ///
   /// [table] The name of the table.
@@ -17,7 +20,7 @@ abstract class SupabaseServiceImpl {
   /// [queryOption] The query option to execute.
   /// [parseResult] Whether to parse the result.
   /// [responseNullable] Whether the response can be null.
-  static Future<Either<AppException?, T?>> query<T>({
+  Future<Either<AppException, T?>> query<T>({
     required String table,
     required Future<dynamic> Function() request,
     required QueryOption queryOption,

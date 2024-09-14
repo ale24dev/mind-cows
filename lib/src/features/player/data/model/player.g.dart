@@ -9,11 +9,11 @@ part of 'player.dart';
 Player _$PlayerFromJson(Map<String, dynamic> json) => Player(
       id: json['id'] as String,
       username: json['username'] as String,
-      avatarUrl: json['avatarUrl'] as String,
+      avatarUrl: json['avatar_url'] as String,
     );
 
 Map<String, dynamic> _$PlayerToJson(Player instance) => <String, dynamic>{
       'id': instance.id,
       'username': instance.username,
-      'avatarUrl': instance.avatarUrl,
+      'avatar_url': instance.avatarUrl,
     };

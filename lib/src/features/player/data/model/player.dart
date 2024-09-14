@@ -3,14 +3,15 @@ import 'package:my_app/src/core/supabase/table_interface.dart';
 
 part 'player.g.dart';
 
-@JsonSerializable(explicitToJson: true)
+@JsonSerializable(explicitToJson: true, fieldRename: FieldRename.snake)
 class Player with TableInterface {
-
   Player({
     required this.id,
     required this.username,
     required this.avatarUrl,
   });
+
+  factory Player.empty() => Player(id: '', username: '', avatarUrl: '');
 
   factory Player.fromJson(Map<String, dynamic> json) => _$PlayerFromJson(json);
   final String id;

@@ -64,7 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         AnimatedSwitcher(
                           duration: 300.milliseconds,
                           child: headerCollapsed
-                              ? const GameSection()
+                              ? GameSection(game: state.game!)
                               : _SearchGameSection(state: state),
                         ),
                       ],

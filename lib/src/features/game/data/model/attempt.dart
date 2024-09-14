@@ -20,6 +20,15 @@ class Attempt with TableInterface {
     required this.player,
   });
 
+  factory Attempt.empty() => Attempt(
+        id: 0,
+        game: Game.empty(),
+        bulls: 0,
+        cows: 0,
+        number: [],
+        player: Player.empty(),
+      );
+
   factory Attempt.fromJson(Map<String, dynamic> json) =>
       _$AttemptFromJson(json);
   final int id;
@@ -29,11 +38,34 @@ class Attempt with TableInterface {
   final List<int> number;
   final Player player;
 
-  Map<String, dynamic> toJson() => _$AttemptToJson(this);
-
   @override
   String columns() => 'id, game, bulls, cows, number, player';
 
   @override
   String tableName() => 'attempt';
+}
+
+extension AttemptX on Attempt {
+  Attempt copyWith({
+    int? id,
+    Game? game,
+    int? bulls,
+    int? cows,
+    List<int>? number,
+    Player? player,
+  }) =>
+      Attempt(
+        id: id ?? this.id,
+        game: game ?? this.game,
+        bulls: bulls ?? this.bulls,
+        cows: cows ?? this.cows,
+        number: number ?? this.number,
+        player: player ?? this.player,
+      );
+
+  Map<String, dynamic> toJson() => {
+        'game': game.id,
+        'player': player.id,
+        'number': number,
+      };
 }

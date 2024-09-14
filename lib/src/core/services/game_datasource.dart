@@ -16,4 +16,6 @@ abstract class GameDataSource {
     Game game,
     Player player,
   );
+
+  Future<Either<AppException?, void>> insertAttempt(Attempt attempt);
 }

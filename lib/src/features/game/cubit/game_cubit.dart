@@ -105,6 +105,23 @@ class GameCubit extends Cubit<GameState> {
     });
   }
 
+  Future<void> insertAttempt(Attempt attempt) async {
+    emit(state.copyWith(stateStatus: GameStateStatus.loading));
+    await _gameRepository
+        .insertAttempt(attempt.copyWith(player: state.player, game: state.game))
+        .then((value) {
+      value.fold(
+        (error) => emit(state.copyWith(stateStatus: GameStateStatus.error)),
+        (gameStatus) {
+          emit(
+            state.copyWith(stateStatus: GameStateStatus.success),
+          );
+        },
+      );
+    });
+    await getAttemptsInGameByPlayer(state.game!, state.player!);
+  }
+
   void setGameStatus(List<GameStatus> listGameStatus) {
     emit(state.copyWith(listGameStatus: listGameStatus));
   }

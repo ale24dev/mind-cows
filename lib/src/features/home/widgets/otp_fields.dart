@@ -1,5 +1,3 @@
-// ignore_for_file: inference_failure_on_function_return_type
-
 import 'package:flutter/material.dart';
 
 class OTPFields extends StatefulWidget {
@@ -25,10 +23,10 @@ class OTPFields extends StatefulWidget {
   final bool allowRepetitions;
 
   @override
-  _OTPFieldsState createState() => _OTPFieldsState();
+  OTPFieldsState createState() => OTPFieldsState();
 }
 
-class _OTPFieldsState extends State<OTPFields> {
+class OTPFieldsState extends State<OTPFields> {
   late List<TextEditingController> controllers;
   late List<FocusNode> focusNodes;
   late List<String> otpValues;
@@ -88,6 +86,16 @@ class _OTPFieldsState extends State<OTPFields> {
   bool _hasRepetitions(List<String> values) {
     final uniqueValues = values.where((e) => e.isNotEmpty).toSet();
     return uniqueValues.length != values.where((e) => e.isNotEmpty).length;
+  }
+
+  void clearFields() {
+    setState(() {
+      for (var i = 0; i < widget.length; i++) {
+        controllers[i].clear();
+        otpValues[i] = '';
+        isFilled[i] = false;
+      }
+    });
   }
 
   @override

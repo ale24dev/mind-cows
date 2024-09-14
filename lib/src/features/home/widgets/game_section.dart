@@ -3,16 +3,19 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gutter/flutter_gutter.dart';
+import 'package:my_app/src/core/extensions/string.dart';
 import 'package:my_app/src/core/ui/typography.dart';
 import 'package:my_app/src/features/game/cubit/game_cubit.dart';
+import 'package:my_app/src/features/game/data/model/attempt.dart';
+import 'package:my_app/src/features/game/data/model/game.dart';
 import 'package:my_app/src/features/home/widgets/otp_fields.dart';
 import 'package:my_app/src/features/home/widgets/play_number_card.dart';
 import 'package:sized_context/sized_context.dart';
 
 class GameSection extends StatelessWidget {
-  const GameSection({
-    super.key,
-  });
+  const GameSection({required this.game, super.key});
+
+  final Game game;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +30,7 @@ class GameSection extends StatelessWidget {
         ),
         const _PlayList(),
         const Gutter(),
-        const _SendNumberSection(),
+        _SendNumberSection(game),
       ],
     );
   }
@@ -61,7 +64,7 @@ class _PlayList extends StatelessWidget {
                 children: state.listAttempts.isEmpty
                     ? [const Text('No attempts')]
                     : state.listAttempts.asMap().entries.map((entry) {
-                        final index = entry.key + 1;
+                        final index = state.listAttempts.length - entry.key;
                         final value = entry.value;
                         return PlayNumberCard(attempt: value, index: index);
                       }).toList(),
@@ -75,13 +78,16 @@ class _PlayList extends StatelessWidget {
 }
 
 class _SendNumberSection extends StatefulWidget {
-  const _SendNumberSection();
+  const _SendNumberSection(this.game);
+
+  final Game game;
 
   @override
   __SendNumberSectionState createState() => __SendNumberSectionState();
 }
 
 class __SendNumberSectionState extends State<_SendNumberSection> {
+  final GlobalKey<OTPFieldsState> otpFieldsKey = GlobalKey<OTPFieldsState>();
   String otpValue = '';
 
   void _onCompleted(String otp) {
@@ -101,19 +107,26 @@ class __SendNumberSectionState extends State<_SendNumberSection> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        ///This is to center the OTPFields
         const IconButton(
           onPressed: null,
           icon: Icon(Icons.send, color: Colors.transparent),
         ),
         OTPFields(
+          key: otpFieldsKey,
           allowRepetitions: false,
-          onCompleted: _onCompleted,
+          onCompleted: (otpValue) {
+            _onCompleted(otpValue);
+          },
           onChanged: _onChanged,
         ),
         IconButton(
           onPressed: () {
+            context.read<GameCubit>().insertAttempt(
+                  Attempt.empty()
+                      .copyWith(number: otpValue.parseOptToNumberValue),
+                );
             log('OTP enviado: $otpValue');
+            otpFieldsKey.currentState?.clearFields();
           },
           icon: Icon(Icons.send, color: Theme.of(context).colorScheme.primary),
         ),

@@ -70,4 +70,21 @@ class GameRepository extends GameDataSource {
       fromJsonParse: attemptsFromJson,
     );
   }
+
+  @override
+  Future<Either<AppException?, void>> insertAttempt(Attempt attempt) {
+    return _supabaseServiceImpl.query<void>(
+      table: 'attempt',
+      request: () => _client.functions.invoke(
+        'create-new-attempt',
+        body: {
+          'gameId': attempt.game.id,
+          'playerId': attempt.player.id,
+          'p_number': attempt.number,
+        },
+      ),
+      queryOption: QueryOption.select,
+      responseNullable: true,
+    );
+  }
 }

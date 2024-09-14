@@ -6,6 +6,7 @@ import 'package:my_app/src/core/ui/typography.dart';
 import 'package:my_app/src/core/utils/widgets/generic_button.dart';
 import 'package:my_app/src/core/utils/widgets/generic_text_field.dart';
 import 'package:my_app/src/features/auth/cubit/auth_cubit.dart';
+import 'package:my_app/src/router/router.dart';
 import 'package:sized_context/sized_context.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -68,8 +69,9 @@ class _AuthScreenState extends State<AuthScreen> {
                     WidgetsFlutterBinding.ensureInitialized()
                         .addPostFrameCallback(
                       (_) {
-                        // Navigator.of(context).pushNamed('/auth');
-                        Navigator.of(context).pushNamed('/home');
+                        Navigator.of(context).pushNamed(
+                          AppRoutes.initProfileData,
+                        );
                       },
                     );
                   }

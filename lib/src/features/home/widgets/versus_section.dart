@@ -4,7 +4,7 @@ import 'package:flutter_gutter/flutter_gutter.dart';
 import 'package:my_app/src/core/ui/colors.dart';
 import 'package:my_app/src/core/ui/device.dart';
 import 'package:my_app/src/core/ui/typography.dart';
-import 'package:my_app/src/features/home/cubit/game_cubit.dart';
+import 'package:my_app/src/features/game/cubit/game_cubit.dart';
 
 class VersusSection extends StatelessWidget {
   const VersusSection({super.key});

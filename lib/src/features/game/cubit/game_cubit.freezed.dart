@@ -16,7 +16,9 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$GameState {
-  GameStatus get status => throw _privateConstructorUsedError;
+  Game? get game => throw _privateConstructorUsedError;
+  GameStateStatus get status => throw _privateConstructorUsedError;
+  List<GameStatus> get listGameStatus => throw _privateConstructorUsedError;
 
   /// Create a copy of GameState
   /// with the given fields replaced by the non-null parameter values.
@@ -30,7 +32,8 @@ abstract class $GameStateCopyWith<$Res> {
   factory $GameStateCopyWith(GameState value, $Res Function(GameState) then) =
       _$GameStateCopyWithImpl<$Res, GameState>;
   @useResult
-  $Res call({GameStatus status});
+  $Res call(
+      {Game? game, GameStateStatus status, List<GameStatus> listGameStatus});
 }
 
 /// @nodoc
@@ -48,13 +51,23 @@ class _$GameStateCopyWithImpl<$Res, $Val extends GameState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? game = freezed,
     Object? status = null,
+    Object? listGameStatus = null,
   }) {
     return _then(_value.copyWith(
+      game: freezed == game
+          ? _value.game
+          : game // ignore: cast_nullable_to_non_nullable
+              as Game?,
       status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
-              as GameStatus,
+              as GameStateStatus,
+      listGameStatus: null == listGameStatus
+          ? _value.listGameStatus
+          : listGameStatus // ignore: cast_nullable_to_non_nullable
+              as List<GameStatus>,
     ) as $Val);
   }
 }
@@ -67,7 +80,8 @@ abstract class _$$GameStateImplCopyWith<$Res>
       __$$GameStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({GameStatus status});
+  $Res call(
+      {Game? game, GameStateStatus status, List<GameStatus> listGameStatus});
 }
 
 /// @nodoc
@@ -83,29 +97,54 @@ class __$$GameStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? game = freezed,
     Object? status = null,
+    Object? listGameStatus = null,
   }) {
     return _then(_$GameStateImpl(
+      game: freezed == game
+          ? _value.game
+          : game // ignore: cast_nullable_to_non_nullable
+              as Game?,
       status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
-              as GameStatus,
+              as GameStateStatus,
+      listGameStatus: null == listGameStatus
+          ? _value._listGameStatus
+          : listGameStatus // ignore: cast_nullable_to_non_nullable
+              as List<GameStatus>,
     ));
   }
 }
 
 /// @nodoc
 
-class _$GameStateImpl implements _GameState {
-  const _$GameStateImpl({this.status = GameStatus.initial});
+class _$GameStateImpl extends _GameState {
+  const _$GameStateImpl(
+      {this.game,
+      this.status = GameStateStatus.initial,
+      final List<GameStatus> listGameStatus = const []})
+      : _listGameStatus = listGameStatus,
+        super._();
 
   @override
+  final Game? game;
+  @override
   @JsonKey()
-  final GameStatus status;
+  final GameStateStatus status;
+  final List<GameStatus> _listGameStatus;
+  @override
+  @JsonKey()
+  List<GameStatus> get listGameStatus {
+    if (_listGameStatus is EqualUnmodifiableListView) return _listGameStatus;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_listGameStatus);
+  }
 
   @override
   String toString() {
-    return 'GameState(status: $status)';
+    return 'GameState(game: $game, status: $status, listGameStatus: $listGameStatus)';
   }
 
   @override
@@ -113,11 +152,15 @@ class _$GameStateImpl implements _GameState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$GameStateImpl &&
-            (identical(other.status, status) || other.status == status));
+            (identical(other.game, game) || other.game == game) &&
+            (identical(other.status, status) || other.status == status) &&
+            const DeepCollectionEquality()
+                .equals(other._listGameStatus, _listGameStatus));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, status);
+  int get hashCode => Object.hash(runtimeType, game, status,
+      const DeepCollectionEquality().hash(_listGameStatus));
 
   /// Create a copy of GameState
   /// with the given fields replaced by the non-null parameter values.
@@ -128,11 +171,19 @@ class _$GameStateImpl implements _GameState {
       __$$GameStateImplCopyWithImpl<_$GameStateImpl>(this, _$identity);
 }
 
-abstract class _GameState implements GameState {
-  const factory _GameState({final GameStatus status}) = _$GameStateImpl;
+abstract class _GameState extends GameState {
+  const factory _GameState(
+      {final Game? game,
+      final GameStateStatus status,
+      final List<GameStatus> listGameStatus}) = _$GameStateImpl;
+  const _GameState._() : super._();
 
   @override
-  GameStatus get status;
+  Game? get game;
+  @override
+  GameStateStatus get status;
+  @override
+  List<GameStatus> get listGameStatus;
 
   /// Create a copy of GameState
   /// with the given fields replaced by the non-null parameter values.

@@ -4,6 +4,7 @@ import 'package:my_app/src/core/exceptions.dart';
 import 'package:my_app/src/core/interceptor.dart';
 import 'package:my_app/src/core/services/player_datasource.dart';
 import 'package:my_app/src/features/player/data/model/player.dart';
+import 'package:my_app/src/features/player/data/model/player_number.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 @singleton
@@ -26,6 +27,23 @@ class PlayerRepository extends PlayerDatasource {
           .single(),
       queryOption: QueryOption.select,
       fromJsonParse: Player.fromJson,
+    );
+  }
+
+  @override
+  Future<Either<AppException?, PlayerNumber?>> createPlayerNumber(
+    Player player,
+  ) {
+    final playerNumber = PlayerNumber.empty().copyWith(player: player);
+    return _supabaseServiceImpl.query<PlayerNumber>(
+      table: playerNumber.tableName(),
+      request: () => _client
+          .from(playerNumber.tableName())
+          .insert(playerNumber.toJson())
+          .select(playerNumber.columns())
+          .single(),
+      queryOption: QueryOption.insert,
+      fromJsonParse: PlayerNumber.fromJson,
     );
   }
 }

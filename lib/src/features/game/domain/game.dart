@@ -8,31 +8,60 @@ part 'game.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class Game with TableInterface {
-
   Game({
-    required this.id,
+    @JsonKey(includeToJson: false) required this.id,
     required this.status,
-    required this.playerNumber1,
-    required this.playerNumber2,
+    @JsonKey(includeToJson: false) this.playerNumber1,
+    @JsonKey(includeToJson: false) this.playerNumber2,
     this.winner,
   });
+
+  factory Game.empty() => Game(
+        id: 0,
+        status: GameStatus.empty(),
+      );
 
   factory Game.fromJson(Map<String, dynamic> json) => _$GameFromJson(json);
   final int id;
   final GameStatus status;
-  final PlayerNumber playerNumber1;
-  final PlayerNumber playerNumber2;
+  final PlayerNumber? playerNumber1;
+  final PlayerNumber? playerNumber2;
   final Player? winner;
-
-  Map<String, dynamic> toJson() => _$GameToJson(this);
 
   @override
   String columns() => '''
         id, status(${status.columns()}),
-        player_number1(${playerNumber1.columns()}), player_number2(${playerNumber2.columns()}),
+        player_number1(${playerNumber1?.columns()}), player_number2(${playerNumber2?.columns()}),
         winner(${winner?.columns()})
       ''';
 
   @override
   String tableName() => 'game';
+}
+
+extension GameX on Game {
+  Game copyWith({
+    int? id,
+    GameStatus? status,
+    PlayerNumber? playerNumber1,
+    PlayerNumber? playerNumber2,
+    Player? winner,
+  }) {
+    return Game(
+      id: id ?? this.id,
+      status: status ?? this.status,
+      playerNumber1: playerNumber1 ?? this.playerNumber1,
+      playerNumber2: playerNumber2 ?? this.playerNumber2,
+      winner: winner ?? this.winner,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'status': status.id,
+      'player_number1': playerNumber1?.id,
+      'player_number2': playerNumber2?.id,
+      'winner': winner?.id,
+    };
+  }
 }

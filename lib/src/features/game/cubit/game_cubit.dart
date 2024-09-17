@@ -60,6 +60,9 @@ class GameCubit extends Cubit<GameState> {
     );
 
     if (game == null) {
+      if (!state.isError && state.game != null) {
+        emit(state.copyWith(isFinished: true));
+      }
       return;
     }
 
@@ -130,14 +133,18 @@ class GameCubit extends Cubit<GameState> {
     emit(state.copyWith(player: player));
   }
 
-  void refresh() {
-    emit(const GameState());
-  }
-
   GameStatus getGameStatusByStatus(
     List<GameStatus> listGameStatus,
     StatusEnum status,
   ) {
     return listGameStatus.firstWhere((element) => element.status == status);
+  }
+
+  void removeGame() {
+    emit(state.copyWith(game: null, isFinished: false));
+  }
+
+  void refresh() {
+    emit(const GameState());
   }
 }

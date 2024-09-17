@@ -21,4 +21,5 @@ const _$StatusEnumEnumMap = {
   StatusEnum.searching: 'searching',
   StatusEnum.inProgress: 'in_progress',
   StatusEnum.finished: 'finished',
+  StatusEnum.selectingSecretNumbers: 'selecting_secret_numbers',
 };

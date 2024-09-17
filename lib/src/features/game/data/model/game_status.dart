@@ -40,4 +40,6 @@ enum StatusEnum {
   inProgress,
   @JsonValue('finished')
   finished,
+  @JsonValue('selecting_secret_numbers')
+  selectingSecretNumbers,
 }

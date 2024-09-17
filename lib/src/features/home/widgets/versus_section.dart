@@ -16,8 +16,8 @@ class VersusSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final gameState = context.watch<GameCubit>().state;
-    final rival =
-        gameState.game!.getRival(context.read<PlayerCubit>().state.player!);
+    final playerState = context.watch<PlayerCubit>().state;
+    final rival = gameState.game!.getRival(playerState.player!);
     if (gameState.isLoading) return const CircularProgressIndicator();
     return Padding(
       padding: context.responsiveContentPadding

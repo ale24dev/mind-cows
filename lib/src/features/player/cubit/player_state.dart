@@ -6,6 +6,7 @@ enum PlayerStatus { initial, loading, success, error }
 class PlayerState with _$PlayerState {
   const factory PlayerState({
     final Player? player,
+    final PlayerNumber? playerNumber,
     @Default(PlayerStatus.initial) final PlayerStatus status,
   }) = _PlayerState;
   const PlayerState._();

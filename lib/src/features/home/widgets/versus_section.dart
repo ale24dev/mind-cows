@@ -1,37 +1,41 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gutter/flutter_gutter.dart';
+import 'package:my_app/src/core/services/game_datasource.dart';
 import 'package:my_app/src/core/ui/colors.dart';
 import 'package:my_app/src/core/ui/device.dart';
 import 'package:my_app/src/core/ui/typography.dart';
+import 'package:my_app/src/core/utils/widgets/cache_widget.dart';
 import 'package:my_app/src/features/game/cubit/game_cubit.dart';
+import 'package:my_app/src/features/game/data/model/game.dart';
+import 'package:my_app/src/features/player/cubit/player_cubit.dart';
 
 class VersusSection extends StatelessWidget {
   const VersusSection({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final gameState = context.watch<GameCubit>().state;
+    final rival =
+        gameState.game!.getRival(context.read<PlayerCubit>().state.player!);
+    if (gameState.isLoading) return const CircularProgressIndicator();
     return Padding(
       padding: context.responsiveContentPadding
           .copyWith(top: 50, left: 30, right: 30),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          Container(
-            height: 50,
-            width: 50,
-            decoration: BoxDecoration(
-              color: Colors.red,
-              borderRadius: BorderRadius.circular(10),
-            ),
+          CacheWidget(
+            size: const Size(50, 50),
+            imageUrl: rival.avatarUrl,
           ),
-          const GutterTiny(),
+          const GutterSmall(),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                'Username',
+                rival.username,
                 style: AppTextStyle().body.copyWith(
                       fontWeight: FontWeight.w600,
                       color: AppColor.titleText,

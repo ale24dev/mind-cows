@@ -6,7 +6,7 @@ import 'package:my_app/src/features/player/data/model/player_number.dart';
 
 part 'game.g.dart';
 
-@JsonSerializable(explicitToJson: true)
+@JsonSerializable(explicitToJson: true, fieldRename: FieldRename.snake)
 class Game with TableInterface {
   Game({
     @JsonKey(includeToJson: false) required this.id,
@@ -43,6 +43,14 @@ extension GameX on Game {
   bool get isSearching => status.status == StatusEnum.searching;
   bool get isInProgress => status.status == StatusEnum.inProgress;
   bool get isFinished => status.status == StatusEnum.finished;
+
+  Player getRival(Player player) {
+    if (playerNumber1?.player.id == player.id) {
+      return playerNumber2!.player;
+    } else {
+      return playerNumber1!.player;
+    }
+  }
 
   Game copyWith({
     int? id,

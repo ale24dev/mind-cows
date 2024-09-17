@@ -9,14 +9,14 @@ part of 'game.dart';
 Game _$GameFromJson(Map<String, dynamic> json) => Game(
       id: (json['id'] as num).toInt(),
       status: GameStatus.fromJson(json['status'] as Map<String, dynamic>),
-      playerNumber1: json['playerNumber1'] == null
+      playerNumber1: json['player_number1'] == null
           ? null
           : PlayerNumber.fromJson(
-              json['playerNumber1'] as Map<String, dynamic>),
-      playerNumber2: json['playerNumber2'] == null
+              json['player_number1'] as Map<String, dynamic>),
+      playerNumber2: json['player_number2'] == null
           ? null
           : PlayerNumber.fromJson(
-              json['playerNumber2'] as Map<String, dynamic>),
+              json['player_number2'] as Map<String, dynamic>),
       winner: json['winner'] == null
           ? null
           : Player.fromJson(json['winner'] as Map<String, dynamic>),
@@ -25,7 +25,7 @@ Game _$GameFromJson(Map<String, dynamic> json) => Game(
 Map<String, dynamic> _$GameToJson(Game instance) => <String, dynamic>{
       'id': instance.id,
       'status': instance.status.toJson(),
-      'playerNumber1': instance.playerNumber1?.toJson(),
-      'playerNumber2': instance.playerNumber2?.toJson(),
+      'player_number1': instance.playerNumber1?.toJson(),
+      'player_number2': instance.playerNumber2?.toJson(),
       'winner': instance.winner?.toJson(),
     };

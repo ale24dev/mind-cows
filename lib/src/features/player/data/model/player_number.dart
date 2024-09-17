@@ -32,6 +32,8 @@ class PlayerNumber with TableInterface {
 }
 
 extension PlayerNumberX on PlayerNumber {
+  bool get haveNumber => number != null && number!.isNotEmpty;
+
   PlayerNumber copyWith({
     int? id,
     Player? player,

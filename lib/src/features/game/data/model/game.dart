@@ -41,6 +41,8 @@ class Game with TableInterface {
 
 extension GameX on Game {
   bool get isSearching => status.status == StatusEnum.searching;
+  bool get isInSelectingSecretsNumbers =>
+      status.status == StatusEnum.selectingSecretNumbers;
   bool get isInProgress => status.status == StatusEnum.inProgress;
   bool get isFinished => status.status == StatusEnum.finished;
 
@@ -49,6 +51,14 @@ extension GameX on Game {
       return playerNumber2!.player;
     } else {
       return playerNumber1!.player;
+    }
+  }
+
+  PlayerNumber getOwnPlayerNumber(Player player) {
+    if (playerNumber1?.player.id == player.id) {
+      return playerNumber1!;
+    } else {
+      return playerNumber2!;
     }
   }
 

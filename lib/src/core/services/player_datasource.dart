@@ -8,5 +8,10 @@ abstract class PlayerDatasource {
 
   Future<Either<AppException?, PlayerNumber?>> createPlayerNumber(
     Player player,
+    List<int> number,
+  );
+
+  Future<Either<AppException?, PlayerNumber?>> updatePlayerNumber(
+    PlayerNumber playerNumber,
   );
 }

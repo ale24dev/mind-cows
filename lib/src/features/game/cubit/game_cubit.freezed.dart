@@ -21,6 +21,7 @@ mixin _$GameState {
   List<GameStatus> get listGameStatus => throw _privateConstructorUsedError;
   List<Attempt> get listAttempts => throw _privateConstructorUsedError;
   Player? get player => throw _privateConstructorUsedError;
+  bool get isFinished => throw _privateConstructorUsedError;
 
   /// Create a copy of GameState
   /// with the given fields replaced by the non-null parameter values.
@@ -39,7 +40,8 @@ abstract class $GameStateCopyWith<$Res> {
       GameStateStatus stateStatus,
       List<GameStatus> listGameStatus,
       List<Attempt> listAttempts,
-      Player? player});
+      Player? player,
+      bool isFinished});
 }
 
 /// @nodoc
@@ -62,6 +64,7 @@ class _$GameStateCopyWithImpl<$Res, $Val extends GameState>
     Object? listGameStatus = null,
     Object? listAttempts = null,
     Object? player = freezed,
+    Object? isFinished = null,
   }) {
     return _then(_value.copyWith(
       game: freezed == game
@@ -84,6 +87,10 @@ class _$GameStateCopyWithImpl<$Res, $Val extends GameState>
           ? _value.player
           : player // ignore: cast_nullable_to_non_nullable
               as Player?,
+      isFinished: null == isFinished
+          ? _value.isFinished
+          : isFinished // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -101,7 +108,8 @@ abstract class _$$GameStateImplCopyWith<$Res>
       GameStateStatus stateStatus,
       List<GameStatus> listGameStatus,
       List<Attempt> listAttempts,
-      Player? player});
+      Player? player,
+      bool isFinished});
 }
 
 /// @nodoc
@@ -122,6 +130,7 @@ class __$$GameStateImplCopyWithImpl<$Res>
     Object? listGameStatus = null,
     Object? listAttempts = null,
     Object? player = freezed,
+    Object? isFinished = null,
   }) {
     return _then(_$GameStateImpl(
       game: freezed == game
@@ -144,6 +153,10 @@ class __$$GameStateImplCopyWithImpl<$Res>
           ? _value.player
           : player // ignore: cast_nullable_to_non_nullable
               as Player?,
+      isFinished: null == isFinished
+          ? _value.isFinished
+          : isFinished // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -156,7 +169,8 @@ class _$GameStateImpl extends _GameState {
       this.stateStatus = GameStateStatus.intial,
       final List<GameStatus> listGameStatus = const [],
       final List<Attempt> listAttempts = const [],
-      this.player})
+      this.player,
+      this.isFinished = false})
       : _listGameStatus = listGameStatus,
         _listAttempts = listAttempts,
         super._();
@@ -186,10 +200,13 @@ class _$GameStateImpl extends _GameState {
 
   @override
   final Player? player;
+  @override
+  @JsonKey()
+  final bool isFinished;
 
   @override
   String toString() {
-    return 'GameState(game: $game, stateStatus: $stateStatus, listGameStatus: $listGameStatus, listAttempts: $listAttempts, player: $player)';
+    return 'GameState(game: $game, stateStatus: $stateStatus, listGameStatus: $listGameStatus, listAttempts: $listAttempts, player: $player, isFinished: $isFinished)';
   }
 
   @override
@@ -204,7 +221,9 @@ class _$GameStateImpl extends _GameState {
                 .equals(other._listGameStatus, _listGameStatus) &&
             const DeepCollectionEquality()
                 .equals(other._listAttempts, _listAttempts) &&
-            (identical(other.player, player) || other.player == player));
+            (identical(other.player, player) || other.player == player) &&
+            (identical(other.isFinished, isFinished) ||
+                other.isFinished == isFinished));
   }
 
   @override
@@ -214,7 +233,8 @@ class _$GameStateImpl extends _GameState {
       stateStatus,
       const DeepCollectionEquality().hash(_listGameStatus),
       const DeepCollectionEquality().hash(_listAttempts),
-      player);
+      player,
+      isFinished);
 
   /// Create a copy of GameState
   /// with the given fields replaced by the non-null parameter values.
@@ -231,7 +251,8 @@ abstract class _GameState extends GameState {
       final GameStateStatus stateStatus,
       final List<GameStatus> listGameStatus,
       final List<Attempt> listAttempts,
-      final Player? player}) = _$GameStateImpl;
+      final Player? player,
+      final bool isFinished}) = _$GameStateImpl;
   const _GameState._() : super._();
 
   @override
@@ -244,6 +265,8 @@ abstract class _GameState extends GameState {
   List<Attempt> get listAttempts;
   @override
   Player? get player;
+  @override
+  bool get isFinished;
 
   /// Create a copy of GameState
   /// with the given fields replaced by the non-null parameter values.

@@ -10,6 +10,7 @@ class GameState with _$GameState {
     @Default([]) final List<GameStatus> listGameStatus,
     @Default([]) final List<Attempt> listAttempts,
     Player? player,
+    @Default(false) bool isFinished,
   }) = _GameState;
   const GameState._();
 
@@ -18,8 +19,11 @@ class GameState with _$GameState {
   bool get isError => stateStatus == GameStateStatus.error;
   bool get isCancel => stateStatus == GameStateStatus.cancel;
 
-
   bool get isGameSearching => game.isNotNull && game!.isSearching;
-  bool get isGameInProgress => game.isNotNull && game!.isInProgress;
-  bool get isGameFinished => game.isNotNull && game!.isFinished;
+  bool get isInSelectingSecretsNumbers =>
+      game.isNotNull && game!.isInSelectingSecretsNumbers;
+  bool get isGameInProgress =>
+      game.isNotNull && game!.isInProgress && !isFinished;
+  bool get isGameStarted => isInSelectingSecretsNumbers || isGameInProgress;
+  bool get isGameFinished => (game.isNotNull && game!.isFinished) || isFinished;
 }

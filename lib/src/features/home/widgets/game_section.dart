@@ -8,12 +8,40 @@ import 'package:my_app/src/features/game/data/model/attempt.dart';
 import 'package:my_app/src/features/game/data/model/game.dart';
 import 'package:my_app/src/features/home/widgets/otp_fields.dart';
 import 'package:my_app/src/features/home/widgets/play_number_card.dart';
+import 'package:my_app/src/features/home/widgets/select_secret_number.dart';
+import 'package:my_app/src/features/player/cubit/player_cubit.dart';
+import 'package:my_app/src/features/player/data/model/player_number.dart';
 import 'package:sized_context/sized_context.dart';
 
-class GameSection extends StatelessWidget {
+class GameSection extends StatefulWidget {
   const GameSection({required this.game, super.key});
 
   final Game game;
+
+  @override
+  State<GameSection> createState() => _GameSectionState();
+}
+
+class _GameSectionState extends State<GameSection> {
+  @override
+  void initState() {
+    final player = context.read<PlayerCubit>().state.player!;
+    final playerNumber = widget.game.getOwnPlayerNumber(player);
+    if (!playerNumber.haveNumber) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        showAdaptiveDialog<int>(
+          context: context,
+          builder: (BuildContext context) {
+            return SelectSecretNumber(
+              onSelect: () => context.read<GameCubit>().getCurrentGame(),
+              playerNumber: playerNumber,
+            );
+          },
+        );
+      });
+    }
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +56,7 @@ class GameSection extends StatelessWidget {
         ),
         const _PlayList(),
         const Gutter(),
-        _SendNumberSection(game),
+        _SendNumberSection(widget.game),
       ],
     );
   }

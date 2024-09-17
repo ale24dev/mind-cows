@@ -1,6 +1,7 @@
 import 'package:fpdart/fpdart.dart';
 import 'package:injectable/injectable.dart';
 import 'package:my_app/src/core/exceptions.dart';
+import 'package:my_app/src/core/extensions/list.dart';
 import 'package:my_app/src/core/interceptor.dart';
 import 'package:my_app/src/core/services/player_datasource.dart';
 import 'package:my_app/src/features/player/data/model/player.dart';
@@ -33,8 +34,10 @@ class PlayerRepository extends PlayerDatasource {
   @override
   Future<Either<AppException?, PlayerNumber?>> createPlayerNumber(
     Player player,
+    List<int> number,
   ) {
-    final playerNumber = PlayerNumber.empty().copyWith(player: player);
+    final playerNumber =
+        PlayerNumber.empty().copyWith(player: player, number: number);
     return _supabaseServiceImpl.query<PlayerNumber>(
       table: playerNumber.tableName(),
       request: () => _client
@@ -43,6 +46,25 @@ class PlayerRepository extends PlayerDatasource {
           .select(playerNumber.columns())
           .single(),
       queryOption: QueryOption.insert,
+      fromJsonParse: PlayerNumber.fromJson,
+    );
+  }
+
+  @override
+  Future<Either<AppException?, PlayerNumber?>> updatePlayerNumber(
+    PlayerNumber playerNumber,
+  ) {
+    return _supabaseServiceImpl.query<PlayerNumber>(
+      table: playerNumber.tableName(),
+      request: () => _client.rpc(
+        'update_player_number',
+        params: {
+          'player_number_id': playerNumber.id,
+          'new_number_text': playerNumber.number?.parseNumberListToString ?? '',
+        },
+      ),
+      queryOption: QueryOption.update,
+      responseNullable: true,
       fromJsonParse: PlayerNumber.fromJson,
     );
   }

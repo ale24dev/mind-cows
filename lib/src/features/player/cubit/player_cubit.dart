@@ -1,9 +1,8 @@
-import 'dart:developer';
-
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:my_app/src/features/player/data/model/player.dart';
+import 'package:my_app/src/features/player/data/model/player_number.dart';
 import 'package:my_app/src/features/player/data/player_repository.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -34,7 +33,7 @@ class PlayerCubit extends Cubit<PlayerState> {
   }
 
   void getPlayerById(String id) {
-    emit(const PlayerState(status: PlayerStatus.loading));
+    emit(state.copyWith(status: PlayerStatus.loading));
 
     _playerRepository.getPlayerById(id).then((result) {
       result.fold(
@@ -43,6 +42,42 @@ class PlayerCubit extends Cubit<PlayerState> {
         ),
         (player) =>
             emit(state.copyWith(player: player, status: PlayerStatus.success)),
+      );
+    });
+  }
+
+  Future<void> createPlayerNumber(Player player, List<int> number) async {
+    emit(state.copyWith(status: PlayerStatus.loading));
+
+    await _playerRepository.createPlayerNumber(player, number).then((result) {
+      result.fold(
+        (error) => emit(
+          state.copyWith(status: PlayerStatus.error),
+        ),
+        (playerNumber) => emit(
+          state.copyWith(
+            playerNumber: playerNumber,
+            status: PlayerStatus.success,
+          ),
+        ),
+      );
+    });
+  }
+
+  void updatePlayerNumber(PlayerNumber playerNumber) {
+    emit(state.copyWith(status: PlayerStatus.loading));
+
+    _playerRepository.updatePlayerNumber(playerNumber).then((result) {
+      result.fold(
+        (error) => emit(
+          state.copyWith(status: PlayerStatus.error),
+        ),
+        (playerNumber) => emit(
+          state.copyWith(
+            playerNumber: playerNumber,
+            status: PlayerStatus.success,
+          ),
+        ),
       );
     });
   }

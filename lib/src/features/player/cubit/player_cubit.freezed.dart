@@ -17,6 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$PlayerState {
   Player? get player => throw _privateConstructorUsedError;
+  PlayerNumber? get playerNumber => throw _privateConstructorUsedError;
   PlayerStatus get status => throw _privateConstructorUsedError;
 
   /// Create a copy of PlayerState
@@ -32,7 +33,7 @@ abstract class $PlayerStateCopyWith<$Res> {
           PlayerState value, $Res Function(PlayerState) then) =
       _$PlayerStateCopyWithImpl<$Res, PlayerState>;
   @useResult
-  $Res call({Player? player, PlayerStatus status});
+  $Res call({Player? player, PlayerNumber? playerNumber, PlayerStatus status});
 }
 
 /// @nodoc
@@ -51,6 +52,7 @@ class _$PlayerStateCopyWithImpl<$Res, $Val extends PlayerState>
   @override
   $Res call({
     Object? player = freezed,
+    Object? playerNumber = freezed,
     Object? status = null,
   }) {
     return _then(_value.copyWith(
@@ -58,6 +60,10 @@ class _$PlayerStateCopyWithImpl<$Res, $Val extends PlayerState>
           ? _value.player
           : player // ignore: cast_nullable_to_non_nullable
               as Player?,
+      playerNumber: freezed == playerNumber
+          ? _value.playerNumber
+          : playerNumber // ignore: cast_nullable_to_non_nullable
+              as PlayerNumber?,
       status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
@@ -74,7 +80,7 @@ abstract class _$$PlayerStateImplCopyWith<$Res>
       __$$PlayerStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({Player? player, PlayerStatus status});
+  $Res call({Player? player, PlayerNumber? playerNumber, PlayerStatus status});
 }
 
 /// @nodoc
@@ -91,6 +97,7 @@ class __$$PlayerStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? player = freezed,
+    Object? playerNumber = freezed,
     Object? status = null,
   }) {
     return _then(_$PlayerStateImpl(
@@ -98,6 +105,10 @@ class __$$PlayerStateImplCopyWithImpl<$Res>
           ? _value.player
           : player // ignore: cast_nullable_to_non_nullable
               as Player?,
+      playerNumber: freezed == playerNumber
+          ? _value.playerNumber
+          : playerNumber // ignore: cast_nullable_to_non_nullable
+              as PlayerNumber?,
       status: null == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
@@ -109,18 +120,21 @@ class __$$PlayerStateImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$PlayerStateImpl extends _PlayerState {
-  const _$PlayerStateImpl({this.player, this.status = PlayerStatus.initial})
+  const _$PlayerStateImpl(
+      {this.player, this.playerNumber, this.status = PlayerStatus.initial})
       : super._();
 
   @override
   final Player? player;
+  @override
+  final PlayerNumber? playerNumber;
   @override
   @JsonKey()
   final PlayerStatus status;
 
   @override
   String toString() {
-    return 'PlayerState(player: $player, status: $status)';
+    return 'PlayerState(player: $player, playerNumber: $playerNumber, status: $status)';
   }
 
   @override
@@ -129,11 +143,13 @@ class _$PlayerStateImpl extends _PlayerState {
         (other.runtimeType == runtimeType &&
             other is _$PlayerStateImpl &&
             (identical(other.player, player) || other.player == player) &&
+            (identical(other.playerNumber, playerNumber) ||
+                other.playerNumber == playerNumber) &&
             (identical(other.status, status) || other.status == status));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, player, status);
+  int get hashCode => Object.hash(runtimeType, player, playerNumber, status);
 
   /// Create a copy of PlayerState
   /// with the given fields replaced by the non-null parameter values.
@@ -146,11 +162,15 @@ class _$PlayerStateImpl extends _PlayerState {
 
 abstract class _PlayerState extends PlayerState {
   const factory _PlayerState(
-      {final Player? player, final PlayerStatus status}) = _$PlayerStateImpl;
+      {final Player? player,
+      final PlayerNumber? playerNumber,
+      final PlayerStatus status}) = _$PlayerStateImpl;
   const _PlayerState._() : super._();
 
   @override
   Player? get player;
+  @override
+  PlayerNumber? get playerNumber;
   @override
   PlayerStatus get status;
 

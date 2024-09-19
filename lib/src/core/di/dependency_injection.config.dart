@@ -38,11 +38,11 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i454.SupabaseClient>(() => supabaseModule.client);
     gh.singleton<_i427.AuthRepository>(
         () => _i427.AuthRepository(gh<_i454.SupabaseClient>()));
-    gh.singleton<_i406.PlayerRepository>(() => _i406.PlayerRepository(
+    gh.singleton<_i34.GameRepository>(() => _i34.GameRepository(
           gh<_i330.SupabaseServiceImpl>(),
           gh<_i454.SupabaseClient>(),
         ));
-    gh.singleton<_i34.GameRepository>(() => _i34.GameRepository(
+    gh.singleton<_i406.PlayerRepository>(() => _i406.PlayerRepository(
           gh<_i330.SupabaseServiceImpl>(),
           gh<_i454.SupabaseClient>(),
         ));
@@ -54,10 +54,12 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i454.SupabaseClient>(),
           gh<_i406.PlayerRepository>(),
         ));
-    gh.factory<_i1038.AppCubit>(
-        () => _i1038.AppCubit(gh<_i34.GameRepository>()));
     gh.factory<_i992.AuthCubit>(() => _i992.AuthCubit(
           gh<_i427.AuthRepository>(),
+          gh<_i454.SupabaseClient>(),
+        ));
+    gh.factory<_i1038.AppCubit>(() => _i1038.AppCubit(
+          gh<_i34.GameRepository>(),
           gh<_i454.SupabaseClient>(),
         ));
     return this;

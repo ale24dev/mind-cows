@@ -1,6 +1,6 @@
 part of 'game_cubit.dart';
 
-enum GameStateStatus { intial, loading, success, error, cancel }
+enum GameStateStatus { intial, searchingGame, loading, success, error, cancel }
 
 @freezed
 class GameState with _$GameState {
@@ -15,11 +15,13 @@ class GameState with _$GameState {
   const GameState._();
 
   bool get isLoading => stateStatus == GameStateStatus.loading;
+  bool get isSearchingGame => stateStatus == GameStateStatus.loading;
   bool get isSuccess => stateStatus == GameStateStatus.success;
   bool get isError => stateStatus == GameStateStatus.error;
   bool get isCancel => stateStatus == GameStateStatus.cancel;
 
-  bool get isGameSearching => game.isNotNull && game!.isSearching;
+  bool get isGameSearching =>
+      game.isNotNull && game!.isSearching || isSearchingGame;
   bool get isInSelectingSecretsNumbers =>
       game.isNotNull && game!.isInSelectingSecretsNumbers;
   bool get isGameInProgress =>

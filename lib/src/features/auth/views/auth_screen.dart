@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gutter/flutter_gutter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:my_app/src/core/extensions/string.dart';
 import 'package:my_app/src/core/ui/device.dart';
 import 'package:my_app/src/core/ui/typography.dart';
@@ -69,9 +70,7 @@ class _AuthScreenState extends State<AuthScreen> {
                     WidgetsFlutterBinding.ensureInitialized()
                         .addPostFrameCallback(
                       (_) {
-                        Navigator.of(context).pushNamed(
-                          AppRoutes.initProfileData,
-                        );
+                        context.goNamed(AppRoute.initProfileData.name);
                       },
                     );
                   }

@@ -7,6 +7,7 @@ class AppState with _$AppState {
   const factory AppState({
     @Default(AppStatus.initial) AppStatus status,
     @Default([]) List<GameStatus> gameStatus,
+    @Default(false) bool initialized, 
   }) = _AppState;
   const AppState._();
 

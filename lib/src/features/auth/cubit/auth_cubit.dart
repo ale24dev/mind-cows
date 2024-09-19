@@ -20,7 +20,6 @@ class AuthCubit extends Cubit<AuthState> {
 
   void _listenSupabaseSession() {
     _client.auth.onAuthStateChange.listen((authSupState) {
-      log('AUTH message');
       if (_client.auth.currentUser != null) {
         emit(
           state.copyWith(
@@ -31,6 +30,12 @@ class AuthCubit extends Cubit<AuthState> {
       }
       return switch (authSupState.event) {
         AuthChangeEvent.signedIn => emit(
+            state.copyWith(
+              authStatus: AuthStatus.authenticated,
+              user: authSupState.session!.user,
+            ),
+          ),
+        AuthChangeEvent.signedOut => emit(
             state.copyWith(
               authStatus: AuthStatus.authenticated,
               user: authSupState.session!.user,

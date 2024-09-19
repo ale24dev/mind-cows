@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 class OTPFields extends StatefulWidget {
   const OTPFields({
-    required this.onCompleted,
     required this.onChanged,
     super.key,
     this.length = 4,
@@ -14,7 +13,6 @@ class OTPFields extends StatefulWidget {
   });
 
   final int length;
-  final Function(String) onCompleted;
   final Function(String) onChanged;
   final double fieldWidth;
   final double? fieldHeight;
@@ -69,24 +67,12 @@ class OTPFieldsState extends State<OTPFields> {
     final otp = otpValues.join();
 
     widget.onChanged(otp);
-
-    if (otp.length == widget.length) {
-      if (!widget.allowRepetitions && _hasRepetitions(otpValues)) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Repeated numbers are not allowed'),
-          ),
-        );
-      } else {
-        widget.onCompleted(otp);
-      }
-    }
   }
 
-  bool _hasRepetitions(List<String> values) {
-    final uniqueValues = values.where((e) => e.isNotEmpty).toSet();
-    return uniqueValues.length != values.where((e) => e.isNotEmpty).length;
-  }
+  // bool _hasRepetitions(List<String> values) {
+  //   final uniqueValues = values.where((e) => e.isNotEmpty).toSet();
+  //   return uniqueValues.length != values.where((e) => e.isNotEmpty).length;
+  // }
 
   void clearFields() {
     setState(() {

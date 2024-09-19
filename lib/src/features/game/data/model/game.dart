@@ -46,11 +46,11 @@ extension GameX on Game {
   bool get isInProgress => status.status == StatusEnum.inProgress;
   bool get isFinished => status.status == StatusEnum.finished;
 
-  Player getRival(Player player) {
+  PlayerNumber getRivalPlayerNumber(Player player) {
     if (playerNumber1?.player.id == player.id) {
-      return playerNumber2!.player;
+      return playerNumber2!;
     } else {
-      return playerNumber1!.player;
+      return playerNumber1!;
     }
   }
 

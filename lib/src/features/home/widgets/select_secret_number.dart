@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gutter/flutter_gutter.dart';
@@ -56,8 +57,7 @@ class _SelectSecretNumberState extends State<SelectSecretNumber> {
 
   @override
   void dispose() {
-    _timer
-        ?.cancel();
+    _timer?.cancel();
     super.dispose();
   }
 
@@ -71,7 +71,6 @@ class _SelectSecretNumberState extends State<SelectSecretNumber> {
         mainAxisSize: MainAxisSize.min,
         children: [
           OTPFields(
-            onCompleted: (a) {},
             onChanged: onChangedNumber,
           ),
           const SizedBox(height: 16),
@@ -100,13 +99,12 @@ class _SelectSecretNumberState extends State<SelectSecretNumber> {
             onPressed: secretNumber.length != 4
                 ? null
                 : () async {
-                    context.read<PlayerCubit>().updatePlayerNumber(
+                    await context.read<PlayerCubit>().updatePlayerNumber(
                           widget.playerNumber.copyWith(
                             number: secretNumber.parseOptToNumberValue,
                           ),
                         );
                     widget.onSelect();
-                    Navigator.pop(context);
                   },
           ),
         ],

@@ -6,6 +6,7 @@ import 'dart:developer';
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
+import 'package:my_app/src/core/ui/extensions.dart';
 import 'package:my_app/src/core/utils/object_extensions.dart';
 import 'package:my_app/src/features/game/data/game_repository.dart';
 import 'package:my_app/src/features/game/data/model/attempt.dart';
@@ -43,15 +44,15 @@ class GameCubit extends Cubit<GameState> {
           table: game.tableName(),
           callback: (payload) {
             log('GameCubit: Database change detected');
-            getCurrentGame();
+            getLastGame();
           },
         )
         .subscribe();
   }
 
-  Future<void> getCurrentGame() async {
+  Future<void> getLastGame() async {
     emit(state.copyWith(stateStatus: GameStateStatus.loading));
-    final result = await _gameRepository.getCurrentGame(state.player!);
+    final result = await _gameRepository.getLastGame(state.player!);
 
     final game = result.fold(
       (error) {
@@ -68,10 +69,7 @@ class GameCubit extends Cubit<GameState> {
 
     if (game.isNull) {
       emit(
-        state.copyWith(
-          stateStatus: GameStateStatus.success,
-          isFinished: state.game != null,
-        ),
+        state.copyWith(stateStatus: GameStateStatus.success),
       );
       return;
     }
@@ -104,6 +102,32 @@ class GameCubit extends Cubit<GameState> {
         },
       );
     });
+  }
+
+  Future<bool> cancelSearchGame(Player player) async {
+    final oldState = state;
+    emit(state.copyWith(stateStatus: GameStateStatus.loading));
+    final result = await _gameRepository.cancelSearchGame(player);
+
+    final success = result.fold(
+      (error) {
+        emit(state.copyWith(stateStatus: GameStateStatus.error));
+        return false;
+      },
+      (response) => response,
+    );
+
+    if (state.isError) {
+      emit(state.copyWith(stateStatus: GameStateStatus.error));
+      return false;
+    }
+
+    emit(state.copyWith(stateStatus: GameStateStatus.cancel, game: null));
+
+    await Future.delayed(1.seconds, () {
+      emit(oldState.copyWith(game: null));
+    });
+    return success!;
   }
 
   Future<void> getAttemptsInGameByPlayer(Game game, Player player) async {
@@ -140,6 +164,10 @@ class GameCubit extends Cubit<GameState> {
     await getAttemptsInGameByPlayer(state.game!, state.player!);
   }
 
+  void selectSecretNumberShowed(bool showed) {
+    emit(state.copyWith(selectSecretNumberShowed: showed));
+  }
+
   void setGameStatus(List<GameStatus> listGameStatus) {
     emit(state.copyWith(listGameStatus: listGameStatus));
   }
@@ -153,10 +181,6 @@ class GameCubit extends Cubit<GameState> {
     StatusEnum status,
   ) {
     return listGameStatus.firstWhere((element) => element.status == status);
-  }
-
-  void removeGame() {
-    emit(state.copyWith(game: null, isFinished: false));
   }
 
   void refresh() {

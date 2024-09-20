@@ -44,11 +44,11 @@ class GameRepository extends GameDataSource {
   }
 
   @override
-  Future<Either<AppException?, Game?>> getCurrentGame(Player player) {
+  Future<Either<AppException?, Game?>> getLastGame(Player player) {
     return _supabaseServiceImpl.query<Game>(
       table: 'game',
       request: () =>
-          _client.rpc('get_current_game', params: {'player_id': player.id}),
+          _client.rpc('get_last_game', params: {'player_id': player.id}),
       queryOption: QueryOption.select,
       fromJsonParse: Game.fromJson,
       responseNullable: true,

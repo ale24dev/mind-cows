@@ -25,7 +25,8 @@ class GameRepository extends GameDataSource {
     return _supabaseServiceImpl.query<Game>(
       table: 'RPC create_game',
       request: () =>
-          _client.rpc('create_game', params: {'player_id': player.id}),
+          // _client.rpc('create_game', params: {'player_id': player.id}),
+          _client.rpc('find_or_create_game', params: {'player_id': player.id}),
       queryOption: QueryOption.insert,
       fromJsonParse: Game.fromJson,
     );

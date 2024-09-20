@@ -18,6 +18,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$AppState {
   AppStatus get status => throw _privateConstructorUsedError;
   List<GameStatus> get gameStatus => throw _privateConstructorUsedError;
+  bool get initialized => throw _privateConstructorUsedError;
 
   /// Create a copy of AppState
   /// with the given fields replaced by the non-null parameter values.
@@ -31,7 +32,7 @@ abstract class $AppStateCopyWith<$Res> {
   factory $AppStateCopyWith(AppState value, $Res Function(AppState) then) =
       _$AppStateCopyWithImpl<$Res, AppState>;
   @useResult
-  $Res call({AppStatus status, List<GameStatus> gameStatus});
+  $Res call({AppStatus status, List<GameStatus> gameStatus, bool initialized});
 }
 
 /// @nodoc
@@ -51,6 +52,7 @@ class _$AppStateCopyWithImpl<$Res, $Val extends AppState>
   $Res call({
     Object? status = null,
     Object? gameStatus = null,
+    Object? initialized = null,
   }) {
     return _then(_value.copyWith(
       status: null == status
@@ -61,6 +63,10 @@ class _$AppStateCopyWithImpl<$Res, $Val extends AppState>
           ? _value.gameStatus
           : gameStatus // ignore: cast_nullable_to_non_nullable
               as List<GameStatus>,
+      initialized: null == initialized
+          ? _value.initialized
+          : initialized // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -73,7 +79,7 @@ abstract class _$$AppStateImplCopyWith<$Res>
       __$$AppStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({AppStatus status, List<GameStatus> gameStatus});
+  $Res call({AppStatus status, List<GameStatus> gameStatus, bool initialized});
 }
 
 /// @nodoc
@@ -91,6 +97,7 @@ class __$$AppStateImplCopyWithImpl<$Res>
   $Res call({
     Object? status = null,
     Object? gameStatus = null,
+    Object? initialized = null,
   }) {
     return _then(_$AppStateImpl(
       status: null == status
@@ -101,6 +108,10 @@ class __$$AppStateImplCopyWithImpl<$Res>
           ? _value._gameStatus
           : gameStatus // ignore: cast_nullable_to_non_nullable
               as List<GameStatus>,
+      initialized: null == initialized
+          ? _value.initialized
+          : initialized // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -110,7 +121,8 @@ class __$$AppStateImplCopyWithImpl<$Res>
 class _$AppStateImpl extends _AppState {
   const _$AppStateImpl(
       {this.status = AppStatus.initial,
-      final List<GameStatus> gameStatus = const []})
+      final List<GameStatus> gameStatus = const [],
+      this.initialized = false})
       : _gameStatus = gameStatus,
         super._();
 
@@ -127,8 +139,12 @@ class _$AppStateImpl extends _AppState {
   }
 
   @override
+  @JsonKey()
+  final bool initialized;
+
+  @override
   String toString() {
-    return 'AppState(status: $status, gameStatus: $gameStatus)';
+    return 'AppState(status: $status, gameStatus: $gameStatus, initialized: $initialized)';
   }
 
   @override
@@ -138,12 +154,14 @@ class _$AppStateImpl extends _AppState {
             other is _$AppStateImpl &&
             (identical(other.status, status) || other.status == status) &&
             const DeepCollectionEquality()
-                .equals(other._gameStatus, _gameStatus));
+                .equals(other._gameStatus, _gameStatus) &&
+            (identical(other.initialized, initialized) ||
+                other.initialized == initialized));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, status, const DeepCollectionEquality().hash(_gameStatus));
+  int get hashCode => Object.hash(runtimeType, status,
+      const DeepCollectionEquality().hash(_gameStatus), initialized);
 
   /// Create a copy of AppState
   /// with the given fields replaced by the non-null parameter values.
@@ -157,13 +175,16 @@ class _$AppStateImpl extends _AppState {
 abstract class _AppState extends AppState {
   const factory _AppState(
       {final AppStatus status,
-      final List<GameStatus> gameStatus}) = _$AppStateImpl;
+      final List<GameStatus> gameStatus,
+      final bool initialized}) = _$AppStateImpl;
   const _AppState._() : super._();
 
   @override
   AppStatus get status;
   @override
   List<GameStatus> get gameStatus;
+  @override
+  bool get initialized;
 
   /// Create a copy of AppState
   /// with the given fields replaced by the non-null parameter values.

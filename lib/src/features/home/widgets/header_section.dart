@@ -31,9 +31,7 @@ class HeaderSection extends StatelessWidget {
       ),
       child: AnimatedSwitcher(
         duration: 500.milliseconds,
-        child: isCollapsed
-            ? const VersusSection()
-            : LeaderboardWidget(colorScheme: colorScheme),
+        child: const LeaderboardWidget(),
       ),
     );
   }

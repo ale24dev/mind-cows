@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_bool_literals_in_conditional_expressions
+
 import 'dart:async';
 import 'dart:developer';
 
@@ -32,6 +34,7 @@ class GameCubit extends Cubit<GameState> {
   void _listenGame() {
     final game = Game.empty();
     final myChannel = _client.channel('games_channel');
+    log('Game Database Changes Listen On');
 
     myChannel
         .onPostgresChanges(
@@ -40,7 +43,6 @@ class GameCubit extends Cubit<GameState> {
           table: game.tableName(),
           callback: (payload) {
             log('GameCubit: Database change detected');
-
             getCurrentGame();
           },
         )
@@ -59,17 +61,25 @@ class GameCubit extends Cubit<GameState> {
       (response) => response,
     );
 
-    if (game == null) {
-      if (!state.isError && state.game != null) {
-        emit(state.copyWith(isFinished: true));
-      }
+    if (state.isError) {
+      emit(state.copyWith(stateStatus: GameStateStatus.error));
+      return;
+    }
+
+    if (game.isNull) {
+      emit(
+        state.copyWith(
+          stateStatus: GameStateStatus.success,
+          isFinished: state.game != null,
+        ),
+      );
       return;
     }
 
     emit(state.copyWith(stateStatus: GameStateStatus.success, game: game));
 
     await Future.delayed(Duration.zero, () {
-      if (game.isInProgress) {
+      if (game!.isInProgress) {
         getAttemptsInGameByPlayer(game, state.player!);
       }
     });
@@ -78,7 +88,12 @@ class GameCubit extends Cubit<GameState> {
   Future<void> findOrCreateGame(
     Player player,
   ) async {
-    emit(state.copyWith(stateStatus: GameStateStatus.loading));
+    emit(
+      state.copyWith(
+        stateStatus: GameStateStatus.searchingGame,
+        player: player,
+      ),
+    );
     await _gameRepository.findOrCreateGame(player).then((value) {
       value.fold(
         (error) => emit(state.copyWith(stateStatus: GameStateStatus.error)),
@@ -145,6 +160,6 @@ class GameCubit extends Cubit<GameState> {
   }
 
   void refresh() {
-    emit(const GameState());
+    emit(const GameState().copyWith(player: state.player));
   }
 }

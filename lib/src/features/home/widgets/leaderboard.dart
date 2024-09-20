@@ -6,14 +6,12 @@ import 'package:sized_context/sized_context.dart';
 
 class LeaderboardWidget extends StatelessWidget {
   const LeaderboardWidget({
-    required this.colorScheme,
     super.key,
   });
 
-  final ColorScheme colorScheme;
-
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [

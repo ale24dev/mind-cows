@@ -20,7 +20,7 @@ class PlayerRepository extends PlayerDatasource {
     /// Only to gets the columns and name of the table.
     final playerEmpty = Player.empty();
     return _supabaseServiceImpl.query<Player>(
-      table: playerEmpty.tableName(),
+      table: 'getPlayerById',
       request: () => _client
           .from('player')
           .select(playerEmpty.columns())
@@ -55,7 +55,7 @@ class PlayerRepository extends PlayerDatasource {
     PlayerNumber playerNumber,
   ) {
     return _supabaseServiceImpl.query<PlayerNumber>(
-      table: playerNumber.tableName(),
+      table: 'update_player_number',
       request: () => _client.rpc(
         'update_player_number',
         params: {

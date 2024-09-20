@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
@@ -21,7 +23,9 @@ class PlayerCubit extends Cubit<PlayerState> {
 
   void _listenSupabaseSession() {
     _client.auth.onAuthStateChange.listen((authSupState) {
-      if (_client.auth.currentUser != null) {
+      if (_client.auth.currentUser != null &&
+          (authSupState.event == AuthChangeEvent.signedIn ||
+              authSupState.event == AuthChangeEvent.initialSession)) {
         getPlayerById(_client.auth.currentUser!.id);
       }
 
@@ -37,12 +41,12 @@ class PlayerCubit extends Cubit<PlayerState> {
 
     _playerRepository.getPlayerById(id).then((result) {
       result.fold(
-        (error) => emit(
-          state.copyWith(status: PlayerStatus.error),
-        ),
-        (player) =>
-            emit(state.copyWith(player: player, status: PlayerStatus.success)),
-      );
+          (error) => emit(
+                state.copyWith(status: PlayerStatus.error),
+              ), (player) {
+        emit(state.copyWith(player: player, status: PlayerStatus.success));
+        log('Termine');
+      });
     });
   }
 
@@ -64,10 +68,10 @@ class PlayerCubit extends Cubit<PlayerState> {
     });
   }
 
-  void updatePlayerNumber(PlayerNumber playerNumber) {
+  Future<void> updatePlayerNumber(PlayerNumber playerNumber) async {
     emit(state.copyWith(status: PlayerStatus.loading));
 
-    _playerRepository.updatePlayerNumber(playerNumber).then((result) {
+    await _playerRepository.updatePlayerNumber(playerNumber).then((result) {
       result.fold(
         (error) => emit(
           state.copyWith(status: PlayerStatus.error),

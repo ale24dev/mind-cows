@@ -8,6 +8,8 @@ import 'package:my_app/src/features/home/widgets/game_section.dart';
 import 'package:my_app/src/features/home/widgets/select_secret_number.dart';
 import 'package:my_app/src/features/home/widgets/versus_section.dart';
 import 'package:my_app/src/features/player/cubit/player_cubit.dart';
+import 'package:my_app/src/features/player/data/model/player.dart';
+import 'package:my_app/src/features/player/data/model/player_number.dart';
 import 'package:my_app/src/router/router.dart';
 
 class GameScreen extends StatefulWidget {
@@ -30,7 +32,6 @@ class _GameScreenState extends State<GameScreen> {
             _gameStatusChanged(state);
           }
           if (state.game.isNull) {
-            context.read<GameCubit>().refresh();
             return const CircularProgressIndicator.adaptive();
           }
           return Column(
@@ -49,27 +50,34 @@ class _GameScreenState extends State<GameScreen> {
     final player = context.read<PlayerCubit>().state.player!;
     final ownPlayerNumber = game!.getOwnPlayerNumber(player);
     final rivalPlayerNumber = game.getRivalPlayerNumber(player);
-    if (state.isInSelectingSecretsNumbers && ownPlayerNumber.number == null) {
+    if (state.isInSelectingSecretsNumbers &&
+        ownPlayerNumber.number == null &&
+        !state.selectSecretNumberShowed) {
       WidgetsFlutterBinding.ensureInitialized().addPostFrameCallback(
-        (_) => showAdaptiveDialog<void>(
-          context: context,
-          builder: (context) => SelectSecretNumber(
-            playerNumber: ownPlayerNumber,
-            onSelect: () {
-              Navigator.pop(context);
-              context.read<GameCubit>().getCurrentGame();
-            },
-          ),
-        ),
+        (_) {
+          context.read<GameCubit>().selectSecretNumberShowed(true);
+          showAdaptiveDialog<void>(
+            context: context,
+            builder: (context) => SelectSecretNumber(
+              playerNumber: ownPlayerNumber,
+              onSelect: () {
+                Navigator.pop(context);
+                context.read<GameCubit>().getLastGame();
+              },
+            ),
+          );
+        },
       );
     } else if (state.isInSelectingSecretsNumbers &&
-        rivalPlayerNumber.number == null) {
+        ownPlayerNumber.number.isNull &&
+        rivalPlayerNumber.number.isNull &&
+        !state.selectSecretNumberShowed) {
       _showWaitingForRival();
     }
 
-    if (state.isFinished) {
+    if (state.game!.isFinished) {
       WidgetsFlutterBinding.ensureInitialized().addPostFrameCallback((_) {
-        _showWinner();
+        _showWinner(game, player, rivalPlayerNumber);
       });
     }
 
@@ -104,10 +112,7 @@ class _GameScreenState extends State<GameScreen> {
     });
   }
 
-  void _showWinner() {
-    final game = context.read<GameCubit>().state.game!;
-    final player = context.read<PlayerCubit>().state.player!;
-    final rival = game.getRivalPlayerNumber(player);
+  void _showWinner(Game game, Player player, PlayerNumber rival) {
     final winner = game.winner;
     final isWinner = winner?.id == player.id;
     final title = isWinner ? 'Congratulations!' : 'Better luck next time!';
@@ -115,26 +120,27 @@ class _GameScreenState extends State<GameScreen> {
         ? 'You won against ${rival.player.username}!'
         : 'You lost against ${rival.player.username}!';
 
-    WidgetsFlutterBinding.ensureInitialized().addPostFrameCallback(
-      (_) => showAdaptiveDialog<void>(
-        context: context,
-        builder: (context) {
-          return AlertDialog.adaptive(
-            title: Text(title),
-            content: Text(content),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  context.read<GameCubit>().removeGame();
-                  Navigator.pop(context);
-                  context.goNamed(AppRoute.home.name);
-                },
-                child: const Text('Close'),
-              ),
-            ],
-          );
-        },
-      ),
-    );
+    if (mounted) {
+      WidgetsFlutterBinding.ensureInitialized().addPostFrameCallback(
+        (_) => showAdaptiveDialog<void>(
+          context: context,
+          builder: (context) {
+            return AlertDialog.adaptive(
+              title: Text(title),
+              content: Text(content),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                    context.goNamed(AppRoute.home.name);
+                  },
+                  child: const Text('Close'),
+                ),
+              ],
+            );
+          },
+        ),
+      );
+    }
   }
 }

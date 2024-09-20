@@ -20,6 +20,7 @@ import 'package:my_app/src/features/player/cubit/player_cubit.dart' as _i126;
 import 'package:my_app/src/features/player/data/player_repository.dart'
     as _i406;
 import 'package:my_app/src/features/splash/cubit/app_cubit.dart' as _i1038;
+import 'package:my_app/src/router/router.dart' as _i63;
 import 'package:supabase_flutter/supabase_flutter.dart' as _i454;
 
 extension GetItInjectableX on _i174.GetIt {
@@ -38,6 +39,8 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i454.SupabaseClient>(() => supabaseModule.client);
     gh.singleton<_i427.AuthRepository>(
         () => _i427.AuthRepository(gh<_i454.SupabaseClient>()));
+    gh.singleton<_i63.RouterController>(
+        () => _i63.RouterController(gh<_i454.SupabaseClient>()));
     gh.singleton<_i34.GameRepository>(() => _i34.GameRepository(
           gh<_i330.SupabaseServiceImpl>(),
           gh<_i454.SupabaseClient>(),

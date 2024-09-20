@@ -6,7 +6,6 @@ import 'package:lottie/lottie.dart';
 import 'package:my_app/resources/resources.dart';
 import 'package:my_app/src/core/ui/typography.dart';
 import 'package:my_app/src/core/utils/widgets/generic_button.dart';
-import 'package:my_app/src/features/auth/views/auth_screen.dart';
 import 'package:my_app/src/features/game/cubit/game_cubit.dart';
 import 'package:my_app/src/features/player/cubit/player_cubit.dart';
 import 'package:my_app/src/router/router.dart';
@@ -22,8 +21,10 @@ class SearchGameScreen extends StatefulWidget {
 class _SearchGameScreenState extends State<SearchGameScreen> {
   @override
   void initState() {
-    final player = context.read<PlayerCubit>().state.player;
-    context.read<GameCubit>().findOrCreateGame(player!);
+    if (!context.read<GameCubit>().state.isGameSearching) {
+      final player = context.read<PlayerCubit>().state.player;
+      context.read<GameCubit>().findOrCreateGame(player!);
+    }
     super.initState();
   }
 

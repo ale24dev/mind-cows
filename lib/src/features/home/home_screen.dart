@@ -2,9 +2,11 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:my_app/src/features/game/cubit/game_cubit.dart';
 import 'package:my_app/src/features/home/widgets/leaderboard.dart';
 import 'package:my_app/src/features/home/widgets/search_game_section.dart';
+import 'package:my_app/src/router/router.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -32,8 +34,10 @@ class _HomeScreenState extends State<HomeScreen> {
           if (state.isLoading) {
             return const Center(child: CircularProgressIndicator.adaptive());
           }
-          if (state.isSearchingGame) {
-            return const Center(child: CircularProgressIndicator.adaptive());
+          if (state.isGameSearching) {
+            WidgetsFlutterBinding.ensureInitialized().addPostFrameCallback(
+              (_) => context.goNamed(AppRoute.searchGame.name),
+            );
           }
           return Column(
             children: [

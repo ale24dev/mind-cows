@@ -69,9 +69,9 @@ class _GameScreenState extends State<GameScreen> {
         },
       );
     } else if (state.isInSelectingSecretsNumbers &&
-        ownPlayerNumber.number.isNull &&
+        ownPlayerNumber.number.isNotNull &&
         rivalPlayerNumber.number.isNull &&
-        !state.selectSecretNumberShowed) {
+        state.selectSecretNumberShowed) {
       _showWaitingForRival();
     }
 

@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_bool_literals_in_conditional_expressions
 
 import 'dart:async';
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
@@ -13,6 +14,7 @@ import 'package:my_app/src/features/game/data/model/attempt.dart';
 import 'package:my_app/src/features/game/data/model/game.dart';
 import 'package:my_app/src/features/game/data/model/game_status.dart';
 import 'package:my_app/src/features/player/data/model/player.dart';
+import 'package:my_app/src/features/player/data/model/player_number.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 part 'game_state.dart';
@@ -44,10 +46,30 @@ class GameCubit extends Cubit<GameState> {
           table: game.tableName(),
           callback: (payload) {
             log('GameCubit: Database change detected');
-            getLastGame();
+
+            if (state.game.isNull) return;
+
+            try {
+              final playerNumber1 = decodePlayerNumber(
+                payload.newRecord['player_number1'] as int?,
+              );
+              final playerNumber2 = decodePlayerNumber(
+                payload.newRecord['player_number2'] as int?,
+              );
+
+              if (checkIfPlayerIsInGame(playerNumber1, playerNumber2)) {
+                getLastGame();
+              }
+            } catch (e) {
+              log('Error decoding player numbers: $e');
+            }
           },
         )
         .subscribe();
+  }
+
+  int? decodePlayerNumber(int? playerNumber) {
+    return playerNumber;
   }
 
   Future<void> getLastGame() async {
@@ -181,6 +203,14 @@ class GameCubit extends Cubit<GameState> {
     StatusEnum status,
   ) {
     return listGameStatus.firstWhere((element) => element.status == status);
+  }
+
+  bool checkIfPlayerIsInGame(
+    int? playerNumber1,
+    int? playerNumber2,
+  ) {
+    return playerNumber1 == state.game!.playerNumber1?.id ||
+        playerNumber2 == state.game!.playerNumber2?.id;
   }
 
   void refresh() {

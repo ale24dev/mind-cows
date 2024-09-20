@@ -88,4 +88,14 @@ class GameRepository extends GameDataSource {
       responseNullable: true,
     );
   }
+
+  @override
+  Future<Either<AppException?, bool?>> cancelSearchGame(Player player) {
+    return _supabaseServiceImpl.query<bool>(
+      table: 'RPC cancel_search_game',
+      request: () =>
+          _client.rpc('cancel_search_game', params: {'player_id': player.id}),
+      queryOption: QueryOption.insert,
+    );
+  }
 }

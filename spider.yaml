@@ -32,4 +32,4 @@ package: resources
 groups:
   - path: assets
     class_name: AppImages
-    types: [ .png, .jpg, .jpeg, .webp, .webm, .bmp ]
+    types: [ .png, .jpg, .jpeg, .webp, .webm, .bmp, .json ]

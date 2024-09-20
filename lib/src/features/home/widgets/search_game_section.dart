@@ -19,7 +19,6 @@ class _SearchGameSectionState extends State<SearchGameSection> {
 
   @override
   Widget build(BuildContext context) {
-    final player = context.read<PlayerCubit>().state.player!;
     return BlocBuilder<GameCubit, GameState>(
       builder: (context, state) {
         if (state.isGameStarted && !_hasNavigated) {
@@ -32,17 +31,19 @@ class _SearchGameSectionState extends State<SearchGameSection> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             GestureDetector(
-              onTap: () => context.read<GameCubit>().findOrCreateGame(player),
+              onTap: () {
+                context.goNamed(AppRoute.searchGame.name);
+              },
               child: Image.asset(
                 AppImages.playButton,
                 height: 80,
                 width: 80,
               ),
             ),
-            if (state.isGameSearching) ...[
-              const Gutter(),
-              const CircularProgressIndicator.adaptive(),
-            ],
+            // if (state.isGameSearching) ...[
+            //   const Gutter(),
+            //   const CircularProgressIndicator.adaptive(),
+            // ],
           ],
         );
       },

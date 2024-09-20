@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gutter/flutter_gutter.dart';
 import 'package:my_app/src/core/extensions/string.dart';
 import 'package:my_app/src/core/ui/typography.dart';
+import 'package:my_app/src/core/utils/utils.dart';
 import 'package:my_app/src/core/utils/widgets/generic_button.dart';
 import 'package:my_app/src/features/home/widgets/otp_fields.dart';
 import 'package:my_app/src/features/player/cubit/player_cubit.dart';
@@ -99,6 +100,17 @@ class _SelectSecretNumberState extends State<SelectSecretNumber> {
             onPressed: secretNumber.length != 4
                 ? null
                 : () async {
+                    final isValidNumber =
+                        Utils.isValidPlayerNumber(secretNumber);
+                    if (!isValidNumber) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Introduce a valid number'),
+                          backgroundColor: Colors.red,
+                        ),
+                      );
+                      return;
+                    }
                     await context.read<PlayerCubit>().updatePlayerNumber(
                           widget.playerNumber.copyWith(
                             number: secretNumber.parseOptToNumberValue,

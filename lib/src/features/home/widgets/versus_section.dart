@@ -31,10 +31,10 @@ class VersusSection extends StatelessWidget {
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            // CacheWidget(
-            //   size: const Size(50, 50),
-            //   imageUrl: rival.player.avatarUrl,
-            // ),
+            CacheWidget(
+              size: const Size(50, 50),
+              imageUrl: rival.player.avatarUrl,
+            ),
             const GutterSmall(),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,

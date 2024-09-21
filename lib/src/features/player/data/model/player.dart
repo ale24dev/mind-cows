@@ -1,10 +1,11 @@
+import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:my_app/src/core/supabase/table_interface.dart';
 
 part 'player.g.dart';
 
 @JsonSerializable(explicitToJson: true, fieldRename: FieldRename.snake)
-class Player with TableInterface {
+class Player extends Equatable with TableInterface {
   Player({
     required this.id,
     required this.username,
@@ -25,4 +26,8 @@ class Player with TableInterface {
 
   @override
   String columns() => 'id, username, avatar_url';
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [id, username, avatarUrl];
 }

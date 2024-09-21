@@ -46,7 +46,7 @@ class GameRepository extends GameDataSource {
   @override
   Future<Either<AppException?, Game?>> getLastGame(Player player) {
     return _supabaseServiceImpl.query<Game>(
-      table: 'game',
+      table: 'get_last_game',
       request: () =>
           _client.rpc('get_last_game', params: {'player_id': player.id}),
       queryOption: QueryOption.select,

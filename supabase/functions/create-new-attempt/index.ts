@@ -49,7 +49,7 @@ function countBullsAndCows(playerNumber: number[], opponentNumber: number[]) {
 async function verifyAndInsertAttempt(supabase: any, gameId: number, playerId: number, p_number: number[]) {
   // Variables estáticas que representan las columnas en las consultas
   const player = "id, username, avatar_url";
-  const playerNumber = `id, player(${player}), number`;
+  const playerNumber = `id, player(${player}), number, time_left, is_turn, started_time`;
   const gameStatus = "id, status";
   const gameColumns = `
   id, status!inner(${gameStatus}), player_number1!inner(${playerNumber}), player_number2!inner(${playerNumber}), winner(${player})
@@ -61,23 +61,23 @@ async function verifyAndInsertAttempt(supabase: any, gameId: number, playerId: n
   if (gameError || !game) throw new Error(`Game not found or error: ${gameError?.message}`);
 
   // Determinar si el jugador es player_number1 o player_number2
-  let opponentNumber;
-  console.log("player", playerId);
-  console.log("player_number1", game.player_number1.player);
-  console.log("player_number2", game.player_number2.player);
+  let opponent;
+  let ownPlayerNumber;
   if (game.player_number1.player.id === playerId) {
-    opponentNumber = game.player_number2?.number ?? null;
+    opponent = game.player_number2 ?? null;
+    ownPlayerNumber = game.player_number1 ?? null;
   } else if (game.player_number2.player.id === playerId) {
-    opponentNumber = game.player_number1?.number ?? null;
+    opponent = game.player_number1 ?? null;
+    ownPlayerNumber = game.player_number2 ?? null;
   } else {
     throw new Error("Player is not part of this game");
   }
 
   // Si el oponente tiene un número, verificar que no sea null
-  if (!opponentNumber) throw new Error("Opponent does not have a valid number");
+  if (!opponent.number) throw new Error("Opponent does not have a valid number");
 
   // Contar "Toros" y "Vacas"
-  const { bulls, cows } = countBullsAndCows(p_number, opponentNumber);
+  const { bulls, cows } = countBullsAndCows(p_number, opponent.number);
 
   // Insertar el intento con el resultado de "Toros" y "Vacas"
   const { error: attemptError } = await supabase.from("attempt").insert({
@@ -87,10 +87,51 @@ async function verifyAndInsertAttempt(supabase: any, gameId: number, playerId: n
     bulls, // Número de toros
     cows, // Número de vacas
   });
+  console.log("Opponent Player Number:", opponent);
+  console.log("Own Player Number:", ownPlayerNumber);
 
-  if (attemptError) throw new Error(`Error inserting a new attempt ${attemptError.message}`);
+  // Intercambiar el turno de los jugadores
+  if (ownPlayerNumber && opponent) {
+    // Asegúrate de que started_time sea un timestamp válido
+    console.log("ownPlayerNumber.started_time:", ownPlayerNumber.started_time);
+    const startedTimeInMillis = new Date(ownPlayerNumber.started_time).getTime();
+    console.log("startedTimeInMillis:", startedTimeInMillis);
+    const elapsedTime = Math.floor((Date.now() - startedTimeInMillis) / 1000); // Convertir a segundos
+    const newTimeLeft = Math.max(ownPlayerNumber.time_left - elapsedTime, 0);
+
+    console.log("Elapsed Time:", elapsedTime);
+    console.log("newTimeLeft:", newTimeLeft);
+
+    const { error: updateTimeLeftOwnPlayerError } = await supabase
+      .from("player_number")
+      .update({
+        is_turn: false,
+        started_time: null,
+        time_left: newTimeLeft, // Asegurarse de que no sea null
+      })
+      .eq("id", ownPlayerNumber.id);
+
+    // Manejar el error para el propio jugador
+    if (updateTimeLeftOwnPlayerError) {
+      throw new Error(`Error updating own player time left: ${updateTimeLeftOwnPlayerError.message}`);
+    }
+  } else {
+    console.error("started_time is not valid:", ownPlayerNumber.started_time);
+    throw new Error("Invalid started_time value.");
+  }
+  const { error: updateTimeLeftOpponentError } = await supabase
+    .from("player_number")
+    .update({
+      is_turn: true,
+      started_time: new Date().toISOString(),
+    })
+    .eq("id", opponent.id);
+
+  // Manejar el error para el oponente
+  if (updateTimeLeftOpponentError) {
+    throw new Error(`Error updating opponent time left: ${updateTimeLeftOpponentError.message}`);
+  }
 }
-
 // Servidor
 Deno.serve(async (req) => {
   try {

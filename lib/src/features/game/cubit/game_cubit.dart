@@ -1,7 +1,6 @@
 // ignore_for_file: avoid_bool_literals_in_conditional_expressions
 
 import 'dart:async';
-import 'dart:convert';
 import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
@@ -15,6 +14,7 @@ import 'package:my_app/src/features/game/data/model/game.dart';
 import 'package:my_app/src/features/game/data/model/game_status.dart';
 import 'package:my_app/src/features/player/data/model/player.dart';
 import 'package:my_app/src/features/player/data/model/player_number.dart';
+import 'package:my_app/src/features/player/data/player_repository.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 part 'game_state.dart';
@@ -25,6 +25,7 @@ class GameCubit extends Cubit<GameState> {
   GameCubit(
     this._client,
     this._gameRepository,
+    this._playerRepository,
   ) : super(const GameState()) {
     log('Initializing GameCubit...');
     _listenGame();
@@ -33,6 +34,27 @@ class GameCubit extends Cubit<GameState> {
   final SupabaseClient _client;
 
   final GameRepository _gameRepository;
+  final PlayerRepository _playerRepository;
+
+  void _listenPlayerNumberChanges() {
+    _playerRepository.listenPlayerNumberChanges(state.player!.id,
+        (callbackData) {
+      final (isTurn, timeLeft) = callbackData;
+      final ownPlayerNumber = state.game!
+          .getOwnPlayerNumber(state.player!)
+          .copyWith(isTurn: isTurn, timeLeft: timeLeft);
+
+      final game = state.game!.copyWith(
+        playerNumber1: state.game!.playerNumber1!.id == ownPlayerNumber.id
+            ? ownPlayerNumber
+            : state.game!.playerNumber1,
+        playerNumber2: state.game!.playerNumber2!.id == ownPlayerNumber.id
+            ? ownPlayerNumber
+            : state.game!.playerNumber2,
+      );
+      emit(state.copyWith(game: game));
+    });
+  }
 
   void _listenGame() {
     final game = Game.empty();
@@ -196,6 +218,8 @@ class GameCubit extends Cubit<GameState> {
 
   void setUserPlayer(Player player) {
     emit(state.copyWith(player: player));
+
+    _listenPlayerNumberChanges();
   }
 
   GameStatus getGameStatusByStatus(

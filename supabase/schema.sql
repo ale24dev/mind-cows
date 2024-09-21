@@ -18,6 +18,115 @@ CREATE OR REPLACE FUNCTION "public"."create_game"("player_id" "uuid") RETURNS "j
     LANGUAGE "plpgsql"
     AS $$
 DECLARE
+  found_game_id BIGINT;
+  player_number2_id BIGINT;
+  searching_status_id BIGINT;
+  selecting_secret_numbers_status_id BIGINT;
+  start_time TIMESTAMP;
+BEGIN
+  -- Get the ID of the 'searching' status
+  SELECT id INTO searching_status_id
+  FROM game_status
+  WHERE status = 'searching'
+  LIMIT 1;
+
+  -- Get the ID of the 'selecting_secret_numbers' status
+  SELECT id INTO selecting_secret_numbers_status_id
+  FROM game_status
+  WHERE status = 'selecting_secret_numbers'
+  LIMIT 1;
+
+  -- Check if 'searching' status exists
+  IF NOT FOUND THEN
+    RAISE EXCEPTION 'No status with value searching found';
+  END IF;
+
+  -- Check if 'selecting_secret_numbers' status exists
+  IF NOT FOUND THEN
+    RAISE EXCEPTION 'No status with value selecting_secret_numbers found';
+  END IF;
+
+  -- Start the timer
+  start_time := clock_timestamp();
+
+  -- Loop to search for an available game within 5 seconds
+  LOOP
+    -- Try to find a game with 'searching' status
+    SELECT g.id INTO found_game_id
+    FROM game g
+    WHERE g.status = searching_status_id
+    AND g.player_number2 IS NULL
+    LIMIT 1;
+
+    -- If a game is found, assign player_number2 and return the updated game
+    IF FOUND THEN
+      -- Insert new player_number for player_number2
+      INSERT INTO player_number (player)
+      VALUES (player_id)
+      RETURNING id INTO player_number2_id;
+
+      -- Update the game to assign player_number2 and change the status
+      UPDATE game
+      SET player_number2 = player_number2_id,
+          status = selecting_secret_numbers_status_id
+      WHERE id = found_game_id;
+
+      -- Return the updated game in JSON format
+      RETURN (
+        SELECT json_build_object(
+          'id', g.id,
+          'status', json_build_object(
+            'id', gs.id,
+            'status', gs.status
+          ),
+          'player_number1', json_build_object(
+            'id', pn1.id,
+            'number', pn1.number,
+            'player', json_build_object(
+              'id', p1.id,
+              'username', p1.username,
+              'avatar_url', p1.avatar_url
+            )
+          ),
+          'player_number2', json_build_object(
+            'id', pn2.id,
+            'number', pn2.number,
+            'player', json_build_object(
+              'id', p2.id,
+              'username', p2.username,
+              'avatar_url', p2.avatar_url
+            )
+          ),
+          'winner', NULL
+        )
+        FROM game g
+        LEFT JOIN game_status gs ON gs.id = g.status
+        LEFT JOIN player_number pn1 ON pn1.id = g.player_number1
+        LEFT JOIN player_number pn2 ON pn2.id = g.player_number2
+        LEFT JOIN player p1 ON p1.id = pn1.player
+        LEFT JOIN player p2 ON p2.id = pn2.player
+        WHERE g.id = found_game_id
+      );
+    END IF;
+
+    -- Check if 5 seconds have passed
+    IF clock_timestamp() - start_time > interval '5 seconds' THEN
+      -- If no game was found within 5 seconds, create a new game
+      RETURN create_game_with_player(player_id);
+    END IF;
+
+    -- Pause briefly to avoid busy waiting (optional)
+    PERFORM pg_sleep(0.1);
+  END LOOP;
+END;
+$$;
+
+ALTER FUNCTION "public"."create_game"("player_id" "uuid") OWNER TO "postgres";
+
+CREATE OR REPLACE FUNCTION "public"."create_game_with_player"("player_id" "uuid") RETURNS "json"
+    LANGUAGE "plpgsql"
+    AS $$
+DECLARE
   new_game_id BIGINT;
   player_number1_id BIGINT;
   in_progress_status_id BIGINT;
@@ -68,7 +177,7 @@ BEGIN
 END;
 $$;
 
-ALTER FUNCTION "public"."create_game"("player_id" "uuid") OWNER TO "postgres";
+ALTER FUNCTION "public"."create_game_with_player"("player_id" "uuid") OWNER TO "postgres";
 
 CREATE OR REPLACE FUNCTION "public"."find_or_create_game"("player_id" "uuid") RETURNS "json"
     LANGUAGE "plpgsql"
@@ -77,7 +186,7 @@ DECLARE
   found_game_id BIGINT;
   player_number2_id BIGINT;
   searching_status_id BIGINT;
-  in_progress_status_id BIGINT;
+  selecting_secret_numbers_status_id BIGINT;
   start_time TIMESTAMP;
 BEGIN
   -- Get the ID of the 'searching' status
@@ -86,15 +195,20 @@ BEGIN
   WHERE status = 'searching'
   LIMIT 1;
 
-  -- Get the ID of the 'in_progress' status
-  SELECT id INTO in_progress_status_id
+  -- Get the ID of the 'selecting_secret_numbers' status
+  SELECT id INTO selecting_secret_numbers_status_id
   FROM game_status
-  WHERE status = 'in_progress'
+  WHERE status = 'selecting_secret_numbers'
   LIMIT 1;
 
-  -- Check if 'searching' and 'in_progress' statuses exist
+  -- Check if 'searching' status exists
   IF NOT FOUND THEN
-    RAISE EXCEPTION 'No status with value searching or in_progress found';
+    RAISE EXCEPTION 'No status with value searching found';
+  END IF;
+
+  -- Check if 'selecting_secret_numbers' status exists
+  IF NOT FOUND THEN
+    RAISE EXCEPTION 'No status with value selecting_secret_numbers found';
   END IF;
 
   -- Start the timer
@@ -109,17 +223,17 @@ BEGIN
     AND g.player_number2 IS NULL
     LIMIT 1;
 
-    -- If a game is found, assign player_number2 and update the status to 'in_progress'
+    -- If a game is found, assign player_number2 and return the updated game
     IF FOUND THEN
       -- Insert new player_number for player_number2
       INSERT INTO player_number (player)
       VALUES (player_id)
       RETURNING id INTO player_number2_id;
 
-      -- Update the game to assign player_number2 and change status to 'in_progress'
+      -- Update the game to assign player_number2 and change the status
       UPDATE game
       SET player_number2 = player_number2_id,
-          status = in_progress_status_id
+          status = selecting_secret_numbers_status_id
       WHERE id = found_game_id;
 
       -- Return the updated game in JSON format
@@ -163,7 +277,7 @@ BEGIN
     -- Check if 5 seconds have passed
     IF clock_timestamp() - start_time > interval '5 seconds' THEN
       -- If no game was found within 5 seconds, create a new game
-      RETURN create_game(player_id);
+      RETURN create_game_with_player(player_id);
     END IF;
 
     -- Pause briefly to avoid busy waiting (optional)
@@ -185,24 +299,30 @@ BEGIN
         'id', gs.id,
         'status', gs.status
       ),
-      'player_number1', json_build_object(
-        'id', pn1.id,
-        'number', pn1.number,
-        'player', json_build_object(
-            'id', p1.id,
-            'username', p1.username,
-            'avatar_url', p1.avatar_url
+      'player_number1', CASE
+        WHEN pn1.id IS NOT NULL THEN json_build_object(
+          'id', pn1.id,
+          'number', pn1.number,
+          'player', json_build_object(
+              'id', p1.id,
+              'username', p1.username,
+              'avatar_url', p1.avatar_url
+          )
         )
-      ),
-      'player_number2', json_build_object(
-        'id', pn2.id,
-        'number', pn2.number,
-        'player', json_build_object(
-            'id', p2.id,
-            'username', p2.username,
-            'avatar_url', p2.avatar_url
+        ELSE NULL
+      END,
+      'player_number2', CASE
+        WHEN pn2.id IS NOT NULL THEN json_build_object(
+          'id', pn2.id,
+          'number', pn2.number,
+          'player', json_build_object(
+              'id', p2.id,
+              'username', p2.username,
+              'avatar_url', p2.avatar_url
+          )
         )
-      ),
+        ELSE NULL
+      END,
       'winner', CASE
         WHEN g.winner IS NOT NULL THEN json_build_object(
           'id', p_winner.id,
@@ -240,6 +360,93 @@ end;
 $$;
 
 ALTER FUNCTION "public"."handle_new_user"() OWNER TO "postgres";
+
+CREATE OR REPLACE FUNCTION "public"."update_games_to_in_progress"() RETURNS "void"
+    LANGUAGE "plpgsql"
+    AS $$
+BEGIN
+  UPDATE game g
+  SET status = (
+    SELECT id
+    FROM game_status
+    WHERE status = 'in_progress'
+    LIMIT 1
+  )
+  WHERE g.status = (
+    SELECT id
+    FROM game_status
+    WHERE status = 'selecting_secret_numbers'
+    LIMIT 1
+  )
+  AND EXISTS (
+    SELECT 1
+    FROM player_number pn1
+    WHERE pn1.id = g.player_number1
+    AND pn1.number IS NOT NULL
+  )
+  AND EXISTS (
+    SELECT 1
+    FROM player_number pn2
+    WHERE pn2.id = g.player_number2
+    AND pn2.number IS NOT NULL
+  );
+END;
+$$;
+
+ALTER FUNCTION "public"."update_games_to_in_progress"() OWNER TO "postgres";
+
+CREATE OR REPLACE FUNCTION "public"."update_player_number"("player_number_id" bigint, "new_number_text" "text") RETURNS "json"
+    LANGUAGE "plpgsql"
+    AS $$
+DECLARE
+  new_number INT[];  -- Array para almacenar el valor convertido
+  updated_player_number RECORD;
+BEGIN
+  -- Convertir el texto en un array de enteros
+  new_number := array(
+    SELECT unnest(
+      -- Convertir cada carácter del texto en una fila y luego a entero
+      array(
+        SELECT regexp_split_to_array(new_number_text, '')::INT[]
+      )
+    )
+  );
+
+  -- Actualizar el número (array) del jugador en la tabla player_number
+  UPDATE player_number
+  SET number = new_number
+  WHERE id = player_number_id;
+
+  -- Comprobar si la actualización afectó alguna fila
+  IF NOT FOUND THEN
+    RETURN json_build_object(
+      'error', 'No player number found with the given ID'
+    ); -- Devolver un JSON con un mensaje de error si no se encontró el player_number
+  END IF;
+
+  -- Obtener el registro actualizado junto con el jugador
+  SELECT pn.id AS player_number_id,
+         pn.number,
+         json_build_object(
+           'id', p.id,
+           'username', p.username,
+           'avatar_url', p.avatar_url
+         ) AS player
+  INTO updated_player_number
+  FROM player_number pn
+  LEFT JOIN player p ON p.id = pn.player
+  WHERE pn.id = player_number_id;
+
+  -- Devolver el resultado en formato JSON
+  RETURN json_build_object(
+    'id', updated_player_number.player_number_id,
+    'number', updated_player_number.number,
+    'player', updated_player_number.player
+  );
+END;
+$$;
+
+ALTER FUNCTION "public"."update_player_number"("player_number_id" bigint, "new_number_text" "text") OWNER TO "postgres";
 
 SET default_tablespace = '';
 
@@ -386,6 +593,8 @@ ALTER TABLE ONLY "public"."player_number"
 ALTER TABLE ONLY "public"."ranking"
     ADD CONSTRAINT "ranking_player_fkey" FOREIGN KEY ("player") REFERENCES "public"."player"("id") ON UPDATE CASCADE ON DELETE CASCADE;
 
+CREATE POLICY "Enable insert for authenticated users only" ON "public"."attempt" FOR INSERT TO "authenticated" WITH CHECK (true);
+
 CREATE POLICY "Enable insert for authenticated users only" ON "public"."game" FOR INSERT TO "authenticated" WITH CHECK (true);
 
 CREATE POLICY "Enable insert for authenticated users only" ON "public"."player_number" FOR INSERT TO "authenticated" WITH CHECK (true);
@@ -404,15 +613,19 @@ CREATE POLICY "Enable read access for all users" ON "public"."ranking" FOR SELEC
 
 ALTER TABLE "public"."attempt" ENABLE ROW LEVEL SECURITY;
 
-ALTER TABLE "public"."game" ENABLE ROW LEVEL SECURITY;
-
 ALTER TABLE "public"."game_status" ENABLE ROW LEVEL SECURITY;
 
 ALTER TABLE "public"."player" ENABLE ROW LEVEL SECURITY;
 
-ALTER TABLE "public"."player_number" ENABLE ROW LEVEL SECURITY;
-
 ALTER TABLE "public"."ranking" ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "update_game_policy" ON "public"."game" FOR UPDATE USING (((EXISTS ( SELECT 1
+   FROM "public"."player_number"
+  WHERE (("player_number"."id" = "game"."player_number1") AND ("player_number"."player" = "auth"."uid"())))) OR (EXISTS ( SELECT 1
+   FROM "public"."player_number"
+  WHERE (("player_number"."id" = "game"."player_number2") AND ("player_number"."player" = "auth"."uid"()))))));
+
+CREATE POLICY "update_player_number" ON "public"."player_number" FOR UPDATE USING (("player" = "auth"."uid"()));
 
 GRANT USAGE ON SCHEMA "public" TO "postgres";
 GRANT USAGE ON SCHEMA "public" TO "anon";
@@ -422,6 +635,10 @@ GRANT USAGE ON SCHEMA "public" TO "service_role";
 GRANT ALL ON FUNCTION "public"."create_game"("player_id" "uuid") TO "anon";
 GRANT ALL ON FUNCTION "public"."create_game"("player_id" "uuid") TO "authenticated";
 GRANT ALL ON FUNCTION "public"."create_game"("player_id" "uuid") TO "service_role";
+
+GRANT ALL ON FUNCTION "public"."create_game_with_player"("player_id" "uuid") TO "anon";
+GRANT ALL ON FUNCTION "public"."create_game_with_player"("player_id" "uuid") TO "authenticated";
+GRANT ALL ON FUNCTION "public"."create_game_with_player"("player_id" "uuid") TO "service_role";
 
 GRANT ALL ON FUNCTION "public"."find_or_create_game"("player_id" "uuid") TO "anon";
 GRANT ALL ON FUNCTION "public"."find_or_create_game"("player_id" "uuid") TO "authenticated";
@@ -434,6 +651,14 @@ GRANT ALL ON FUNCTION "public"."get_current_game"("player_id" "uuid") TO "servic
 GRANT ALL ON FUNCTION "public"."handle_new_user"() TO "anon";
 GRANT ALL ON FUNCTION "public"."handle_new_user"() TO "authenticated";
 GRANT ALL ON FUNCTION "public"."handle_new_user"() TO "service_role";
+
+GRANT ALL ON FUNCTION "public"."update_games_to_in_progress"() TO "anon";
+GRANT ALL ON FUNCTION "public"."update_games_to_in_progress"() TO "authenticated";
+GRANT ALL ON FUNCTION "public"."update_games_to_in_progress"() TO "service_role";
+
+GRANT ALL ON FUNCTION "public"."update_player_number"("player_number_id" bigint, "new_number_text" "text") TO "anon";
+GRANT ALL ON FUNCTION "public"."update_player_number"("player_number_id" bigint, "new_number_text" "text") TO "authenticated";
+GRANT ALL ON FUNCTION "public"."update_player_number"("player_number_id" bigint, "new_number_text" "text") TO "service_role";
 
 GRANT ALL ON TABLE "public"."attempt" TO "anon";
 GRANT ALL ON TABLE "public"."attempt" TO "authenticated";

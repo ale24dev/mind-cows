@@ -19,6 +19,9 @@ import 'package:my_app/src/features/game/data/game_repository.dart' as _i34;
 import 'package:my_app/src/features/player/cubit/player_cubit.dart' as _i126;
 import 'package:my_app/src/features/player/data/player_repository.dart'
     as _i406;
+import 'package:my_app/src/features/ranking/cubit/ranking_cubit.dart' as _i931;
+import 'package:my_app/src/features/ranking/data/ranking_repository.dart'
+    as _i34;
 import 'package:my_app/src/features/splash/cubit/app_cubit.dart' as _i1038;
 import 'package:my_app/src/router/router.dart' as _i63;
 import 'package:supabase_flutter/supabase_flutter.dart' as _i454;
@@ -49,11 +52,17 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i330.SupabaseServiceImpl>(),
           gh<_i454.SupabaseClient>(),
         ));
+    gh.singleton<_i34.RankingRepository>(() => _i34.RankingRepository(
+          gh<_i330.SupabaseServiceImpl>(),
+          gh<_i454.SupabaseClient>(),
+        ));
     gh.factory<_i584.GameCubit>(() => _i584.GameCubit(
           gh<_i454.SupabaseClient>(),
           gh<_i34.GameRepository>(),
           gh<_i406.PlayerRepository>(),
         ));
+    gh.factory<_i931.RankingCubit>(
+        () => _i931.RankingCubit(gh<_i34.RankingRepository>()));
     gh.factory<_i126.PlayerCubit>(() => _i126.PlayerCubit(
           gh<_i454.SupabaseClient>(),
           gh<_i406.PlayerRepository>(),

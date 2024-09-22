@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:my_app/src/features/game/cubit/game_cubit.dart';
-import 'package:my_app/src/features/home/widgets/leaderboard.dart';
+import 'package:my_app/src/features/ranking/leaderboard.dart';
 import 'package:my_app/src/features/home/widgets/search_game_section.dart';
 import 'package:my_app/src/router/router.dart';
 

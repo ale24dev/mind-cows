@@ -18,8 +18,6 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
-    context.read<GameCubit>().refresh();
-
     context.read<GameCubit>().getLastGame();
 
     super.initState();

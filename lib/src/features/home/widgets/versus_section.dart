@@ -7,6 +7,9 @@ import 'package:my_app/src/core/utils/widgets/cache_widget.dart';
 import 'package:my_app/src/features/game/cubit/game_cubit.dart';
 import 'package:my_app/src/features/game/data/model/game.dart';
 import 'package:my_app/src/features/player/cubit/player_cubit.dart';
+import 'package:my_app/src/features/ranking/cubit/ranking_cubit.dart';
+import 'package:my_app/src/features/ranking/data/model/ranking.dart';
+import 'package:my_app/src/features/ranking/uitls/ranking_utils.dart';
 
 class VersusSection extends StatelessWidget {
   const VersusSection({required this.game, super.key});
@@ -17,6 +20,7 @@ class VersusSection extends StatelessWidget {
   Widget build(BuildContext context) {
     final playerState = context.read<PlayerCubit>().state;
     final rival = game.getRivalPlayerNumber(playerState.player!);
+
     final colorScheme = Theme.of(context).colorScheme;
     return Container(
       decoration: BoxDecoration(
@@ -47,11 +51,20 @@ class VersusSection extends StatelessWidget {
                         color: AppColor.titleText,
                       ),
                 ),
-                Text(
-                  'Rank: 1',
-                  style: AppTextStyle()
-                      .body
-                      .copyWith(fontSize: 12, color: Colors.black45),
+                BlocBuilder<RankingCubit, RankingState>(
+                  builder: (context, state) {
+                    if (state.ranking.isEmpty) return const Text('-');
+                    final rivalRanking = RankingUtils.getRankingByPlayerId(
+                      state.ranking,
+                      rival.player.id,
+                    );
+                    return Text(
+                      'Rank: ${rivalRanking.position}',
+                      style: AppTextStyle()
+                          .body
+                          .copyWith(fontSize: 12, color: Colors.black45),
+                    );
+                  },
                 ),
               ],
             ),

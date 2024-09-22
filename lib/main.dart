@@ -27,7 +27,7 @@ Future<void> main() async {
         BlocProvider<AuthCubit>(create: (_) => getIt.get()),
         BlocProvider<GameCubit>(create: (_) => getIt.get()),
         BlocProvider<PlayerCubit>(create: (_) => getIt.get()),
-        BlocProvider<RankingCubit>(create: (_) => getIt.get()),
+        BlocProvider<RankingCubit>(create: (_) => getIt.get()..loadRanking()),
       ],
       child: const MyApp(),
     ),

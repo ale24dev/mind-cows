@@ -18,7 +18,7 @@ class LeaderboardWidget extends StatefulWidget {
 class _LeaderboardWidgetState extends State<LeaderboardWidget> {
   @override
   void initState() {
-    context.read<RankingCubit>().loadRanking([]);
+    context.read<RankingCubit>().loadRanking();
     super.initState();
   }
 

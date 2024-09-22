@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:my_app/src/core/utils/object_extensions.dart';
 import 'package:my_app/src/features/game/cubit/game_cubit.dart';
 import 'package:my_app/src/features/game/data/model/game.dart';
+import 'package:my_app/src/features/game/utils/game_utils.dart';
 import 'package:my_app/src/features/home/widgets/game_section.dart';
 import 'package:my_app/src/features/home/widgets/select_secret_number.dart';
 import 'package:my_app/src/features/home/widgets/versus_section.dart';
@@ -119,6 +120,10 @@ class _GameScreenState extends State<GameScreen> {
     final content = isWinner
         ? 'You won against ${rival.player.username}!'
         : 'You lost against ${rival.player.username}!';
+    final resultPoints = GameUtils.calculateResultPoints(
+      wonCurrentGame: isWinner,
+      minimumAttempts: context.read<GameCubit>().state.listAttempts.length,
+    );
 
     if (mounted) {
       WidgetsFlutterBinding.ensureInitialized().addPostFrameCallback(
@@ -127,12 +132,21 @@ class _GameScreenState extends State<GameScreen> {
           builder: (context) {
             return AlertDialog.adaptive(
               title: Text(title),
-              content: Text(content),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(content),
+                  Text(
+                    '${isWinner ? '+' : ''}$resultPoints',
+                  ),
+                ],
+              ),
               actions: [
                 TextButton(
                   onPressed: () {
                     Navigator.pop(context);
                     context.goNamed(AppRoute.home.name);
+                    context.read<GameCubit>().refresh();
                   },
                   child: const Text('Close'),
                 ),

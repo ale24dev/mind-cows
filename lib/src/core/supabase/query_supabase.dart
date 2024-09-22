@@ -12,7 +12,7 @@ abstract class QuerySupabase {
   static String get gameStatus => 'id, status';
 
   static String ranking = '''
-    id, games_won, games_lost, minimum_attempts, player($player)
+    id, position, points, games_won, games_loss, minimum_attempts, player($player)
     ''';
 
   static String attempt = '''

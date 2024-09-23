@@ -8,9 +8,12 @@ void main() {
     expect(File(AppImages.bullSearchGame).existsSync(), isTrue);
     expect(File(AppImages.cowSearchGame).existsSync(), isTrue);
     expect(File(AppImages.firstPlace).existsSync(), isTrue);
+    expect(File(AppImages.gamePoints).existsSync(), isTrue);
+    expect(File(AppImages.loseGame).existsSync(), isTrue);
     expect(File(AppImages.noPhoto).existsSync(), isTrue);
     expect(File(AppImages.playButton).existsSync(), isTrue);
     expect(File(AppImages.secondPlace).existsSync(), isTrue);
     expect(File(AppImages.thirdPlace).existsSync(), isTrue);
+    expect(File(AppImages.winGame).existsSync(), isTrue);
   });
 }

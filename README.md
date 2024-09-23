@@ -15,22 +15,6 @@ MindCows is an engaging mind puzzle game where players challenge their cognitive
 - **Data Storage**: Game progress and player stats are stored using Supabase's Postgres database.
 - **Scalable**: Built with the potential to scale to billions of users with Supabase infrastructure.
 
-## Demo
-
-[Link to 1-minute video demo](#)  
-In this demo, you will see:
-- The project name: **MindCows**
-- A quick walkthrough of the gameplay
-- How Supabase is integrated into the project (authentication, real-time updates, etc.)
-
-## Getting Started
-
-### Prerequisites
-
-- [Flutter](https://flutter.dev/docs/get-started/install) (v3.0 or higher)
-- [Supabase](https://supabase.com/) account
-- [Dart SDK](https://dart.dev/get-dart) (v2.16 or higher)
-
 ### Installation
 
 1. Clone the repository:

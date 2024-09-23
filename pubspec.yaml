@@ -33,6 +33,8 @@ dependencies:
   spider: ^4.2.2
   supabase_flutter: ^2.6.0
 
+  uuid: ^4.5.0
+
   equatable: ^2.0.0
 
 dev_dependencies:
@@ -52,4 +54,18 @@ flutter:
 
   assets:
   - .env
-  - assets/
+  - assets/images/
+  - assets/fonts/sniglet/
+  - assets/fonts/poppins/
+
+  fonts:
+    - family: Poppins
+      fonts:
+        - asset: assets/fonts/poppins/Poppins-Light.ttf
+        - asset: assets/fonts/poppins/Poppins-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/poppins/Poppins-SemiBold.ttf
+          weight: 600
+    - family: Sniglet
+      fonts:
+        - asset: assets/fonts/sniglet/Sniglet-Regular.ttf

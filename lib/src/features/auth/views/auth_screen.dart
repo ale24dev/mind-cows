@@ -51,7 +51,13 @@ class _AuthScreenState extends State<AuthScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Text('SignIn'),
+              Text(
+                'SignIn',
+                style: AppTextStyle().body.copyWith(
+                      fontFamily: AppTextStyle.secondaryFontFamily,
+                      fontSize: 30,
+                    ),
+              ),
               const GutterLarge(),
               GenericTextField(
                 labelText: 'Username',

@@ -2,13 +2,14 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gutter/flutter_gutter.dart';
 import 'package:go_router/go_router.dart';
+import 'package:lottie/lottie.dart';
+import 'package:my_app/resources/resources.dart';
 import 'package:my_app/src/core/utils/object_extensions.dart';
-import 'package:my_app/src/features/auth/data/auth_repository.dart';
 import 'package:my_app/src/features/game/cubit/game_cubit.dart';
 import 'package:my_app/src/features/player/cubit/player_cubit.dart';
 import 'package:my_app/src/router/router.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 class LoadingProfileData extends StatefulWidget {
   const LoadingProfileData({super.key});
@@ -41,8 +42,19 @@ class _LoadingProfileDataState extends State<LoadingProfileData> {
             }
           }
         },
-        child: const Center(
-          child: Text('Initializating profile data...'),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              LottieBuilder.asset(
+                AppImages.appLoading,
+                height: 100,
+                fit: BoxFit.cover,
+              ),
+              const GutterSmall(),
+              const Text('Loading...'),
+            ],
+          ),
         ),
       ),
     );

@@ -39,10 +39,13 @@ class _LeaderboardWidgetState extends State<LeaderboardWidget> {
             const GutterLarge(),
             Text(
               'Leaderboard',
-              style: AppTextStyle()
-                  .bodyLarge
-                  .copyWith(fontWeight: FontWeight.w600),
+              style: AppTextStyle().bodyLarge.copyWith(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 35,
+                    fontFamily: AppTextStyle.secondaryFontFamily,
+                  ),
             ),
+            const GutterSmall(),
             TopThreePlayers(state.ranking),
             Expanded(
               child: Padding(

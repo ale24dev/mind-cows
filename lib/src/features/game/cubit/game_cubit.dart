@@ -170,9 +170,7 @@ class GameCubit extends Cubit<GameState> {
 
     emit(state.copyWith(stateStatus: GameStateStatus.cancel, game: null));
 
-    await Future.delayed(1.seconds, () {
-      emit(oldState.copyWith(game: null));
-    });
+    await Future.delayed(1.seconds, refresh);
     return success!;
   }
 
@@ -218,7 +216,7 @@ class GameCubit extends Cubit<GameState> {
     emit(state.copyWith(listGameStatus: listGameStatus));
   }
 
-  void setUserPlayer(Player player) {
+  Future<void> setUserPlayer(Player player) async{
     emit(state.copyWith(player: player));
 
     _listenPlayerNumberChanges();
@@ -241,7 +239,7 @@ class GameCubit extends Cubit<GameState> {
 
   void refresh() {
     emit(const GameState().copyWith(player: state.player));
-
+    _gameRepository.dispose();
     getLastGame();
   }
 }

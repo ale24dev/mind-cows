@@ -85,7 +85,7 @@ class _SelectSecretNumberState extends State<SelectSecretNumber> {
           const GutterSmall(),
           Text(
             textAlign: TextAlign.center,
-            "Note: If you don' select a number in the time you will lose the game",
+            "Note: If you don't select a number in the time you will lose the game",
             style:
                 AppTextStyle().body.copyWith(color: Colors.red, fontSize: 12),
           ),

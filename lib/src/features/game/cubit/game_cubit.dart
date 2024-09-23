@@ -128,15 +128,17 @@ class GameCubit extends Cubit<GameState> {
   }
 
   Future<void> findOrCreateGame(
-    Player player,
-  ) async {
+      // Player player,
+      ) async {
+    /// If the last game is already finished
+    if (!state.isGameFinished) return;
     emit(
       state.copyWith(
         stateStatus: GameStateStatus.searchingGame,
-        player: player,
+        player: state.player,
       ),
     );
-    await _gameRepository.findOrCreateGame(player).then((value) {
+    await _gameRepository.findOrCreateGame(state.player!).then((value) {
       value.fold(
         (error) => emit(state.copyWith(stateStatus: GameStateStatus.error)),
         (game) {
@@ -239,5 +241,7 @@ class GameCubit extends Cubit<GameState> {
 
   void refresh() {
     emit(const GameState().copyWith(player: state.player));
+
+    getLastGame();
   }
 }

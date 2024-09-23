@@ -21,10 +21,7 @@ class SearchGameScreen extends StatefulWidget {
 class _SearchGameScreenState extends State<SearchGameScreen> {
   @override
   void initState() {
-    if (!context.read<GameCubit>().state.isGameSearching) {
-      final player = context.read<PlayerCubit>().state.player;
-      context.read<GameCubit>().findOrCreateGame(player!);
-    }
+    context.read<GameCubit>().findOrCreateGame();
     super.initState();
   }
 

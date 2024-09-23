@@ -31,4 +31,8 @@ abstract class RankingUtils {
       _ => 0.1,
     };
   }
+
+  static Ranking getRankingByPlayerId(List<Ranking> ranking, String playerId) {
+    return ranking.firstWhere((element) => element.player.id == playerId);
+  }
 }

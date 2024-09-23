@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:my_app/src/features/game/cubit/game_cubit.dart';
+import 'package:my_app/src/features/home/widgets/user_header_info.dart';
 import 'package:my_app/src/features/ranking/leaderboard.dart';
 import 'package:my_app/src/features/home/widgets/search_game_section.dart';
 import 'package:my_app/src/router/router.dart';
@@ -18,8 +19,6 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
-    context.read<GameCubit>().refresh();
-
     context.read<GameCubit>().getLastGame();
 
     super.initState();
@@ -41,8 +40,8 @@ class _HomeScreenState extends State<HomeScreen> {
           }
           return Column(
             children: [
+              const UserHeaderInfo(),
               Expanded(
-                flex: 8,
                 child: Container(
                   decoration: BoxDecoration(
                     color: Theme.of(context).colorScheme.primary,
@@ -53,10 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: const LeaderboardWidget(),
                 ),
               ),
-              const Expanded(
-                flex: 2,
-                child: SearchGameSection(),
-              ),
+              const SearchGameSection(),
             ],
           );
         },

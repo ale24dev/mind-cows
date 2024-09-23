@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gutter/flutter_gutter.dart';
 import 'package:my_app/src/core/ui/typography.dart';
 import 'package:my_app/src/features/ranking/cubit/ranking_cubit.dart';
 import 'package:my_app/src/features/ranking/widgets/rank_card.dart';
@@ -18,7 +19,7 @@ class LeaderboardWidget extends StatefulWidget {
 class _LeaderboardWidgetState extends State<LeaderboardWidget> {
   @override
   void initState() {
-    context.read<RankingCubit>().loadRanking([]);
+    context.read<RankingCubit>().loadRanking();
     super.initState();
   }
 
@@ -35,7 +36,7 @@ class _LeaderboardWidgetState extends State<LeaderboardWidget> {
         }
         return Column(
           children: [
-            SizedBox.square(dimension: context.heightPx * .15),
+            const GutterLarge(),
             Text(
               'Leaderboard',
               style: AppTextStyle()

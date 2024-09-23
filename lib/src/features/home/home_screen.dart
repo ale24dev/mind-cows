@@ -2,12 +2,12 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_gutter/flutter_gutter.dart';
-import 'package:my_app/resources/resources.dart';
-import 'package:my_app/src/core/ui/extensions.dart';
-import 'package:my_app/src/features/home/cubit/game_cubit.dart';
-import 'package:my_app/src/features/home/widgets/header_section.dart';
-import 'package:sized_context/sized_context.dart';
+import 'package:go_router/go_router.dart';
+import 'package:my_app/src/features/game/cubit/game_cubit.dart';
+import 'package:my_app/src/features/home/widgets/user_header_info.dart';
+import 'package:my_app/src/features/ranking/leaderboard.dart';
+import 'package:my_app/src/features/home/widgets/search_game_section.dart';
+import 'package:my_app/src/router/router.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -17,64 +17,43 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  bool headerCollapsed = false;
+  @override
+  void initState() {
+    context.read<GameCubit>().getLastGame();
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final headerSection = context.heightPx * .8;
-    final headerSectionCollapsed = context.heightPx * .15;
-
+    log('HOME PAGE');
     return Scaffold(
       body: BlocBuilder<GameCubit, GameState>(
         builder: (context, state) {
-          if (state.status.isPlaying) {
-            headerCollapsed = true;
+          if (state.isLoading) {
+            return const Center(child: CircularProgressIndicator.adaptive());
           }
-          return SizedBox(
-            height: context.heightPx,
-            width: context.widthPx,
-            child: Column(
-              children: [
-                HeaderSection(
-                  height:
-                      headerCollapsed ? headerSectionCollapsed : headerSection,
-                  isCollapsed: headerCollapsed,
-                ),
-                const GutterLarge(),
-                AnimatedContainer(
-                  duration: 500.milliseconds,
-                  height:
-                      headerCollapsed ? headerSection : headerSectionCollapsed,
-                  child: Column(
-                    children: [
-                      AnimatedSwitcher(
-                        duration: 300.milliseconds,
-                        child: headerCollapsed
-                            ? null
-                            : Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  GestureDetector(
-                                    onTap: () => context
-                                        .read<GameCubit>()
-                                        .searchForGame(),
-                                    child: Image.asset(
-                                      AppImages.playButton,
-                                      height: 80,
-                                      width: 80,
-                                    ),
-                                  ),
-                                  if (state.status.isSearching) ...[
-                                    const Gutter(),
-                                    const CircularProgressIndicator.adaptive(),
-                                  ],
-                                ],
-                              ),
-                      ),
-                    ],
+          if (state.isGameSearching) {
+            WidgetsFlutterBinding.ensureInitialized().addPostFrameCallback(
+              (_) => context.goNamed(AppRoute.searchGame.name),
+            );
+          }
+          return Column(
+            children: [
+              const UserHeaderInfo(),
+              Expanded(
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.primary,
+                    borderRadius: const BorderRadius.vertical(
+                      bottom: Radius.circular(50),
+                    ),
                   ),
+                  child: const LeaderboardWidget(),
                 ),
-              ],
-            ),
+              ),
+              const SearchGameSection(),
+            ],
           );
         },
       ),

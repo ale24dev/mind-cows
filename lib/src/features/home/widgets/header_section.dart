@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/src/core/ui/extensions.dart';
-import 'package:my_app/src/features/home/widgets/leaderboard.dart';
+import 'package:my_app/src/features/ranking/leaderboard.dart';
 import 'package:my_app/src/features/home/widgets/versus_section.dart';
 import 'package:sized_context/sized_context.dart';
 
@@ -31,9 +31,7 @@ class HeaderSection extends StatelessWidget {
       ),
       child: AnimatedSwitcher(
         duration: 500.milliseconds,
-        child: isCollapsed
-            ? const VersusSection()
-            : LeaderboardWidget(colorScheme: colorScheme),
+        child: const LeaderboardWidget(),
       ),
     );
   }

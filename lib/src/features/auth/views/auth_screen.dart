@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gutter/flutter_gutter.dart';
+import 'package:go_router/go_router.dart';
 import 'package:my_app/src/core/extensions/string.dart';
 import 'package:my_app/src/core/ui/device.dart';
 import 'package:my_app/src/core/ui/typography.dart';
 import 'package:my_app/src/core/utils/widgets/generic_button.dart';
 import 'package:my_app/src/core/utils/widgets/generic_text_field.dart';
 import 'package:my_app/src/features/auth/cubit/auth_cubit.dart';
+import 'package:my_app/src/router/router.dart';
 import 'package:sized_context/sized_context.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -49,7 +51,13 @@ class _AuthScreenState extends State<AuthScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Text('SignIn'),
+              Text(
+                'SignIn',
+                style: AppTextStyle().body.copyWith(
+                      fontFamily: AppTextStyle.secondaryFontFamily,
+                      fontSize: 30,
+                    ),
+              ),
               const GutterLarge(),
               GenericTextField(
                 labelText: 'Username',
@@ -68,8 +76,7 @@ class _AuthScreenState extends State<AuthScreen> {
                     WidgetsFlutterBinding.ensureInitialized()
                         .addPostFrameCallback(
                       (_) {
-                        // Navigator.of(context).pushNamed('/auth');
-                        Navigator.of(context).pushNamed('/home');
+                        context.goNamed(AppRoute.initProfileData.name);
                       },
                     );
                   }

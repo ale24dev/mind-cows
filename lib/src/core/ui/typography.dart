@@ -3,8 +3,7 @@ import 'package:my_app/src/core/ui/colors.dart';
 
 class AppTextStyle {
   static const fontFamily = 'Poppins';
-  static const secondaryFontFamily = 'Montserrat';
-  static const thirdFontFamily = 'JackRollDemoRegular';
+  static const secondaryFontFamily = 'Sniglet';
 
   // Custom text theme overriding material 3 properties.
   // This class has few implemented styles and by default is not applied to the theme.

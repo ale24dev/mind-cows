@@ -23,11 +23,12 @@ Welcome to **MindCows**, a fun and interactive game developed for the [Supabase 
 
 ## Installation
 
-1. Clone the repository:
+- Clone the repository:
    ```
    git clone https://github.com/your-username/MindCows.git
    ```
-## Run the app
+
+## Contributing
 
 Contributions are welcome! Please feel free to submit a pull request or open an issue.
 

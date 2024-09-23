@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gutter/flutter_gutter.dart';
 import 'package:go_router/go_router.dart';
+import 'package:lottie/lottie.dart';
+import 'package:my_app/resources/resources.dart';
+import 'package:my_app/src/core/extensions/list.dart';
+import 'package:my_app/src/core/ui/typography.dart';
 import 'package:my_app/src/core/utils/object_extensions.dart';
 import 'package:my_app/src/features/game/cubit/game_cubit.dart';
 import 'package:my_app/src/features/game/data/model/game.dart';
@@ -11,6 +16,7 @@ import 'package:my_app/src/features/home/widgets/versus_section.dart';
 import 'package:my_app/src/features/player/cubit/player_cubit.dart';
 import 'package:my_app/src/features/player/data/model/player.dart';
 import 'package:my_app/src/features/player/data/model/player_number.dart';
+import 'package:my_app/src/features/player/data/player_repository.dart';
 import 'package:my_app/src/router/router.dart';
 
 class GameScreen extends StatefulWidget {
@@ -116,10 +122,8 @@ class _GameScreenState extends State<GameScreen> {
   void _showWinner(Game game, Player player, PlayerNumber rival) {
     final winner = game.winner;
     final isWinner = winner?.id == player.id;
-    final title = isWinner ? 'Congratulations!' : 'Better luck next time!';
-    final content = isWinner
-        ? 'You won against ${rival.player.username}!'
-        : 'You lost against ${rival.player.username}!';
+    final title = isWinner ? 'Congratulations!!!' : 'You Lose';
+    final imageResult = isWinner ? AppImages.winGame : AppImages.loseGame;
     final resultPoints = GameUtils.calculateResultPoints(
       wonCurrentGame: isWinner,
       minimumAttempts: context.read<GameCubit>().state.listAttempts.length,
@@ -128,6 +132,7 @@ class _GameScreenState extends State<GameScreen> {
     if (mounted) {
       WidgetsFlutterBinding.ensureInitialized().addPostFrameCallback(
         (_) => showAdaptiveDialog<void>(
+          barrierDismissible: false,
           context: context,
           builder: (context) {
             return AlertDialog.adaptive(
@@ -135,9 +140,37 @@ class _GameScreenState extends State<GameScreen> {
               content: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(content),
-                  Text(
-                    '${isWinner ? '+' : ''}$resultPoints',
+                  if (!isWinner)
+                    Text.rich(
+                      TextSpan(
+                        text: 'The secret number was: ',
+                        style: AppTextStyle().body,
+                        children: <TextSpan>[
+                          TextSpan(
+                            text: rival.number!.parseNumberListToString,
+                            style: AppTextStyle().body.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  LottieBuilder.asset(
+                    imageResult,
+                    height: isWinner ? 160 : 130,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset(AppImages.gamePoints, height: 20),
+                      const GutterTiny(),
+                      Text(
+                        '${isWinner ? '+' : ''}$resultPoints',
+                        style: AppTextStyle()
+                            .body
+                            .copyWith(fontWeight: FontWeight.bold),
+                      ),
+                    ],
                   ),
                 ],
               ),
@@ -148,7 +181,7 @@ class _GameScreenState extends State<GameScreen> {
                     context.goNamed(AppRoute.home.name);
                     context.read<GameCubit>().refresh();
                   },
-                  child: const Text('Close'),
+                  child: const Text('Accept'),
                 ),
               ],
             );

@@ -33,7 +33,7 @@ dependencies:
   spider: ^4.2.2
   supabase_flutter: ^2.6.0
 
-  uuid: ^4.5.0
+  uuid: ^4.5.1
 
   equatable: ^2.0.0
 

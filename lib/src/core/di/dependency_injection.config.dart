@@ -10,6 +10,7 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
+import 'package:my_app/src/core/di/modules/modules.dart' as _i560;
 import 'package:my_app/src/core/interceptor.dart' as _i330;
 import 'package:my_app/src/core/supabase/client.dart' as _i880;
 import 'package:my_app/src/features/auth/cubit/auth_cubit.dart' as _i992;
@@ -24,20 +25,26 @@ import 'package:my_app/src/features/ranking/data/ranking_repository.dart'
     as _i34;
 import 'package:my_app/src/features/splash/cubit/app_cubit.dart' as _i1038;
 import 'package:my_app/src/router/router.dart' as _i63;
+import 'package:shared_preferences/shared_preferences.dart' as _i460;
 import 'package:supabase_flutter/supabase_flutter.dart' as _i454;
 
 extension GetItInjectableX on _i174.GetIt {
 // initializes the registration of main-scope dependencies inside of GetIt
-  _i174.GetIt init({
+  Future<_i174.GetIt> init({
     String? environment,
     _i526.EnvironmentFilter? environmentFilter,
-  }) {
+  }) async {
     final gh = _i526.GetItHelper(
       this,
       environment,
       environmentFilter,
     );
+    final modules = _$Modules();
     final supabaseModule = _$SupabaseModule();
+    await gh.factoryAsync<_i460.SharedPreferences>(
+      () => modules.prefs,
+      preResolve: true,
+    );
     gh.singleton<_i330.SupabaseServiceImpl>(() => _i330.SupabaseServiceImpl());
     gh.lazySingleton<_i454.SupabaseClient>(() => supabaseModule.client);
     gh.singleton<_i427.AuthRepository>(
@@ -78,5 +85,7 @@ extension GetItInjectableX on _i174.GetIt {
     return this;
   }
 }
+
+class _$Modules extends _i560.Modules {}
 
 class _$SupabaseModule extends _i880.SupabaseModule {}

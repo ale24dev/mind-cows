@@ -81,7 +81,6 @@ class _SplashScreenState extends State<SplashScreen> {
             listenWhen: (previous, current) =>
                 previous.status != current.status,
             listener: (context, state) {
-              log('PlayerCubit: ${state.status}');
 
               if (state.status == PlayerStatus.success) {
                 if (gameCubit.state.player == null) {

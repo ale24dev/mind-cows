@@ -45,7 +45,6 @@ class PlayerCubit extends Cubit<PlayerState> {
                 state.copyWith(status: PlayerStatus.error),
               ), (player) {
         emit(state.copyWith(player: player, status: PlayerStatus.success));
-        log('Termine');
       });
     });
   }

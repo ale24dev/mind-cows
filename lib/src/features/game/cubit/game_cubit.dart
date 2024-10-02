@@ -27,7 +27,6 @@ class GameCubit extends Cubit<GameState> {
     this._gameRepository,
     this._playerRepository,
   ) : super(const GameState()) {
-    log('Initializing GameCubit...');
     _listenGame();
   }
 
@@ -59,7 +58,6 @@ class GameCubit extends Cubit<GameState> {
   void _listenGame() {
     final game = Game.empty();
     final myChannel = _client.channel('games_channel');
-    log('Game Database Changes Listen On');
 
     myChannel
         .onPostgresChanges(
@@ -245,5 +243,9 @@ class GameCubit extends Cubit<GameState> {
         game: null,
       ),
     );
+  }
+
+  void dispose() {
+    emit(const GameState());
   }
 }

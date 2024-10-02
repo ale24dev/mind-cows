@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
@@ -34,10 +36,7 @@ final class RouterController {
       initialLocation: currentSession.isNull ? '/auth' : '/splash',
       navigatorKey: rootNavigatorKey,
       redirect: (context, state) {
-        final routeName = _listenAuthChanges(_client, context);
-
-        log('Route: $routeName');
-        return routeName;
+        return null;
       },
       routes: [
         GoRoute(
@@ -108,21 +107,6 @@ final class RouterController {
 
   final SupabaseClient _client;
   late final GoRouter router;
-}
-
-String? _listenAuthChanges(SupabaseClient client, BuildContext context) {
-  String? route;
-  client.auth.onAuthStateChange.listen((authSupState) {
-    log('AAAAAA: ${authSupState.event}');
-    route = switch (authSupState.event) {
-      AuthChangeEvent.initialSession =>
-        authSupState.session.isNull ? AppRoute.auth.name : AppRoute.home.name,
-      AuthChangeEvent.signedIn => AppRoute.home.name,
-      AuthChangeEvent.signedOut => AppRoute.auth.name,
-      _ => null
-    };
-  });
-  return route;
 }
 
 /// Adaptive route that uses cupertino pages on iOS and macos, no transitions on web and material on the rest of the

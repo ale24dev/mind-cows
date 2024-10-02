@@ -9,6 +9,7 @@ import 'package:go_router/go_router.dart';
 import 'package:injectable/injectable.dart';
 import 'package:my_app/src/core/utils/object_extensions.dart';
 import 'package:my_app/src/features/auth/views/auth_screen.dart';
+import 'package:my_app/src/features/auth/views/signup_screen.dart';
 import 'package:my_app/src/features/game/game_screen.dart';
 import 'package:my_app/src/features/game/search_game_screen.dart';
 import 'package:my_app/src/features/home/home_screen.dart';
@@ -18,8 +19,9 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 enum AppRoute {
   splash,
-  initProfileData,
+  // initProfileData,
   auth,
+  signUp,
   home,
   game,
   searchGame,
@@ -60,6 +62,16 @@ final class RouterController {
           },
         ),
         GoRoute(
+          path: '/signUp',
+          name: AppRoute.signUp.name,
+          pageBuilder: (context, state) {
+            return adaptivePageRoute(
+              key: ValueKey(state.pageKey.value),
+              child: const SignUpScreen(),
+            );
+          },
+        ),
+        GoRoute(
           path: '/home',
           name: AppRoute.home.name,
           pageBuilder: (context, state) {
@@ -91,16 +103,16 @@ final class RouterController {
             ),
           ],
         ),
-        GoRoute(
-          path: '/init-profile-data',
-          name: AppRoute.initProfileData.name,
-          pageBuilder: (context, state) {
-            return adaptivePageRoute(
-              key: ValueKey(state.pageKey.value),
-              child: const LoadingProfileData(),
-            );
-          },
-        ),
+        // GoRoute(
+        //   path: '/init-profile-data',
+        //   name: AppRoute.initProfileData.name,
+        //   pageBuilder: (context, state) {
+        //     return adaptivePageRoute(
+        //       key: ValueKey(state.pageKey.value),
+        //       child: const LoadingProfileData(),
+        //     );
+        //   },
+        // ),
       ],
     );
   }

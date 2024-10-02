@@ -21,7 +21,7 @@ class LoadingProfileData extends StatefulWidget {
 class _LoadingProfileDataState extends State<LoadingProfileData> {
   @override
   Widget build(BuildContext context) {
-    final gameCubit = context.watch<GameCubit>();
+    final gameCubit = context.read<GameCubit>();
     log('LOADING PROFILE DATA');
     return Scaffold(
       body: BlocListener<PlayerCubit, PlayerState>(

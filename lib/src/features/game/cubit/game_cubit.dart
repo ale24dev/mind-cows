@@ -79,6 +79,11 @@ class GameCubit extends Cubit<GameState> {
                 payload.newRecord['player_number2'] as int?,
               );
 
+              final gameStatus = getGameStatusById(
+                state.listGameStatus,
+                payload.newRecord['status'] as int,
+              );
+
               if (checkIfPlayerIsInGame(playerNumber1, playerNumber2)) {
                 getLastGame();
               }
@@ -168,7 +173,12 @@ class GameCubit extends Cubit<GameState> {
       return false;
     }
 
-    emit(state.copyWith(stateStatus: GameStateStatus.cancel, game: null));
+    emit(
+      state.copyWith(
+        stateStatus: GameStateStatus.cancel,
+        game: oldState.game,
+      ),
+    );
 
     await Future.delayed(1.seconds, refresh);
     return success!;
@@ -216,17 +226,17 @@ class GameCubit extends Cubit<GameState> {
     emit(state.copyWith(listGameStatus: listGameStatus));
   }
 
-  Future<void> setUserPlayer(Player player) async{
+  Future<void> setUserPlayer(Player player) async {
     emit(state.copyWith(player: player));
 
     _listenPlayerNumberChanges();
   }
 
-  GameStatus getGameStatusByStatus(
+  GameStatus getGameStatusById(
     List<GameStatus> listGameStatus,
-    StatusEnum status,
+    int status,
   ) {
-    return listGameStatus.firstWhere((element) => element.status == status);
+    return listGameStatus.firstWhere((element) => element.id == status);
   }
 
   bool checkIfPlayerIsInGame(
@@ -238,8 +248,10 @@ class GameCubit extends Cubit<GameState> {
   }
 
   void refresh() {
-    emit(const GameState().copyWith(player: state.player));
-    _gameRepository.dispose();
+    emit(
+      const GameState()
+          .copyWith(player: state.player, listGameStatus: state.listGameStatus),
+    );
     getLastGame();
   }
 }

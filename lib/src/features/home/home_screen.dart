@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:my_app/src/features/game/cubit/game_cubit.dart';
 import 'package:my_app/src/features/home/widgets/user_header_info.dart';
+import 'package:my_app/src/features/ranking/cubit/ranking_cubit.dart';
 import 'package:my_app/src/features/ranking/leaderboard.dart';
 import 'package:my_app/src/features/home/widgets/search_game_section.dart';
 import 'package:my_app/src/router/router.dart';
@@ -20,7 +21,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     context.read<GameCubit>().getLastGame();
-
+    context.read<RankingCubit>().loadRanking();
     super.initState();
   }
 

@@ -7,6 +7,7 @@ import 'package:flutter_gutter/flutter_gutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
 import 'package:my_app/resources/resources.dart';
+import 'package:my_app/src/core/ui/typography.dart';
 import 'package:my_app/src/core/utils/object_extensions.dart';
 import 'package:my_app/src/features/game/cubit/game_cubit.dart';
 import 'package:my_app/src/features/player/cubit/player_cubit.dart';
@@ -47,6 +48,7 @@ class _SplashScreenState extends State<SplashScreen> {
     final gameCubit = context.read<GameCubit>();
 
     return Scaffold(
+      backgroundColor: Colors.white,
       body: MultiBlocListener(
         listeners: [
           BlocListener<AppCubit, AppState>(
@@ -81,7 +83,6 @@ class _SplashScreenState extends State<SplashScreen> {
             listenWhen: (previous, current) =>
                 previous.status != current.status,
             listener: (context, state) {
-
               if (state.status == PlayerStatus.success) {
                 if (gameCubit.state.player == null) {
                   context.read<GameCubit>().setUserPlayer(state.player!);
@@ -110,7 +111,10 @@ class _SplashScreenState extends State<SplashScreen> {
                       fit: BoxFit.cover,
                     ),
                     const GutterSmall(),
-                    const Text('Loading...'),
+                    Text(
+                      'Loading...',
+                      style: AppTextStyle().body.copyWith(color: Colors.black),
+                    ),
                   ],
                 ),
               );

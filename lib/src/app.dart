@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
         BlocProvider<PlayerCubit>(create: (_) => getIt.get()),
       ],
       child: MaterialApp.router(
-        theme: theme.light,
+        theme: theme.dark,
         darkTheme: theme.dark,
         routerConfig: RouterController(getIt.get()).router,
         localizationsDelegates: AppLocalizations.localizationsDelegates,

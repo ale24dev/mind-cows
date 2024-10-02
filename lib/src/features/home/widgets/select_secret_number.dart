@@ -66,8 +66,11 @@ class _SelectSecretNumberState extends State<SelectSecretNumber> {
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     return AlertDialog(
-      title:
-          Text('Select your secret number', style: AppTextStyle().dialogTitle),
+      title: Text(
+        'Select your secret number',
+        style:
+            AppTextStyle().dialogTitle.copyWith(color: colorScheme.onSurface),
+      ),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [

@@ -166,9 +166,10 @@ class _GameScreenState extends State<GameScreen> {
                       const GutterTiny(),
                       Text(
                         '${isWinner ? '+' : ''}$resultPoints',
-                        style: AppTextStyle()
-                            .body
-                            .copyWith(fontWeight: FontWeight.bold),
+                        style: AppTextStyle().body.copyWith(
+                              fontWeight: FontWeight.bold,
+                              color: Theme.of(context).colorScheme.onSurface,
+                            ),
                       ),
                     ],
                   ),

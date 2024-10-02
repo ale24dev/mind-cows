@@ -70,6 +70,7 @@ class VersusSection extends StatelessWidget {
             ),
             const Spacer(),
             IconButton(
+              color: Colors.black,
               onPressed: () {
                 _exitGame(context);
               },

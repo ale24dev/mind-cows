@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gutter/flutter_gutter.dart';
 import 'package:my_app/src/core/ui/theme.dart';
+import 'package:my_app/src/core/ui/typography.dart';
 import 'package:my_app/src/features/game/data/model/attempt.dart';
 
 class PlayNumberCard extends StatelessWidget {
@@ -16,7 +17,19 @@ class PlayNumberCard extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
       child: Row(
         children: [
-          Text(index.toString()),
+          Container(
+            decoration: BoxDecoration(
+              color: colorScheme.primary,
+              shape: BoxShape.circle,
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(10),
+              child: Text(
+                index.toString(),
+                style: AppTextStyle().body.copyWith(color: Colors.black),
+              ),
+            ),
+          ),
           const GutterLarge(),
           Expanded(
             child: Container(

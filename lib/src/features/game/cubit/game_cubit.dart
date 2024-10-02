@@ -79,11 +79,6 @@ class GameCubit extends Cubit<GameState> {
                 payload.newRecord['player_number2'] as int?,
               );
 
-              final gameStatus = getGameStatusById(
-                state.listGameStatus,
-                payload.newRecord['status'] as int,
-              );
-
               if (checkIfPlayerIsInGame(playerNumber1, playerNumber2)) {
                 getLastGame();
               }
@@ -132,10 +127,7 @@ class GameCubit extends Cubit<GameState> {
     });
   }
 
-  Future<void> findOrCreateGame(
-      // Player player,
-      ) async {
-    /// If the last game is already finished
+  Future<void> findOrCreateGame() async {
     if (!state.isGameFinished) return;
     emit(
       state.copyWith(
@@ -156,7 +148,6 @@ class GameCubit extends Cubit<GameState> {
   }
 
   Future<bool> cancelSearchGame(Player player) async {
-    final oldState = state;
     emit(state.copyWith(stateStatus: GameStateStatus.loading));
     final result = await _gameRepository.cancelSearchGame(player);
 
@@ -176,7 +167,6 @@ class GameCubit extends Cubit<GameState> {
     emit(
       state.copyWith(
         stateStatus: GameStateStatus.cancel,
-        game: oldState.game,
       ),
     );
 
@@ -249,9 +239,11 @@ class GameCubit extends Cubit<GameState> {
 
   void refresh() {
     emit(
-      const GameState()
-          .copyWith(player: state.player, listGameStatus: state.listGameStatus),
+      const GameState().copyWith(
+        player: state.player,
+        listGameStatus: state.listGameStatus,
+        game: null,
+      ),
     );
-    getLastGame();
   }
 }

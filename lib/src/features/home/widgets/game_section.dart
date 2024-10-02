@@ -69,6 +69,7 @@ class _GameSectionState extends State<GameSection> {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     final ownPlayerNumber = widget.game.getOwnPlayerNumber(player);
 
     if (ownPlayerNumber.isTurn && timer == null) {
@@ -86,9 +87,17 @@ class _GameSectionState extends State<GameSection> {
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              Text('Time left: ', style: AppTextStyle().body),
+              Text(
+                'Time left: ',
+                style: AppTextStyle().body.copyWith(
+                      color: colorScheme.onSurface,
+                    ),
+              ),
               Text(
                 '${(timeLeft ~/ 60).toString().padLeft(2, '0')}:${(timeLeft % 60).toString().padLeft(2, '0')}',
+                style: AppTextStyle().body.copyWith(
+                      color: colorScheme.onSurface,
+                    ),
               ),
             ],
           ),
@@ -110,12 +119,16 @@ class _PlayList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     return ListView(
       padding: EdgeInsets.zero,
       children: [
         Text(
           'Previous attempts'.toUpperCase(),
-          style: AppTextStyle().body.copyWith(fontWeight: FontWeight.w600),
+          style: AppTextStyle().body.copyWith(
+                fontWeight: FontWeight.w600,
+                color: colorScheme.onSurface,
+              ),
         ),
         const GutterSmall(),
         BlocBuilder<GameCubit, GameState>(
@@ -129,7 +142,16 @@ class _PlayList extends StatelessWidget {
             }
             return Column(
               children: state.listAttempts.isEmpty
-                  ? [const Text('No attempts')]
+                  ? [
+                      Center(
+                        child: Text(
+                          'No attempts',
+                          style: AppTextStyle().body.copyWith(
+                                color: colorScheme.onSurface,
+                              ),
+                        ),
+                      ),
+                    ]
                   : state.listAttempts.asMap().entries.map((entry) {
                       final index = state.listAttempts.length - entry.key;
                       final value = entry.value;

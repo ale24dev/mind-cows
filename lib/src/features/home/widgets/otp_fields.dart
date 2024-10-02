@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_app/src/core/ui/typography.dart';
 
 class OTPFields extends StatefulWidget {
   const OTPFields({
@@ -8,7 +9,6 @@ class OTPFields extends StatefulWidget {
     this.fieldWidth = 50,
     this.fieldHeight,
     this.margin = const EdgeInsets.symmetric(horizontal: 5),
-    this.borderFilledColor = Colors.black,
     this.allowRepetitions = true,
   });
 
@@ -17,7 +17,6 @@ class OTPFields extends StatefulWidget {
   final double fieldWidth;
   final double? fieldHeight;
   final EdgeInsets margin;
-  final Color borderFilledColor;
   final bool allowRepetitions;
 
   @override
@@ -86,6 +85,7 @@ class OTPFieldsState extends State<OTPFields> {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: List.generate(widget.length, (index) {
@@ -97,20 +97,23 @@ class OTPFieldsState extends State<OTPFields> {
             controller: controllers[index],
             focusNode: focusNodes[index],
             maxLength: 1,
+            style: AppTextStyle().body.copyWith(
+                  fontFamily: AppTextStyle.secondaryFontFamily,
+                  color: Theme.of(context).colorScheme.onSurface,
+                ),
             textAlign: TextAlign.center,
             keyboardType: TextInputType.number,
             decoration: InputDecoration(
+              fillColor: colorScheme.surfaceContainer,
               counterText: '',
               border: OutlineInputBorder(
                 borderSide: BorderSide(
-                  color:
-                      isFilled[index] ? widget.borderFilledColor : Colors.grey,
+                  color: isFilled[index] ? colorScheme.onSurface : Colors.grey,
                 ),
               ),
               enabledBorder: OutlineInputBorder(
                 borderSide: BorderSide(
-                  color:
-                      isFilled[index] ? widget.borderFilledColor : Colors.grey,
+                  color: isFilled[index] ? colorScheme.onSurface : Colors.grey,
                 ),
               ),
             ),

@@ -56,6 +56,7 @@ class _AuthScreenState extends State<AuthScreen> {
                 style: AppTextStyle().body.copyWith(
                       fontFamily: AppTextStyle.secondaryFontFamily,
                       fontSize: 30,
+                      color: Theme.of(context).colorScheme.onSurface,
                     ),
               ),
               const GutterLarge(),

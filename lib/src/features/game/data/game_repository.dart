@@ -26,7 +26,7 @@ class GameRepository extends GameDataSource {
       table: 'RPC create_game',
       request: () =>
           // _client.rpc('create_game', params: {'player_id': player.id}),
-          _client.rpc('find_or_create_game', params: {'player_id': player.id}),
+          _client.rpc('find_or_create_game', params: {'p_player_id': player.id}),
       queryOption: QueryOption.insert,
       fromJsonParse: Game.fromJson,
     );
@@ -94,7 +94,7 @@ class GameRepository extends GameDataSource {
     return _supabaseServiceImpl.query<bool>(
       table: 'RPC cancel_search_game',
       request: () =>
-          _client.rpc('cancel_search_game', params: {'player_id': player.id}),
+          _client.rpc('cancel_search_game', params: {'p_player_id': player.id}),
       queryOption: QueryOption.insert,
     );
   }

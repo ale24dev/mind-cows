@@ -34,6 +34,15 @@ class AuthRepository {
     }
   }
 
+  Future<Either<Exception, bool>> logout() async {
+    try {
+      await _client.auth.signOut();
+      return right(true);
+    } catch (e) {
+      return left(Exception('Error sign up'));
+    }
+  }
+
   Future<Either<AppException, bool>> refreshToken() async {
     try {
       final refreshToken = _client.auth.currentSession?.refreshToken;

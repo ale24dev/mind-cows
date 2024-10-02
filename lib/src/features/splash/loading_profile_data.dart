@@ -22,24 +22,22 @@ class _LoadingProfileDataState extends State<LoadingProfileData> {
   @override
   Widget build(BuildContext context) {
     final gameCubit = context.read<GameCubit>();
-    log('LOADING PROFILE DATA');
     return Scaffold(
       body: BlocListener<PlayerCubit, PlayerState>(
         listenWhen: (previous, current) => previous.status != current.status,
         listener: (context, state) {
-          log('PlayerCubit: ${state.status}');
 
           if (state.status == PlayerStatus.success) {
             if (gameCubit.state.player == null) {
               context.read<GameCubit>().setUserPlayer(state.player!);
             }
 
-            if (gameCubit.state.game.isNull) {
+            // if (gameCubit.state.game.isNull) {
               WidgetsFlutterBinding.ensureInitialized()
                   .addPostFrameCallback((_) {
                 context.goNamed(AppRoute.home.name);
               });
-            }
+            // }
           }
         },
         child: Center(

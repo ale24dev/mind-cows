@@ -1,14 +1,19 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:my_app/src/core/di/dependency_injection.dart';
+import 'package:my_app/src/core/utils/object_extensions.dart';
 import 'package:my_app/src/features/game/cubit/game_cubit.dart';
 import 'package:my_app/src/features/home/widgets/user_header_info.dart';
 import 'package:my_app/src/features/ranking/cubit/ranking_cubit.dart';
 import 'package:my_app/src/features/ranking/leaderboard.dart';
 import 'package:my_app/src/features/home/widgets/search_game_section.dart';
 import 'package:my_app/src/router/router.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -22,12 +27,28 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     context.read<GameCubit>().getLastGame();
     context.read<RankingCubit>().loadRanking();
+
+    getIt.get<SupabaseClient>().auth.onAuthStateChange.listen((authSupState) {
+      final route = switch (authSupState.event) {
+        AuthChangeEvent.initialSession =>
+          authSupState.session.isNull ? AppRoute.auth.name : AppRoute.home.name,
+        AuthChangeEvent.signedIn => AppRoute.home.name,
+        AuthChangeEvent.signedOut => AppRoute.auth.name,
+        _ => null
+      };
+      if (mounted) {
+        if (route != null) context.goNamed(route);
+
+        if (authSupState.event == AuthChangeEvent.signedOut) {
+          context.read<GameCubit>().dispose();
+        }
+      }
+    });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    log('HOME PAGE');
     return Scaffold(
       body: BlocBuilder<GameCubit, GameState>(
         builder: (context, state) {

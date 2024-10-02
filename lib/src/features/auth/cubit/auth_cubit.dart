@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
@@ -37,8 +35,8 @@ class AuthCubit extends Cubit<AuthState> {
           ),
         AuthChangeEvent.signedOut => emit(
             state.copyWith(
-              authStatus: AuthStatus.authenticated,
-              user: authSupState.session!.user,
+              authStatus: AuthStatus.success,
+              user: null,
             ),
           ),
         _ => emit(state),
@@ -76,7 +74,27 @@ class AuthCubit extends Cubit<AuthState> {
           errorMessage: 'Error signin',
         ),
       ),
-      (success) => emit(const AuthState(authStatus: AuthStatus.authenticated)),
+      (success) => emit(
+        const AuthState(
+          authStatus: AuthStatus.authenticated,
+        ),
+      ),
+    );
+  }
+
+  Future<void> logout() async {
+    emit(const AuthState(authStatus: AuthStatus.loading));
+
+    final result = await _authRepository.logout();
+
+    result.fold(
+      (error) => emit(
+        const AuthState(
+          authStatus: AuthStatus.error,
+          errorMessage: 'Error signin',
+        ),
+      ),
+      (success) => emit(const AuthState(authStatus: AuthStatus.success)),
     );
   }
 

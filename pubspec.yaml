@@ -31,7 +31,9 @@ dependencies:
 
   sized_context: ^1.0.0+4
   spider: ^4.2.2
+
   supabase_flutter: ^2.6.0
+  shared_preferences: ^2.3.2
 
   uuid: ^4.5.0
 

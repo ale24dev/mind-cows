@@ -106,6 +106,11 @@ class GameCubit extends Cubit<GameState> {
       (response) => response,
     );
 
+    if (game.isNotNull) {
+      _gameRepository.listenPresence(game!);
+      await _gameRepository.registerPresence(game, state.player!);
+    }
+
     if (state.isError) {
       emit(state.copyWith(stateStatus: GameStateStatus.error));
       return;

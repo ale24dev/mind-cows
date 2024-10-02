@@ -14,6 +14,12 @@ abstract class GameDataSource {
 
   Future<Either<AppException?, Game?>> getLastGame(Player player);
 
+  void registerPresence(Game game, Player player);
+
+  void listenPresence(Game game);
+
+  void dispose() {}
+
   Future<Either<AppException?, List<Attempt>?>> getAttemptsInGameByPlayer(
     Game game,
     Player player,

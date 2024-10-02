@@ -26,7 +26,6 @@ class _LoadingProfileDataState extends State<LoadingProfileData> {
       body: BlocListener<PlayerCubit, PlayerState>(
         listenWhen: (previous, current) => previous.status != current.status,
         listener: (context, state) {
-
           if (state.status == PlayerStatus.success) {
             if (gameCubit.state.player == null) {
               context.read<GameCubit>().setUserPlayer(state.player!);

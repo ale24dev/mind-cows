@@ -35,16 +35,23 @@ class RankCard extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 5),
           child: Row(
             children: [
-              Container(
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                  shape: BoxShape.circle,
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(12),
-                  child: Text(
-                    ranking.position.toString(),
-                    style: AppTextStyle().body.copyWith(color: Colors.black),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 4),
+                child: Container(
+                  height: 40,
+                  width: 40,
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+                    shape: BoxShape.circle,
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(2),
+                    child: Center(
+                      child: Text(
+                        ranking.position.toString(),
+                        style: AppTextStyle().body.copyWith(color: Colors.black),
+                      ),
+                    ),
                   ),
                 ),
               ),

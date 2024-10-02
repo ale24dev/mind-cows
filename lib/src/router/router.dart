@@ -31,7 +31,7 @@ final class RouterController {
     final currentSession = _client.auth.currentSession;
     router = GoRouter(
       debugLogDiagnostics: kDebugMode,
-      initialLocation: currentSession.isNull ? '/auth' : '/init-profile-data',
+      initialLocation: currentSession.isNull ? '/auth' : '/splash',
       navigatorKey: rootNavigatorKey,
       redirect: (context, state) {
         final routeName = _listenAuthChanges(_client, context);

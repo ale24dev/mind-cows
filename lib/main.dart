@@ -1,13 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:my_app/src/app.dart';
 import 'package:my_app/src/core/di/dependency_injection.dart';
-import 'package:my_app/src/features/auth/cubit/auth_cubit.dart';
-import 'package:my_app/src/features/game/cubit/game_cubit.dart';
-import 'package:my_app/src/features/player/cubit/player_cubit.dart';
-import 'package:my_app/src/features/ranking/cubit/ranking_cubit.dart';
-import 'package:my_app/src/features/splash/cubit/app_cubit.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 Future<void> main() async {
@@ -21,15 +15,6 @@ Future<void> main() async {
 
   configureDependencies();
   runApp(
-    MultiBlocProvider(
-      providers: [
-        BlocProvider<AppCubit>(create: (_) => getIt.get()),
-        BlocProvider<AuthCubit>(create: (_) => getIt.get()),
-        BlocProvider<GameCubit>(create: (_) => getIt.get()),
-        BlocProvider<PlayerCubit>(create: (_) => getIt.get()),
-        BlocProvider<RankingCubit>(create: (_) => getIt.get()..loadRanking()),
-      ],
-      child: const MyApp(),
-    ),
+    const MyApp(),
   );
 }

@@ -18,12 +18,6 @@ class LeaderboardWidget extends StatefulWidget {
 
 class _LeaderboardWidgetState extends State<LeaderboardWidget> {
   @override
-  void initState() {
-    context.read<RankingCubit>().loadRanking();
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     return BlocBuilder<RankingCubit, RankingState>(

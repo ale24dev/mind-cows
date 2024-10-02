@@ -44,15 +44,15 @@ extension GetItInjectableX on _i174.GetIt {
         () => _i427.AuthRepository(gh<_i454.SupabaseClient>()));
     gh.singleton<_i63.RouterController>(
         () => _i63.RouterController(gh<_i454.SupabaseClient>()));
+    gh.singleton<_i34.RankingRepository>(() => _i34.RankingRepository(
+          gh<_i330.SupabaseServiceImpl>(),
+          gh<_i454.SupabaseClient>(),
+        ));
     gh.singleton<_i34.GameRepository>(() => _i34.GameRepository(
           gh<_i330.SupabaseServiceImpl>(),
           gh<_i454.SupabaseClient>(),
         ));
     gh.singleton<_i406.PlayerRepository>(() => _i406.PlayerRepository(
-          gh<_i330.SupabaseServiceImpl>(),
-          gh<_i454.SupabaseClient>(),
-        ));
-    gh.singleton<_i34.RankingRepository>(() => _i34.RankingRepository(
           gh<_i330.SupabaseServiceImpl>(),
           gh<_i454.SupabaseClient>(),
         ));

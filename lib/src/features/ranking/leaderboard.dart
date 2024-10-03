@@ -3,9 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gutter/flutter_gutter.dart';
 import 'package:my_app/src/core/ui/typography.dart';
 import 'package:my_app/src/features/ranking/cubit/ranking_cubit.dart';
+import 'package:my_app/src/features/ranking/mocks/ranking_mocks.dart';
 import 'package:my_app/src/features/ranking/widgets/rank_card.dart';
 import 'package:my_app/src/features/ranking/widgets/top_three_players.dart';
 import 'package:sized_context/sized_context.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class LeaderboardWidget extends StatefulWidget {
   const LeaderboardWidget({
@@ -20,14 +22,18 @@ class _LeaderboardWidgetState extends State<LeaderboardWidget> {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
-    return BlocBuilder<RankingCubit, RankingState>(
-      builder: (context, state) {
-        if (state.isLoading) {
-          return const Center(child: CircularProgressIndicator.adaptive());
-        }
+    return BlocConsumer<RankingCubit, RankingState>(
+      listener: (context, state) {
         if (state.isError) {
-          return const Center(child: Text('Error'));
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Error'),
+            ),
+          );
         }
+      },
+      builder: (context, state) {
+        final rankings = state.isLoading ? rankingMock : state.ranking;
         return Column(
           children: [
             const GutterLarge(),
@@ -40,22 +46,28 @@ class _LeaderboardWidgetState extends State<LeaderboardWidget> {
                   ),
             ),
             const GutterSmall(),
-            TopThreePlayers(state.ranking),
+            Skeletonizer(
+              enabled: state.isLoading,
+              child: TopThreePlayers(rankings),
+            ),
             Expanded(
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: context.widthPx * .1),
                 child: Stack(
                   children: [
-                    ListView.builder(
-                      itemCount: state.ranking.length,
-                      itemBuilder: (context, index) {
-                        final ranking = state.ranking[index];
-                        if (index <= 2) return const SizedBox.shrink();
-                        return RankCard(
-                          colorScheme: colorScheme,
-                          ranking: ranking,
-                        );
-                      },
+                    Skeletonizer(
+                      enabled: state.isLoading,
+                      child: ListView.builder(
+                        itemCount: rankings.length,
+                        itemBuilder: (context, index) {
+                          final ranking = rankings[index];
+                          if (index <= 2) return const SizedBox.shrink();
+                          return RankCard(
+                            colorScheme: colorScheme,
+                            ranking: ranking,
+                          );
+                        },
+                      ),
                     ),
                     IgnorePointer(
                       child: Opacity(

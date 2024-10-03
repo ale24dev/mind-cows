@@ -111,3 +111,6 @@ app.*.map.json
 !.idea/dictionaries/
 !.idea/runConfigurations/
 .env
+scripts/fix_seed_sql.sh
+scripts/run_dump.sh
+Makefile

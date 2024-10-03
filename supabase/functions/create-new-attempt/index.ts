@@ -48,7 +48,7 @@ function countBullsAndCows(playerNumber: number[], opponentNumber: number[]) {
 // Función para verificar el game, player numbers, y actualizar el intento
 async function verifyAndInsertAttempt(supabase: any, gameId: number, playerId: number, p_number: number[]) {
   // Variables estáticas que representan las columnas en las consultas
-  const player = "id, username, avatar_url";
+  const player = "id, username, avatar_url, is_bot";
   const playerNumber = `id, player(${player}), number, time_left, is_turn, started_time`;
   const gameStatus = "id, status";
   const gameColumns = `
@@ -87,20 +87,24 @@ async function verifyAndInsertAttempt(supabase: any, gameId: number, playerId: n
     bulls, // Número de toros
     cows, // Número de vacas
   });
-  console.log("Opponent Player Number:", opponent);
-  console.log("Own Player Number:", ownPlayerNumber);
 
   // Intercambiar el turno de los jugadores
+  swapTurns(supabase, ownPlayerNumber, opponent, gameId);
+}
+
+// Función para intercambiar turnos y verificar si el oponente es un bot
+async function swapTurns(supabase: any, ownPlayerNumber: any, opponent: any, gameId: number) {
+  console.log("Starting turn swap...");
+
   if (ownPlayerNumber && opponent) {
+    console.log("Updating own player number...");
+
     // Asegúrate de que started_time sea un timestamp válido
-    console.log("ownPlayerNumber.started_time:", ownPlayerNumber.started_time);
     const startedTimeInMillis = new Date(ownPlayerNumber.started_time).getTime();
-    console.log("startedTimeInMillis:", startedTimeInMillis);
     const elapsedTime = Math.floor((Date.now() - startedTimeInMillis) / 1000); // Convertir a segundos
     const newTimeLeft = Math.max(ownPlayerNumber.time_left - elapsedTime, 0);
 
-    console.log("Elapsed Time:", elapsedTime);
-    console.log("newTimeLeft:", newTimeLeft);
+    console.log(`Elapsed time: ${elapsedTime}, New time left for own player: ${newTimeLeft}`);
 
     const { error: updateTimeLeftOwnPlayerError } = await supabase
       .from("player_number")
@@ -115,10 +119,13 @@ async function verifyAndInsertAttempt(supabase: any, gameId: number, playerId: n
     if (updateTimeLeftOwnPlayerError) {
       throw new Error(`Error updating own player time left: ${updateTimeLeftOwnPlayerError.message}`);
     }
+    console.log("Own player time left updated successfully.");
   } else {
-    console.error("started_time is not valid:", ownPlayerNumber.started_time);
     throw new Error("Invalid started_time value.");
   }
+
+  console.log("Updating opponent player number...");
+
   const { error: updateTimeLeftOpponentError } = await supabase
     .from("player_number")
     .update({
@@ -131,7 +138,62 @@ async function verifyAndInsertAttempt(supabase: any, gameId: number, playerId: n
   if (updateTimeLeftOpponentError) {
     throw new Error(`Error updating opponent time left: ${updateTimeLeftOpponentError.message}`);
   }
+  console.log("Opponent player time left updated successfully.");
+
+  // Verificar si el oponente es un bot
+  if (opponent.player.is_bot) {
+    console.log("Opponent is a bot, waiting for the bot's turn...");
+
+    // Insertar intento para el bot
+    const { error: botAttemptError } = await supabase.from("attempt").insert({
+      player: opponent.player.id,
+      game: gameId,
+      number: [], // Número vacío
+      bulls: 0, // Bulls para el bot
+      cows: 0, // Cows para el bot
+    });
+
+    if (botAttemptError) {
+      throw new Error(`Error inserting bot attempt: ${botAttemptError.message}`);
+    }
+    console.log("Bot attempt inserted successfully.");
+
+    // Esperar un tiempo aleatorio entre 10 y 30 segundos
+    const randomDelay = Math.floor(Math.random() * (30000 - 10000 + 1)) + 10000; // Entre 10 y 30 segundos
+    console.log(`Waiting for ${randomDelay / 1000} seconds for the bot's turn...`);
+    await new Promise((resolve) => setTimeout(resolve, randomDelay));
+
+    console.log("Reverting opponent turn...");
+    const { error: revertTurnError } = await supabase
+      .from("player_number")
+      .update({
+        is_turn: false,
+        started_time: null,
+      })
+      .eq("id", opponent.id);
+
+    if (revertTurnError) {
+      throw new Error(`Error reverting opponent turn: ${revertTurnError.message}`);
+    }
+    console.log("Opponent turn reverted successfully.");
+
+    console.log("Updating own turn after bot's turn...");
+
+    const { error: revertOwnTurnError } = await supabase
+      .from("player_number")
+      .update({
+        is_turn: true,
+        started_time: new Date().toISOString(),
+      })
+      .eq("id", ownPlayerNumber.id);
+
+    if (revertOwnTurnError) {
+      throw new Error(`Error reverting own turn: ${revertOwnTurnError.message}`);
+    }
+    console.log("Own turn updated successfully after bot's turn.");
+  }
 }
+
 // Servidor
 Deno.serve(async (req) => {
   try {

@@ -144,12 +144,16 @@ class _GameScreenState extends State<GameScreen> {
                     Text.rich(
                       TextSpan(
                         text: 'The secret number was: ',
-                        style: AppTextStyle().body,
+                        style: AppTextStyle().body.copyWith(
+                              color: Theme.of(context).colorScheme.onSurface,
+                            ),
                         children: <TextSpan>[
                           TextSpan(
                             text: rival.number!.parseNumberListToString,
                             style: AppTextStyle().body.copyWith(
                                   fontWeight: FontWeight.bold,
+                                  color:
+                                      Theme.of(context).colorScheme.onSurface,
                                 ),
                           ),
                         ],

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:fpdart/fpdart.dart';
 import 'package:injectable/injectable.dart';
 import 'package:my_app/src/core/exceptions.dart';
@@ -24,5 +26,26 @@ class RankingRepository extends RankingDatasource {
       queryOption: QueryOption.select,
       fromJsonParse: rankingsFromJson,
     );
+  }
+
+  @override
+  void listenRanking(
+    void Function() callback,
+  ) {
+    final myChannel = _client.channel('ranking_channel');
+    log('Ranking Database Changes Listen On');
+
+    myChannel
+        .onPostgresChanges(
+          event: PostgresChangeEvent.update,
+          schema: 'public',
+          table: 'ranking',
+          callback: (payload) {
+            log('Ranking Database change detected');
+
+            return callback();
+          },
+        )
+        .subscribe();
   }
 }

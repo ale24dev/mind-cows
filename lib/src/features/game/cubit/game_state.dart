@@ -26,5 +26,5 @@ class GameState with _$GameState {
       game.isNotNull && game!.isInSelectingSecretsNumbers;
   bool get isGameInProgress => game.isNotNull && game!.isInProgress;
   bool get isGameStarted => isInSelectingSecretsNumbers || isGameInProgress;
-  bool get isGameFinished => game.isNotNull && game!.isFinished;
+  bool get canCreateGame => game.isNull || (game.isNotNull && game!.isFinished);
 }

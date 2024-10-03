@@ -21,7 +21,7 @@ class RankingCubit extends Cubit<RankingState> {
 
   void loadRanking() {
     emit(state.copyWith(status: RankingStateStatus.loading));
-  
+
     _rankingRepository.getRanking().then((result) {
       result.fold(
         (error) => emit(state.copyWith(status: RankingStateStatus.error)),

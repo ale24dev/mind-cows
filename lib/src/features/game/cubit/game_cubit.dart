@@ -126,7 +126,7 @@ class GameCubit extends Cubit<GameState> {
   }
 
   Future<void> findOrCreateGame() async {
-    if (!state.isGameFinished) return;
+    if (!state.canCreateGame) return;
     emit(
       state.copyWith(
         stateStatus: GameStateStatus.searchingGame,

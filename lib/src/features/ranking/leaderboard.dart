@@ -78,10 +78,14 @@ class _LeaderboardWidgetState extends State<LeaderboardWidget> {
                               begin: Alignment.topCenter,
                               end: Alignment.bottomCenter,
                               colors: [
-                                colorScheme.primary.withOpacity(.05),
+                                colorScheme.primary,
+                                colorScheme.primary.withOpacity(0),
+                                colorScheme.primary.withOpacity(0),
                                 colorScheme.primary,
                               ],
                               stops: const [
+                                -5,
+                                0.2,
                                 0.5,
                                 1,
                               ],

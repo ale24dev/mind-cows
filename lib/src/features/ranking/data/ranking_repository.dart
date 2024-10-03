@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:developer';
 
 import 'package:fpdart/fpdart.dart';
@@ -6,6 +7,7 @@ import 'package:my_app/src/core/exceptions.dart';
 import 'package:my_app/src/core/interceptor.dart';
 import 'package:my_app/src/core/services/ranking_datasource.dart';
 import 'package:my_app/src/core/supabase/query_supabase.dart';
+import 'package:my_app/src/core/ui/extensions.dart';
 import 'package:my_app/src/features/ranking/data/model/ranking.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -15,6 +17,8 @@ class RankingRepository extends RankingDatasource {
 
   final SupabaseServiceImpl _supabaseServiceImpl;
   final SupabaseClient _client;
+  Timer? _debounceTimer;
+
   @override
   Future<Either<AppException?, List<Ranking>?>> getRanking() async {
     return _supabaseServiceImpl.query<List<Ranking>>(
@@ -43,7 +47,19 @@ class RankingRepository extends RankingDatasource {
           callback: (payload) {
             log('Ranking Database change detected');
 
-            return callback();
+            // Si no hay debounce activo, ejecuta inmediatamente
+            if (_debounceTimer == null || !_debounceTimer!.isActive) {
+              callback(); // Ejecuta el callback inmediatamente
+            }
+
+            // Cancelar el temporizador anterior si existe
+            _debounceTimer?.cancel();
+
+            // Iniciar un nuevo temporizador de debounce
+            _debounceTimer = Timer(5.seconds, () {
+              log('5 segundos de inactividad, reiniciando debounce');
+              // Aquí puedes realizar acciones adicionales si es necesario.
+            });
           },
         )
         .subscribe();

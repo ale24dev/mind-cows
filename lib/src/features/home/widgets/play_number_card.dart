@@ -18,12 +18,13 @@ class PlayNumberCard extends StatelessWidget {
       child: Row(
         children: [
           Container(
+            height: 30,
+            width: 30,
             decoration: BoxDecoration(
               color: colorScheme.primary,
               shape: BoxShape.circle,
             ),
-            child: Padding(
-              padding: const EdgeInsets.all(10),
+            child: Center(
               child: Text(
                 index.toString(),
                 style: AppTextStyle().body.copyWith(color: Colors.black),
@@ -72,14 +73,13 @@ class _NumberPlay extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 5),
       child: Container(
+        height: 45,
+        width: 30,
         decoration: BoxDecoration(
           border: Border.all(color: Theme.of(context).colorScheme.primary),
           borderRadius: BorderRadius.circular(5),
         ),
-        child: Padding(
-          padding: const EdgeInsets.all(8),
-          child: Text(number),
-        ),
+        child: Center(child: Text(number)),
       ),
     );
   }

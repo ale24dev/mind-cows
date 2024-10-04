@@ -38,10 +38,13 @@ class GameCubit extends Cubit<GameState> {
   void _listenPlayerNumberChanges() {
     _playerRepository.listenPlayerNumberChanges(state.player!.id,
         (callbackData) {
-      final (isTurn, timeLeft) = callbackData;
-      final ownPlayerNumber = state.game!
-          .getOwnPlayerNumber(state.player!)
-          .copyWith(isTurn: isTurn, timeLeft: timeLeft);
+      final ownPlayerNumber =
+          state.game!.getOwnPlayerNumber(state.player!).copyWith(
+                isTurn: callbackData.isTurn,
+                // timeLeft: timeLeft,
+                startedTime: callbackData.startedTime,
+                finishTime: callbackData.finishTime,
+              );
 
       final game = state.game!.copyWith(
         playerNumber1: state.game!.playerNumber1!.id == ownPlayerNumber.id
@@ -116,6 +119,8 @@ class GameCubit extends Cubit<GameState> {
       return;
     }
 
+    await getServerTime();
+
     emit(state.copyWith(stateStatus: GameStateStatus.success, game: game));
 
     await Future.delayed(Duration.zero, () {
@@ -139,6 +144,19 @@ class GameCubit extends Cubit<GameState> {
         (game) {
           emit(
             state.copyWith(stateStatus: GameStateStatus.success, game: game),
+          );
+        },
+      );
+    });
+  }
+
+  Future<void> getServerTime() async {
+    await _gameRepository.getServerTime().then((value) {
+      value.fold(
+        (error) => emit(state.copyWith(stateStatus: GameStateStatus.error)),
+        (time) {
+          emit(
+            state.copyWith(serverTime: time),
           );
         },
       );

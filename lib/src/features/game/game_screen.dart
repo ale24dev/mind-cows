@@ -44,7 +44,7 @@ class _GameScreenState extends State<GameScreen> {
           return Column(
             children: [
               VersusSection(game: state.game!),
-              Expanded(child: GameSection(game: state.game!)),
+              Expanded(child: GameSection(gameState: state)),
             ],
           );
         },

@@ -26,7 +26,8 @@ class GameRepository extends GameDataSource {
       table: 'RPC create_game',
       request: () =>
           // _client.rpc('create_game', params: {'player_id': player.id}),
-          _client.rpc('find_or_create_game', params: {'p_player_id': player.id}),
+          _client
+              .rpc('find_or_create_game', params: {'p_player_id': player.id}),
       queryOption: QueryOption.insert,
       fromJsonParse: Game.fromJson,
     );
@@ -97,5 +98,19 @@ class GameRepository extends GameDataSource {
           _client.rpc('cancel_search_game', params: {'p_player_id': player.id}),
       queryOption: QueryOption.insert,
     );
+  }
+
+  @override
+  Future<Either<AppException?, DateTime?>> getServerTime() async {
+    final response = await _supabaseServiceImpl.query<String>(
+      table: 'RPC get_server_time',
+      request: () => _client.rpc('get_server_time'),
+      queryOption: QueryOption.select,
+    );
+
+    return response.fold(left, (time) {
+      final dateTime = DateTime.parse(time!);
+      return right(dateTime);
+    });
   }
 }

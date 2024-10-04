@@ -1,9 +1,9 @@
 import 'dart:async';
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:my_app/src/core/extensions/string.dart';
-import 'package:my_app/src/core/utils/object_extensions.dart';
-import 'package:my_app/src/features/game/game_screen.dart';
 import 'package:my_app/src/features/player/cubit/player_cubit.dart';
 import 'package:my_app/src/features/player/data/model/player.dart';
 import 'package:my_app/src/features/game/data/model/game.dart';
@@ -17,66 +17,52 @@ import 'package:my_app/src/features/game/data/model/attempt.dart';
 import 'package:flutter_gutter/flutter_gutter.dart';
 import 'package:my_app/src/core/utils/utils.dart';
 
-class GameSection extends StatefulWidget {
-  const GameSection({required this.game, super.key});
+class GameSection extends HookWidget {
+  const GameSection({required this.gameState, super.key});
 
-  final Game game;
-
-  @override
-  State<GameSection> createState() => _GameSectionState();
-}
-
-class _GameSectionState extends State<GameSection> {
-  late Player player;
-  late Player rival;
-  late int timeLeft;
-  Timer? timer;
-
-  @override
-  void initState() {
-    super.initState();
-    player = context.read<PlayerCubit>().state.player!;
-    rival = widget.game.getRivalPlayerNumber(player).player;
-    final ownPlayerNumber = widget.game.getOwnPlayerNumber(player);
-    timeLeft = ownPlayerNumber.timeLeft;
-    if (ownPlayerNumber.isTurn) {
-      startTimer(rival);
-    }
-  }
-
-  void startTimer(Player playerWinner) {
-    timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      setState(() {
-        if (timeLeft > 0) {
-          timeLeft--;
-        } else {
-          timer.cancel();
-        }
-      });
-    });
-  }
-
-  void stopTimer() {
-    timer?.cancel();
-    timer = null;
-  }
-
-  @override
-  void dispose() {
-    stopTimer();
-    super.dispose();
-  }
+  final GameState gameState;
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-    final ownPlayerNumber = widget.game.getOwnPlayerNumber(player);
+    final player = context.read<PlayerCubit>().state.player!;
+    final game = gameState.game!;
+    final rival = game.getRivalPlayerNumber(player).player;
+    final ownPlayerNumber = game.getOwnPlayerNumber(player);
 
-    if (ownPlayerNumber.isTurn && timer == null) {
-      startTimer(rival);
-    } else if (!ownPlayerNumber.isTurn && timer != null) {
-      stopTimer();
-    }
+    final initialTimeLeft = useState<int>(
+      calculateInitialTimeLeft(
+        ownPlayerNumber.startedTime,
+        ownPlayerNumber.finishTime,
+      ),
+    );
+
+    final isFirstRender = useState<bool>(true);
+
+    useEffect(
+      () {
+        Timer? timer;
+        if (ownPlayerNumber.isTurn) {
+          if (isFirstRender.value) {
+            initialTimeLeft.value = calculateInitialTimeLeft(
+              ownPlayerNumber.startedTime,
+              ownPlayerNumber.finishTime,
+            );
+            isFirstRender.value = false;
+          }
+          timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+            if (initialTimeLeft.value > 0) {
+              initialTimeLeft.value--;
+            } else {
+              timer.cancel();
+            }
+          });
+        }
+        return timer?.cancel;
+      },
+      [ownPlayerNumber.isTurn],
+    );
+
+    final colorScheme = Theme.of(context).colorScheme;
 
     return Padding(
       padding: context.responsiveContentPadding,
@@ -94,7 +80,7 @@ class _GameSectionState extends State<GameSection> {
                     ),
               ),
               Text(
-                '${(timeLeft ~/ 60).toString().padLeft(2, '0')}:${(timeLeft % 60).toString().padLeft(2, '0')}',
+                '${(initialTimeLeft.value ~/ 60).toString().padLeft(2, '0')}:${(initialTimeLeft.value % 60).toString().padLeft(2, '0')}',
                 style: AppTextStyle().body.copyWith(
                       color: colorScheme.onSurface,
                     ),
@@ -104,13 +90,43 @@ class _GameSectionState extends State<GameSection> {
           const Expanded(child: _PlayList()),
           const Gutter(),
           _SendNumberSection(
-            game: widget.game,
+            game: game,
             canSendNumber: ownPlayerNumber.isTurn,
           ),
           const GutterLarge(),
         ],
       ),
     );
+  }
+
+  int calculateInitialTimeLeft(DateTime? startedTime, DateTime? finishedTime) {
+    // Retorna 0 si no hay tiempo para calcular
+    if (startedTime == null || finishedTime == null) {
+      return 0;
+    }
+
+    // Obtén el tiempo actual del servidor
+    final currentTime = gameState.serverTime ??
+        DateTime.now(); // Usa el servidor, o la hora local como respaldo
+
+    // Asegúrate de que ambas horas están en UTC
+    final currentTimeUtc = currentTime.toUtc();
+    final finishedTimeUtc = finishedTime.toUtc();
+
+    // Lógica para verificar si el tiempo actual ha pasado el tiempo final
+    if (currentTimeUtc.isAfter(finishedTimeUtc)) {
+      return 0; // Retorna 0 si el tiempo ha pasado
+    }
+
+    log('finishedTime: $finishedTimeUtc');
+    log('currentTime: $currentTimeUtc');
+
+    // Calcula la diferencia en segundos
+    final timeLeft = finishedTimeUtc.difference(currentTimeUtc).inSeconds;
+
+    log('Initial time left: $timeLeft seconds');
+
+    return timeLeft;
   }
 }
 
@@ -169,7 +185,6 @@ class _SendNumberSection extends StatefulWidget {
   const _SendNumberSection({required this.game, required this.canSendNumber});
 
   final Game game;
-
   final bool canSendNumber;
 
   @override
@@ -209,7 +224,7 @@ class __SendNumberSectionState extends State<_SendNumberSection> {
                   if (!isValidNumber) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
-                        content: Text('Introduce a valid number'),
+                        content: Text('Introduce un número válido'),
                         backgroundColor: Colors.red,
                       ),
                     );

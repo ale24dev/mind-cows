@@ -20,4 +20,6 @@ abstract class GameDataSource {
   );
 
   Future<Either<AppException?, void>> insertAttempt(Attempt attempt);
+
+  Future<Either<AppException?, DateTime?>> getServerTime();
 }

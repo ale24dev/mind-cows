@@ -113,4 +113,16 @@ class GameRepository extends GameDataSource {
       return right(dateTime);
     });
   }
+
+  @override
+  Future<Either<AppException?, void>> surrenderGame(Game game, Player player) {
+    return _supabaseServiceImpl.query<void>(
+      table: 'RPC surrender_game',
+      request: () => _client.rpc(
+        'surrender_game',
+        params: {'game_id': game.id, 'surrendering_player_id': player.id},
+      ),
+      queryOption: QueryOption.select,
+    );
+  }
 }

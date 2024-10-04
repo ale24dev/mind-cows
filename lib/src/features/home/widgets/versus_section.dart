@@ -88,7 +88,7 @@ class VersusSection extends StatelessWidget {
       builder: (context) {
         return AlertDialog.adaptive(
           title: const Text('Are you sure?'),
-          content: const Text('Do you want to exit the game?'),
+          content: const Text('Do you want to surrender the game?'),
           actions: [
             TextButton(
               onPressed: () {
@@ -98,7 +98,7 @@ class VersusSection extends StatelessWidget {
             ),
             TextButton(
               onPressed: () {
-                context.read<GameCubit>().refresh();
+                context.read<GameCubit>().surrender();
                 Navigator.of(context).pop();
               },
               child: const Text('Yes'),

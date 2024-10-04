@@ -68,11 +68,6 @@ class OTPFieldsState extends State<OTPFields> {
     widget.onChanged(otp);
   }
 
-  // bool _hasRepetitions(List<String> values) {
-  //   final uniqueValues = values.where((e) => e.isNotEmpty).toSet();
-  //   return uniqueValues.length != values.where((e) => e.isNotEmpty).length;
-  // }
-
   void clearFields() {
     setState(() {
       for (var i = 0; i < widget.length; i++) {
@@ -81,6 +76,8 @@ class OTPFieldsState extends State<OTPFields> {
         isFilled[i] = false;
       }
     });
+    // Llevar el foco al primer campo de texto
+    FocusScope.of(context).requestFocus(focusNodes[0]);
   }
 
   @override

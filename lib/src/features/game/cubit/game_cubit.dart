@@ -150,6 +150,21 @@ class GameCubit extends Cubit<GameState> {
     });
   }
 
+  Future<void> surrender() async {
+    await _gameRepository
+        .surrenderGame(state.game!, state.player!)
+        .then((value) {
+      value.fold(
+        (error) => emit(state.copyWith(stateStatus: GameStateStatus.error)),
+        (_) {
+          emit(
+            state.copyWith(stateStatus: GameStateStatus.success),
+          );
+        },
+      );
+    });
+  }
+
   Future<void> getServerTime() async {
     await _gameRepository.getServerTime().then((value) {
       value.fold(

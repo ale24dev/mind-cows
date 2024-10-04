@@ -22,4 +22,9 @@ abstract class GameDataSource {
   Future<Either<AppException?, void>> insertAttempt(Attempt attempt);
 
   Future<Either<AppException?, DateTime?>> getServerTime();
+
+  Future<Either<AppException?, void>> surrenderGame(
+    Game game,
+    Player player,
+  );
 }

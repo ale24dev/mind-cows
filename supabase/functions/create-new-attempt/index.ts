@@ -49,7 +49,7 @@ function countBullsAndCows(playerNumber: number[], opponentNumber: number[]) {
 async function verifyAndInsertAttempt(supabase: any, gameId: number, playerId: number, p_number: number[]) {
   // Variables estáticas que representan las columnas en las consultas
   const player = "id, username, avatar_url, is_bot";
-  const playerNumber = `id, player(${player}), number, time_left, is_turn, started_time`;
+  const playerNumber = `id, player(${player}), number, time_left, is_turn, started_time, attempts_to_win`;
   const gameStatus = "id, status";
   const gameColumns = `
   id, status!inner(${gameStatus}), player_number1!inner(${playerNumber}), player_number2!inner(${playerNumber}), winner(${player})
@@ -169,6 +169,7 @@ async function swapTurns(supabase: any, ownPlayerNumber: any, opponent: any, gam
       .update({
         is_turn: false,
         started_time: new Date().toISOString(),
+        attempts_to_win: opponent.attempts_to_win - 1
       })
       .eq("id", opponent.id);
 

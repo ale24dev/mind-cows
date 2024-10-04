@@ -110,8 +110,8 @@ async function swapTurns(supabase: any, ownPlayerNumber: any, opponent: any, gam
       .from("player_number")
       .update({
         is_turn: false,
-        started_time: null,
-        time_left: newTimeLeft, // Asegurarse de que no sea null
+        started_time: new Date().toISOString(),
+        // time_left: newTimeLeft, // Asegurarse de que no sea null
       })
       .eq("id", ownPlayerNumber.id);
 
@@ -130,7 +130,7 @@ async function swapTurns(supabase: any, ownPlayerNumber: any, opponent: any, gam
     .from("player_number")
     .update({
       is_turn: true,
-      started_time: new Date().toISOString(),
+      // started_time: new Date().toISOString(),
     })
     .eq("id", opponent.id);
 
@@ -168,7 +168,7 @@ async function swapTurns(supabase: any, ownPlayerNumber: any, opponent: any, gam
       .from("player_number")
       .update({
         is_turn: false,
-        started_time: null,
+        started_time: new Date().toISOString(),
       })
       .eq("id", opponent.id);
 
@@ -183,7 +183,7 @@ async function swapTurns(supabase: any, ownPlayerNumber: any, opponent: any, gam
       .from("player_number")
       .update({
         is_turn: true,
-        started_time: new Date().toISOString(),
+        // started_time: new Date().toISOString(),
       })
       .eq("id", ownPlayerNumber.id);
 

@@ -12,12 +12,15 @@ class PlayerNumber extends Equatable with TableInterface {
     required this.player,
     required this.isTurn,
     required this.timeLeft,
+    this.startedTime,
+    this.finishTime,
     this.number,
   });
 
   factory PlayerNumber.empty() => PlayerNumber(
         id: 0,
         player: Player.empty(),
+        startedTime: DateTime.now(),
         number: const [],
         isTurn: false,
         timeLeft: 0,
@@ -29,6 +32,12 @@ class PlayerNumber extends Equatable with TableInterface {
   final Player player;
   final bool isTurn;
   final int timeLeft;
+
+  /// Started time of the turn
+  final DateTime? startedTime;
+
+  /// Finished time of the turn
+  final DateTime? finishTime;
   final List<int>? number;
 
   @override
@@ -52,6 +61,8 @@ extension PlayerNumberX on PlayerNumber {
     List<int>? number,
     bool? isTurn,
     int? timeLeft,
+    DateTime? startedTime,
+    DateTime? finishTime,
   }) {
     return PlayerNumber(
       id: id ?? this.id,
@@ -59,6 +70,8 @@ extension PlayerNumberX on PlayerNumber {
       number: number ?? this.number,
       isTurn: isTurn ?? this.isTurn,
       timeLeft: timeLeft ?? this.timeLeft,
+      startedTime: startedTime ?? this.startedTime,
+      finishTime: finishTime ?? this.finishTime,
     );
   }
 

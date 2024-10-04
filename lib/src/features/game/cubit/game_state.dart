@@ -11,6 +11,7 @@ class GameState with _$GameState {
     @Default([]) final List<Attempt> listAttempts,
     @Default(false) final bool selectSecretNumberShowed,
     Player? player,
+    DateTime? serverTime,
   }) = _GameState;
   const GameState._();
 

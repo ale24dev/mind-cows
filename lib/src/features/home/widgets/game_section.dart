@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:my_app/src/core/extensions/string.dart';
+import 'package:my_app/src/features/game/domain/mocks/attempt_mock.dart';
 import 'package:my_app/src/features/player/cubit/player_cubit.dart';
-import 'package:my_app/src/features/player/data/model/player.dart';
 import 'package:my_app/src/features/game/data/model/game.dart';
 import 'package:my_app/src/features/game/widgets/game_turn_widget.dart';
 import 'package:my_app/src/core/ui/typography.dart';
@@ -16,6 +16,7 @@ import 'package:my_app/src/features/game/cubit/game_cubit.dart';
 import 'package:my_app/src/features/game/data/model/attempt.dart';
 import 'package:flutter_gutter/flutter_gutter.dart';
 import 'package:my_app/src/core/utils/utils.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class GameSection extends HookWidget {
   const GameSection({required this.gameState, super.key});
@@ -26,7 +27,7 @@ class GameSection extends HookWidget {
   Widget build(BuildContext context) {
     final player = context.read<PlayerCubit>().state.player!;
     final game = gameState.game!;
-    final rival = game.getRivalPlayerNumber(player).player;
+    // final rival = game.getRivalPlayerNumber(player).player;
     final ownPlayerNumber = game.getOwnPlayerNumber(player);
 
     final initialTimeLeft = useState<int>(
@@ -149,30 +150,33 @@ class _PlayList extends StatelessWidget {
         const GutterSmall(),
         BlocBuilder<GameCubit, GameState>(
           builder: (context, state) {
-            if (state.isLoading) {
-              return const Center(child: CircularProgressIndicator());
-            }
-
             if (state.isError) {
               // log('Error');
             }
-            return Column(
-              children: state.listAttempts.isEmpty
-                  ? [
-                      Center(
-                        child: Text(
-                          'No attempts',
-                          style: AppTextStyle().body.copyWith(
-                                color: colorScheme.onSurface,
-                              ),
+
+            final attempts = state.isLoading
+                ? getAttemptsMock(state.listAttempts.length + 1)
+                : state.listAttempts;
+            return Skeletonizer(
+              enabled: state.isLoading,
+              child: Column(
+                children: attempts.isEmpty
+                    ? [
+                        Center(
+                          child: Text(
+                            'No attempts',
+                            style: AppTextStyle().body.copyWith(
+                                  color: colorScheme.onSurface,
+                                ),
+                          ),
                         ),
-                      ),
-                    ]
-                  : state.listAttempts.asMap().entries.map((entry) {
-                      final index = state.listAttempts.length - entry.key;
-                      final value = entry.value;
-                      return PlayNumberCard(attempt: value, index: index);
-                    }).toList(),
+                      ]
+                    : attempts.asMap().entries.map((entry) {
+                        final index = attempts.length - entry.key;
+                        final value = entry.value;
+                        return PlayNumberCard(attempt: value, index: index);
+                      }).toList(),
+              ),
             );
           },
         ),

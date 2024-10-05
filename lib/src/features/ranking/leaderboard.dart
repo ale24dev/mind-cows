@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gutter/flutter_gutter.dart';
+import 'package:my_app/l10n/l10n.dart';
 import 'package:my_app/src/core/ui/typography.dart';
 import 'package:my_app/src/features/ranking/cubit/ranking_cubit.dart';
 import 'package:my_app/src/features/ranking/mocks/ranking_mocks.dart';
@@ -26,8 +27,8 @@ class _LeaderboardWidgetState extends State<LeaderboardWidget> {
       listener: (context, state) {
         if (state.isError) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Error'),
+            SnackBar(
+              content: Text(context.l10n.anErrorOccurred),
             ),
           );
         }
@@ -38,7 +39,7 @@ class _LeaderboardWidgetState extends State<LeaderboardWidget> {
           children: [
             const GutterLarge(),
             Text(
-              'Leaderboard',
+              context.l10n.leaderboard,
               style: AppTextStyle().bodyLarge.copyWith(
                     fontWeight: FontWeight.w600,
                     fontSize: 35,

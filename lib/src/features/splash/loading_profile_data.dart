@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gutter/flutter_gutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
+import 'package:my_app/l10n/l10n.dart';
 import 'package:my_app/resources/resources.dart';
 import 'package:my_app/src/core/utils/object_extensions.dart';
 import 'package:my_app/src/features/game/cubit/game_cubit.dart';
@@ -49,7 +50,7 @@ class _LoadingProfileDataState extends State<LoadingProfileData> {
                 fit: BoxFit.cover,
               ),
               const GutterSmall(),
-              const Text('Loading...'),
+              Text(context.l10n.loading),
             ],
           ),
         ),

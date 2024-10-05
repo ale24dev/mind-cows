@@ -1,8 +1,8 @@
 import 'dart:async';
-import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gutter/flutter_gutter.dart';
+import 'package:my_app/l10n/l10n.dart';
 import 'package:my_app/src/core/extensions/string.dart';
 import 'package:my_app/src/core/ui/typography.dart';
 import 'package:my_app/src/core/utils/utils.dart';
@@ -67,7 +67,7 @@ class _SelectSecretNumberState extends State<SelectSecretNumber> {
     final colorScheme = Theme.of(context).colorScheme;
     return AlertDialog(
       title: Text(
-        'Select your secret number',
+        context.l10n.selectSecretNumber,
         style:
             AppTextStyle().dialogTitle.copyWith(color: colorScheme.onSurface),
       ),
@@ -79,7 +79,7 @@ class _SelectSecretNumberState extends State<SelectSecretNumber> {
           ),
           const SizedBox(height: 16),
           Text(
-            'Time remaining: $_start seconds',
+            context.l10n.timeRemaining(_start),
             style: AppTextStyle().body.copyWith(
                   fontWeight: FontWeight.w600,
                   color: _start <= 10 ? Colors.red : colorScheme.onSurface,
@@ -88,7 +88,7 @@ class _SelectSecretNumberState extends State<SelectSecretNumber> {
           const GutterSmall(),
           Text(
             textAlign: TextAlign.center,
-            "Note: If you don't select a number in the time you will lose the game",
+            context.l10n.note,
             style:
                 AppTextStyle().body.copyWith(color: Colors.red, fontSize: 12),
           ),
@@ -97,7 +97,7 @@ class _SelectSecretNumberState extends State<SelectSecretNumber> {
             loading: context.read<PlayerCubit>().state.isLoading,
             width: double.infinity,
             widget: Text(
-              'Send',
+              context.l10n.send,
               style: AppTextStyle().body.copyWith(color: Colors.white),
             ),
             onPressed: secretNumber.length != 4
@@ -107,8 +107,8 @@ class _SelectSecretNumberState extends State<SelectSecretNumber> {
                         Utils.isValidPlayerNumber(secretNumber);
                     if (!isValidNumber) {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Introduce a valid number'),
+                        SnackBar(
+                          content: Text(context.l10n.introduceValidNumber),
                           backgroundColor: Colors.red,
                         ),
                       );

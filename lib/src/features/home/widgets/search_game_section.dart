@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gutter/flutter_gutter.dart';
 import 'package:go_router/go_router.dart';
+import 'package:my_app/l10n/l10n.dart';
 import 'package:my_app/src/core/ui/theme.dart';
 import 'package:my_app/src/core/ui/typography.dart';
 import 'package:my_app/src/features/auth/cubit/auth_cubit.dart';
@@ -47,7 +48,7 @@ class _SearchGameSectionState extends State<SearchGameSection> {
                         const Icon(Icons.logout),
                         const GutterTiny(),
                         Text(
-                          'Exit',
+                          context.l10n.logout,
                           style: AppTextStyle().body.copyWith(
                                 color: Theme.of(context).colorScheme.onSurface,
                               ),
@@ -75,7 +76,7 @@ class _SearchGameSectionState extends State<SearchGameSection> {
                             const Icon(Icons.play_arrow, color: Colors.white),
                             const GutterTiny(),
                             Text(
-                              'Play',
+                              context.l10n.play,
                               style: AppTextStyle()
                                   .textButton
                                   .copyWith(color: Colors.white),
@@ -100,15 +101,15 @@ class _SearchGameSectionState extends State<SearchGameSection> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Confirm Logout'),
-          content: const Text('Are you sure you want to logout?'),
+          title: Text(context.l10n.confirmLogout),
+          content: Text(context.l10n.logoutConfirmation),
           actions: <Widget>[
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
               child: Text(
-                'Cancel',
+                context.l10n.cancel,
                 style: AppTextStyle().textButton.copyWith(color: Colors.white),
               ),
             ),
@@ -118,7 +119,7 @@ class _SearchGameSectionState extends State<SearchGameSection> {
                 context.read<AuthCubit>().logout();
               },
               child: Text(
-                'Logout',
+                context.l10n.logout,
                 style: AppTextStyle()
                     .textButton
                     .copyWith(color: Theme.of(context).colorScheme.primary),

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gutter/flutter_gutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
+import 'package:my_app/l10n/l10n.dart';
 import 'package:my_app/resources/resources.dart';
 import 'package:my_app/src/core/ui/typography.dart';
 import 'package:my_app/src/core/utils/widgets/generic_button.dart';
@@ -46,7 +47,7 @@ class _SearchGameScreenState extends State<SearchGameScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  'Searching for players',
+                  context.l10n.searchingForPlayers,
                   textAlign: TextAlign.center,
                   style: AppTextStyle().bodyLarge.copyWith(
                         color: Theme.of(context).colorScheme.onSurface,
@@ -63,7 +64,7 @@ class _SearchGameScreenState extends State<SearchGameScreen> {
                     padding:
                         const EdgeInsets.symmetric(vertical: 5, horizontal: 20),
                     child: Text(
-                      'Cancel',
+                      context.l10n.cancel,
                       style: AppTextStyle().body.copyWith(color: Colors.white),
                     ),
                   ),

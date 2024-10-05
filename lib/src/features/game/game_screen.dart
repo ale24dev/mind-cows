@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gutter/flutter_gutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
+import 'package:my_app/l10n/l10n.dart';
 import 'package:my_app/resources/resources.dart';
 import 'package:my_app/src/core/extensions/list.dart';
 import 'package:my_app/src/core/ui/typography.dart';
@@ -107,10 +108,9 @@ class _GameScreenState extends State<GameScreen> {
             builder: (dialogContext) {
               _dialogContext = dialogContext;
               _isDialogOpen = true;
-              return const AlertDialog.adaptive(
-                title: Text('Waiting for rival'),
-                content:
-                    Text('Please wait for your rival to add the secret number'),
+              return AlertDialog.adaptive(
+                title: Text(context.l10n.waitingForRival),
+                content: Text(context.l10n.waitingForRivalDescription),
               );
             },
           );
@@ -122,7 +122,8 @@ class _GameScreenState extends State<GameScreen> {
   void _showWinner(Game game, Player player, PlayerNumber rival) {
     final winner = game.winner;
     final isWinner = winner?.id == player.id;
-    final title = isWinner ? 'Congratulations!!!' : 'You Lose';
+    final title =
+        isWinner ? context.l10n.congratulations : context.l10n.youLose;
     final imageResult = isWinner ? AppImages.winGame : AppImages.loseGame;
     final resultPoints = GameUtils.calculateResultPoints(
       wonCurrentGame: isWinner,
@@ -143,7 +144,7 @@ class _GameScreenState extends State<GameScreen> {
                   if (!isWinner)
                     Text.rich(
                       TextSpan(
-                        text: 'The secret number was: ',
+                        text: context.l10n.theSecretNumberWas,
                         style: AppTextStyle().body.copyWith(
                               color: Theme.of(context).colorScheme.onSurface,
                             ),
@@ -186,7 +187,7 @@ class _GameScreenState extends State<GameScreen> {
                     context.goNamed(AppRoute.home.name);
                     context.read<GameCubit>().refresh();
                   },
-                  child: const Text('Accept'),
+                  child: Text(context.l10n.accept),
                 ),
               ],
             );

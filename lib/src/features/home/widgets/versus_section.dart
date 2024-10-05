@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gutter/flutter_gutter.dart';
+import 'package:my_app/l10n/l10n.dart';
 import 'package:my_app/src/core/ui/colors.dart';
 import 'package:my_app/src/core/ui/typography.dart';
 import 'package:my_app/src/core/utils/widgets/cache_widget.dart';
@@ -59,7 +60,7 @@ class VersusSection extends StatelessWidget {
                       rival.player.id,
                     );
                     return Text(
-                      'Rank: ${rivalRanking.position}',
+                      '${context.l10n.rank}: ${rivalRanking.position}',
                       style: AppTextStyle()
                           .body
                           .copyWith(fontSize: 12, color: Colors.black45),
@@ -87,21 +88,21 @@ class VersusSection extends StatelessWidget {
       context: context,
       builder: (context) {
         return AlertDialog.adaptive(
-          title: const Text('Are you sure?'),
-          content: const Text('Do you want to surrender the game?'),
+          title: Text(context.l10n.areYouSure),
+          content: Text(context.l10n.doYouWantToSurrender),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: const Text('No'),
+              child: Text(context.l10n.no),
             ),
             TextButton(
               onPressed: () {
                 context.read<GameCubit>().surrender();
                 Navigator.of(context).pop();
               },
-              child: const Text('Yes'),
+              child: Text(context.l10n.yes),
             ),
           ],
         );

@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gutter/flutter_gutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
+import 'package:my_app/l10n/l10n.dart';
 import 'package:my_app/resources/resources.dart';
 import 'package:my_app/src/core/ui/typography.dart';
 import 'package:my_app/src/core/utils/object_extensions.dart';
@@ -63,15 +64,15 @@ class _SplashScreenState extends State<SplashScreen> {
                 showDialog(
                   context: context,
                   builder: (context) => AlertDialog(
-                    title: const Text('Error'),
-                    content: const Text('An error has occurred'),
+                    title: Text(context.l10n.error),
+                    content: Text(context.l10n.anErrorOccurred),
                     actions: [
                       TextButton(
                         onPressed: () {
                           context.read<AppCubit>().initialize();
                           Navigator.of(context).pop();
                         },
-                        child: const Text('Retry'),
+                        child: Text(context.l10n.retry),
                       ),
                     ],
                   ),

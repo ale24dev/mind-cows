@@ -1,3 +1,6 @@
+import 'package:flutter/material.dart';
+import 'package:my_app/l10n/l10n.dart';
+
 abstract class Utils {
   static bool isValidPlayerNumber(String value) {
     final values = value.split('');
@@ -7,5 +10,9 @@ abstract class Utils {
     final uniqueValues = values.toSet();
 
     return uniqueValues.length == values.length;
+  }
+
+  static String attemptResult(BuildContext context, int cows, int bulls) {
+    return '${context.l10n.cowPlay}$cows  ${context.l10n.bullPlay}$bulls';
   }
 }

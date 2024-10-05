@@ -6,8 +6,10 @@ import 'package:lottie/lottie.dart';
 import 'package:my_app/l10n/l10n.dart';
 import 'package:my_app/resources/resources.dart';
 import 'package:my_app/src/core/extensions/list.dart';
+import 'package:my_app/src/core/ui/extensions.dart';
 import 'package:my_app/src/core/ui/typography.dart';
 import 'package:my_app/src/core/utils/object_extensions.dart';
+import 'package:my_app/src/core/utils/utils.dart';
 import 'package:my_app/src/features/game/cubit/game_cubit.dart';
 import 'package:my_app/src/features/game/data/model/game.dart';
 import 'package:my_app/src/features/game/utils/game_utils.dart';
@@ -33,8 +35,37 @@ class _GameScreenState extends State<GameScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     return Scaffold(
-      body: BlocBuilder<GameCubit, GameState>(
+      body: BlocConsumer<GameCubit, GameState>(
+        listener: (context, state) {
+          if (state.lastRivalResult.isNotNull) {
+            context.genericMessage(
+              widget: RichText(
+                text: TextSpan(
+                  style: AppTextStyle()
+                      .body
+                      .copyWith(color: colorScheme.onSurface),
+                  children: [
+                    const TextSpan(text: 'Tu rival acaba de sumar: '),
+                    TextSpan(
+                      text: Utils.attemptResult(
+                        context,
+                        state.lastRivalResult!.$1,
+                        state.lastRivalResult!.$2,
+                      ),
+                      style: AppTextStyle().body.copyWith(
+                            fontWeight: FontWeight.bold,
+                            color: colorScheme.primary,
+                          ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+            context.read<GameCubit>().removeLastRivalResult();
+          }
+        },
         builder: (context, state) {
           if (!state.isLoading && state.game.isNotNull) {
             _gameStatusChanged(state);

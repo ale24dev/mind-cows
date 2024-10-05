@@ -1,6 +1,9 @@
+import 'package:flutter/widgets.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:my_app/l10n/l10n.dart';
 import 'package:my_app/src/core/supabase/table_interface.dart';
 import 'package:my_app/src/core/utils/object_extensions.dart';
+import 'package:my_app/src/features/auth/views/auth_screen.dart';
 import 'package:my_app/src/features/game/data/model/game.dart';
 import 'package:my_app/src/features/player/data/model/player.dart';
 
@@ -46,6 +49,10 @@ class Attempt with TableInterface {
 }
 
 extension AttemptX on Attempt {
+  String attemptResult(BuildContext context, {int? cows, int? bulls}) {
+    return '${context.l10n.cowPlay}${cows ?? this.cows}  ${context.l10n.bullPlay}${bulls ?? this.bulls}';
+  }
+
   Attempt copyWith({
     int? id,
     Game? game,

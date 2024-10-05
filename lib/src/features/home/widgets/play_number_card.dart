@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gutter/flutter_gutter.dart';
-import 'package:my_app/l10n/l10n.dart';
 import 'package:my_app/src/core/ui/theme.dart';
 import 'package:my_app/src/core/ui/typography.dart';
 import 'package:my_app/src/features/game/data/model/attempt.dart';
@@ -28,7 +27,10 @@ class PlayNumberCard extends StatelessWidget {
             child: Center(
               child: Text(
                 index.toString(),
-                style: AppTextStyle().body.copyWith(color: Colors.black),
+                style: AppTextStyle().body.copyWith(
+                      fontFamily: AppTextStyle.secondaryFontFamily,
+                      color: Colors.black,
+                    ),
               ),
             ),
           ),
@@ -50,9 +52,13 @@ class PlayNumberCard extends StatelessWidget {
                       return _NumberPlay(attempt.number[index].toString());
                     }),
                     const Gutter(),
-                    Text('${attempt.cows}${context.l10n.cowPlay}'),
-                    const Gutter(),
-                    Text('${attempt.bulls}${context.l10n.bullPlay}'),
+                    Text(
+                      attempt.attemptResult(context),
+                      style: AppTextStyle().body.copyWith(
+                            color: colorScheme.primary,
+                            fontFamily: AppTextStyle.secondaryFontFamily,
+                          ),
+                    ),
                   ],
                 ),
               ),
@@ -80,7 +86,15 @@ class _NumberPlay extends StatelessWidget {
           border: Border.all(color: Theme.of(context).colorScheme.primary),
           borderRadius: BorderRadius.circular(5),
         ),
-        child: Center(child: Text(number)),
+        child: Center(
+          child: Text(
+            number,
+            style: AppTextStyle().body.copyWith(
+                  fontFamily: AppTextStyle.secondaryFontFamily,
+                  color: Theme.of(context).colorScheme.onSurface,
+                ),
+          ),
+        ),
       ),
     );
   }

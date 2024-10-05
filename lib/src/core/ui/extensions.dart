@@ -1,4 +1,9 @@
 import 'package:flutter/widgets.dart';
+import 'package:go_router/go_router.dart';
+import 'package:my_app/l10n/l10n.dart';
+import 'package:my_app/src/core/ui/colors.dart';
+import 'package:my_app/src/core/utils/widgets/bottom_snackbar.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 /// Adds extensions to num  to make creating durations more succint:
 ///
@@ -23,4 +28,15 @@ extension TextStyleX on TextStyle {
   TextStyle get italic => copyWith(fontStyle: FontStyle.italic);
 
   TextStyle color(Color color) => copyWith(color: color);
+}
+
+extension BuildContextX on BuildContext {
+  void genericMessage({String? message, Widget? widget}) {
+    if (mounted) {
+      showTopSnackBar(
+        Overlay.of(this),
+        BottomSnackbar(message: message, widget: widget),
+      );
+    }
+  }
 }

@@ -12,6 +12,8 @@ import 'package:my_app/src/features/game/data/model/game_status.dart';
 import 'package:my_app/src/features/player/data/model/player.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+typedef AttemptCallbackData = (int bull, int cow);
+
 @singleton
 class GameRepository extends GameDataSource {
   GameRepository(this._supabaseServiceImpl, this._client);
@@ -124,5 +126,32 @@ class GameRepository extends GameDataSource {
       ),
       queryOption: QueryOption.select,
     );
+  }
+
+  @override
+  void listenAttempts(
+    Game game,
+    Player player,
+    void Function(AttemptCallbackData attemptCallback) callback,
+  ) {
+    final myChannel = _client.channel('attempt_channel');
+
+    myChannel
+        .onPostgresChanges(
+          event: PostgresChangeEvent.all,
+          schema: 'public',
+          table: 'attempt',
+          callback: (payload) {
+
+            final rival = game.getRivalPlayerNumber(player);
+
+            final newRecord = payload.newRecord['player'] as String;
+            if(newRecord != rival.player.id) return;
+            final cows = payload.newRecord['cows'] as int;
+            final bulls = payload.newRecord['cows'] as int;
+            return callback((cows, bulls));
+          },
+        )
+        .subscribe();
   }
 }

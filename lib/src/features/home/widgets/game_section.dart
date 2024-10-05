@@ -1,22 +1,22 @@
 import 'dart:async';
-import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gutter/flutter_gutter.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:my_app/l10n/l10n.dart';
 import 'package:my_app/src/core/extensions/string.dart';
-import 'package:my_app/src/features/game/domain/mocks/attempt_mock.dart';
-import 'package:my_app/src/features/player/cubit/player_cubit.dart';
-import 'package:my_app/src/features/game/data/model/game.dart';
-import 'package:my_app/src/features/game/widgets/game_turn_widget.dart';
-import 'package:my_app/src/core/ui/typography.dart';
 import 'package:my_app/src/core/ui/device.dart';
-import 'package:my_app/src/features/home/widgets/play_number_card.dart';
-import 'package:my_app/src/features/home/widgets/otp_fields.dart';
+import 'package:my_app/src/core/ui/typography.dart';
+import 'package:my_app/src/core/utils/utils.dart';
 import 'package:my_app/src/features/game/cubit/game_cubit.dart';
 import 'package:my_app/src/features/game/data/model/attempt.dart';
-import 'package:flutter_gutter/flutter_gutter.dart';
-import 'package:my_app/src/core/utils/utils.dart';
+import 'package:my_app/src/features/game/data/model/game.dart';
+import 'package:my_app/src/features/game/domain/mocks/attempt_mock.dart';
+import 'package:my_app/src/features/game/widgets/game_turn_widget.dart';
+import 'package:my_app/src/features/home/widgets/otp_fields.dart';
+import 'package:my_app/src/features/home/widgets/play_number_card.dart';
+import 'package:my_app/src/features/player/cubit/player_cubit.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class GameSection extends HookWidget {
@@ -43,7 +43,7 @@ class GameSection extends HookWidget {
     useEffect(
       () {
         Timer? timer;
-        if (ownPlayerNumber.isTurn) {
+        if (gameState.isGameInProgress && ownPlayerNumber.isTurn) {
           if (isFirstRender.value) {
             initialTimeLeft.value = calculateInitialTimeLeft(
               ownPlayerNumber.startedTime,
@@ -61,7 +61,7 @@ class GameSection extends HookWidget {
         }
         return timer?.cancel;
       },
-      [ownPlayerNumber.isTurn],
+      [gameState.isGameInProgress, ownPlayerNumber.isTurn],
     );
 
     final colorScheme = Theme.of(context).colorScheme;
@@ -120,13 +120,8 @@ class GameSection extends HookWidget {
       return 0; // Retorna 0 si el tiempo ha pasado
     }
 
-    log('finishedTime: $finishedTimeUtc');
-    log('currentTime: $currentTimeUtc');
-
     // Calcula la diferencia en segundos
     final timeLeft = finishedTimeUtc.difference(currentTimeUtc).inSeconds;
-
-    log('Initial time left: $timeLeft seconds');
 
     return timeLeft;
   }

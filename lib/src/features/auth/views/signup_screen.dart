@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gutter/flutter_gutter.dart';
 import 'package:go_router/go_router.dart';
+import 'package:my_app/l10n/l10n.dart';
 import 'package:my_app/src/core/extensions/string.dart';
 import 'package:my_app/src/core/ui/device.dart';
 import 'package:my_app/src/core/ui/typography.dart';
@@ -55,7 +56,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                'SignUp',
+                context.l10n.signUp,
                 style: AppTextStyle().body.copyWith(
                       fontFamily: AppTextStyle.secondaryFontFamily,
                       fontSize: 30,
@@ -64,19 +65,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
               ),
               const GutterLarge(),
               GenericTextField(
-                labelText: 'Username',
+                labelText: context.l10n.username,
                 controller: _usernameController,
               ),
               const GutterTiny(),
               GenericTextField(
                 obscureText: true,
-                labelText: 'Password',
+                labelText: context.l10n.password,
                 controller: _passwordController,
               ),
               const GutterTiny(),
               GenericTextField(
                 obscureText: true,
-                labelText: 'Confirm Password',
+                labelText: context.l10n.password,
                 controller: _confirmPasswordController,
               ),
               const Gutter(),
@@ -97,8 +98,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         context.read<AuthCubit>().refresh();
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
-                            content:
-                                Text(state.errorMessage ?? 'An error occurred'),
+                            content: Text(
+                              state.errorMessage ??
+                                  context.l10n.anErrorOccurred,
+                            ),
                             backgroundColor: Colors.red,
                           ),
                         );
@@ -121,7 +124,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         widget: state.authStatus.isLoading
                             ? const CircularProgressIndicator.adaptive()
                             : Text(
-                                'SignUp',
+                                context.l10n.signUp,
                                 style: AppTextStyle()
                                     .textButton
                                     .copyWith(color: Colors.white),
@@ -132,7 +135,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            'Already have an account? ',
+                            context.l10n.alreadyHaveAccount,
                             style: AppTextStyle()
                                 .body
                                 .copyWith(color: colorScheme.onSurface),
@@ -142,7 +145,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               context.goNamed(AppRoute.auth.name);
                             },
                             child: Text(
-                              'SignIn',
+                              context.l10n.signIn,
                               style: AppTextStyle().body.copyWith(
                                     color:
                                         Theme.of(context).colorScheme.primary,

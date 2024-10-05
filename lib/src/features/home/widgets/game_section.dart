@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:my_app/l10n/l10n.dart';
 import 'package:my_app/src/core/extensions/string.dart';
 import 'package:my_app/src/features/game/domain/mocks/attempt_mock.dart';
 import 'package:my_app/src/features/player/cubit/player_cubit.dart';
@@ -75,7 +76,7 @@ class GameSection extends HookWidget {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Text(
-                'Time left: ',
+                context.l10n.timeLeft,
                 style: AppTextStyle().body.copyWith(
                       color: colorScheme.onSurface,
                     ),
@@ -141,7 +142,7 @@ class _PlayList extends StatelessWidget {
       padding: EdgeInsets.zero,
       children: [
         Text(
-          'Previous attempts'.toUpperCase(),
+          context.l10n.previousAttempts.toUpperCase(),
           style: AppTextStyle().body.copyWith(
                 fontWeight: FontWeight.w600,
                 color: colorScheme.onSurface,
@@ -164,7 +165,7 @@ class _PlayList extends StatelessWidget {
                     ? [
                         Center(
                           child: Text(
-                            'No attempts',
+                            context.l10n.noAttempts,
                             style: AppTextStyle().body.copyWith(
                                   color: colorScheme.onSurface,
                                 ),
@@ -227,8 +228,8 @@ class __SendNumberSectionState extends State<_SendNumberSection> {
                   final isValidNumber = Utils.isValidPlayerNumber(otpValue);
                   if (!isValidNumber) {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Introduce un número válido'),
+                      SnackBar(
+                        content: Text(context.l10n.introduceValidNumber),
                         backgroundColor: Colors.red,
                       ),
                     );

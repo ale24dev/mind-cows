@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gutter/flutter_gutter.dart';
 import 'package:go_router/go_router.dart';
+import 'package:my_app/l10n/l10n.dart';
 import 'package:my_app/src/core/extensions/string.dart';
 import 'package:my_app/src/core/ui/device.dart';
 import 'package:my_app/src/core/ui/typography.dart';
@@ -53,7 +54,7 @@ class _AuthScreenState extends State<AuthScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                'SignIn',
+                context.l10n.signIn,
                 style: AppTextStyle().body.copyWith(
                       fontFamily: AppTextStyle.secondaryFontFamily,
                       fontSize: 30,
@@ -62,13 +63,13 @@ class _AuthScreenState extends State<AuthScreen> {
               ),
               const GutterLarge(),
               GenericTextField(
-                labelText: 'Username',
+                labelText: context.l10n.username,
                 controller: _usernameController,
               ),
               const GutterTiny(),
               GenericTextField(
                 obscureText: true,
-                labelText: 'Password',
+                labelText: context.l10n.password,
                 controller: _passwordController,
               ),
               const Gutter(),
@@ -89,8 +90,10 @@ class _AuthScreenState extends State<AuthScreen> {
                         context.read<AuthCubit>().refresh();
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
-                            content:
-                                Text(state.errorMessage ?? 'An error occurred'),
+                            content: Text(
+                              state.errorMessage ??
+                                  context.l10n.anErrorOccurred,
+                            ),
                             backgroundColor: Colors.red,
                           ),
                         );
@@ -124,7 +127,7 @@ class _AuthScreenState extends State<AuthScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            "Don't have an account?",
+                            context.l10n.dontHaveAccount,
                             style: AppTextStyle()
                                 .body
                                 .copyWith(color: colorScheme.onSurface),
@@ -134,7 +137,7 @@ class _AuthScreenState extends State<AuthScreen> {
                               context.goNamed(AppRoute.signUp.name);
                             },
                             child: Text(
-                              'Create account',
+                              context.l10n.createAccount,
                               style: AppTextStyle().body.copyWith(
                                     color: colorScheme.primary,
                                   ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gutter/flutter_gutter.dart';
+import 'package:my_app/l10n/l10n.dart';
 import 'package:my_app/src/core/ui/theme.dart';
 import 'package:my_app/src/core/ui/typography.dart';
 import 'package:my_app/src/features/game/data/model/attempt.dart';
@@ -49,9 +50,9 @@ class PlayNumberCard extends StatelessWidget {
                       return _NumberPlay(attempt.number[index].toString());
                     }),
                     const Gutter(),
-                    Text('${attempt.cows}V'),
+                    Text('${attempt.cows}${context.l10n.cowPlay}'),
                     const Gutter(),
-                    Text('${attempt.bulls}T'),
+                    Text('${attempt.bulls}${context.l10n.bullPlay}'),
                   ],
                 ),
               ),

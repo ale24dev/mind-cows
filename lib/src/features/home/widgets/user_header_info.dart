@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gutter/flutter_gutter.dart';
+import 'package:my_app/l10n/l10n.dart';
 import 'package:my_app/resources/resources.dart';
 import 'package:my_app/src/core/ui/device.dart';
 import 'package:my_app/src/core/ui/typography.dart';
@@ -70,7 +71,7 @@ class _UserHeaderInfoState extends State<UserHeaderInfo> {
                               player.id,
                             );
                             return Text(
-                              'Rank: ${ranking.position}',
+                              '${context.l10n.rank}: ${ranking.position}',
                               style: AppTextStyle().body.copyWith(fontSize: 12),
                             );
                           },

@@ -20,4 +20,9 @@ abstract class PlayerDatasource {
     String playerId,
     void Function(PlayerNumberRealtime) callback,
   );
+
+  Future<Either<AppException?, Player?>> setProfileImage(
+    Player player,
+    String imageUrl,
+  );
 }

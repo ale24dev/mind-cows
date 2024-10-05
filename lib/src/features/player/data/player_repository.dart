@@ -8,6 +8,7 @@ import 'package:my_app/src/core/exceptions.dart';
 import 'package:my_app/src/core/extensions/list.dart';
 import 'package:my_app/src/core/interceptor.dart';
 import 'package:my_app/src/core/services/player_datasource.dart';
+import 'package:my_app/src/core/supabase/query_supabase.dart';
 import 'package:my_app/src/features/player/data/model/player.dart';
 import 'package:my_app/src/features/player/data/model/player_number.dart';
 import 'package:my_app/src/features/player/domain/player_number_realtime.dart';
@@ -102,6 +103,25 @@ class PlayerRepository extends PlayerDatasource {
       queryOption: QueryOption.update,
       responseNullable: true,
       fromJsonParse: PlayerNumber.fromJson,
+    );
+  }
+
+  @override
+  Future<Either<AppException?, Player?>> setProfileImage(
+    Player player,
+    String imageUrl,
+  ) {
+    return _supabaseServiceImpl.query<Player>(
+      table: 'setProfileImage',
+      request: () => _client
+          .from('player')
+          .update({'avatar_url': imageUrl})
+          .eq('id', player.id)
+          .select(QuerySupabase.player)
+          .single(),
+      queryOption: QueryOption.update,
+      responseNullable: true,
+      fromJsonParse: Player.fromJson,
     );
   }
 }

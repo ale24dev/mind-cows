@@ -7,6 +7,7 @@ import 'package:my_app/src/features/auth/cubit/auth_cubit.dart';
 import 'package:my_app/src/features/game/cubit/game_cubit.dart';
 import 'package:my_app/src/features/player/cubit/player_cubit.dart';
 import 'package:my_app/src/features/ranking/cubit/ranking_cubit.dart';
+import 'package:my_app/src/features/settings/cubit/settings_cubit.dart';
 import 'package:my_app/src/features/splash/cubit/app_cubit.dart';
 import 'package:my_app/src/router/router.dart';
 
@@ -23,6 +24,7 @@ class MyApp extends StatelessWidget {
         BlocProvider<AuthCubit>(create: (_) => getIt.get()),
         BlocProvider<GameCubit>(create: (_) => getIt.get()),
         BlocProvider<PlayerCubit>(create: (_) => getIt.get()),
+        BlocProvider<SettingsCubit>(create: (_) => getIt.get()),
       ],
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,

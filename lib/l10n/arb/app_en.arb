@@ -63,5 +63,9 @@
     "yes": "Yes",
 
     "leaderboard": "Leaderboard",
-    "loading": "Loading..."
+    "loading": "Loading...",
+
+    "settings": "Settings",
+
+    "changeProfileImage": "Change profile image"
   }

@@ -1,7 +1,5 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'dart:developer';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +11,7 @@ import 'package:my_app/src/features/auth/views/signup_screen.dart';
 import 'package:my_app/src/features/game/game_screen.dart';
 import 'package:my_app/src/features/game/search_game_screen.dart';
 import 'package:my_app/src/features/home/home_screen.dart';
-import 'package:my_app/src/features/splash/loading_profile_data.dart';
+import 'package:my_app/src/features/settings/settings_screen.dart';
 import 'package:my_app/src/features/splash/splash_screen.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -25,6 +23,7 @@ enum AppRoute {
   home,
   game,
   searchGame,
+  settings,
 }
 
 final rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'root');
@@ -101,18 +100,18 @@ final class RouterController {
                 );
               },
             ),
+            GoRoute(
+              path: 'settings',
+              name: AppRoute.settings.name,
+              pageBuilder: (context, state) {
+                return adaptivePageRoute(
+                  key: ValueKey(state.pageKey.value),
+                  child: const SettingsScreen(),
+                );
+              },
+            ),
           ],
         ),
-        // GoRoute(
-        //   path: '/init-profile-data',
-        //   name: AppRoute.initProfileData.name,
-        //   pageBuilder: (context, state) {
-        //     return adaptivePageRoute(
-        //       key: ValueKey(state.pageKey.value),
-        //       child: const LoadingProfileData(),
-        //     );
-        //   },
-        // ),
       ],
     );
   }

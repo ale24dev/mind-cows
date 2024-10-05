@@ -63,5 +63,9 @@
     "yes": "Sí",
 
     "leaderboard": "Tabla de posiciones",
-    "loading": "Cargando..."
+    "loading": "Cargando...",
+
+    "settings": "Configuración",
+
+    "changeProfileImage": "Cambiar imagen de perfil"
   }

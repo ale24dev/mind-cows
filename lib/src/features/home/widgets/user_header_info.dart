@@ -24,15 +24,10 @@ class UserHeaderInfo extends StatefulWidget {
 
 class _UserHeaderInfoState extends State<UserHeaderInfo> {
   late Player player;
-  @override
-  void initState() {
-    player = context.read<GameCubit>().state.player!;
-
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
+    player = context.watch<GameCubit>().state.player!;
     return Container(
       width: context.widthPx,
       color: Theme.of(context).colorScheme.primary,
@@ -49,6 +44,7 @@ class _UserHeaderInfoState extends State<UserHeaderInfo> {
                     CacheWidget(
                       size: const Size(60, 60),
                       imageUrl: player.avatarUrl,
+                      fit: BoxFit.cover,
                     ),
                     const GutterSmall(),
                     Column(

@@ -5,7 +5,6 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:my_app/src/features/game/data/game_repository.dart';
 import 'package:my_app/src/features/game/data/model/game_status.dart';
-import 'package:rxdart/subjects.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 part 'app_state.dart';

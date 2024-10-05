@@ -39,21 +39,16 @@ class _SearchGameSectionState extends State<SearchGameSection> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
+                /// Element created to center the play button
                 Expanded(
-                  child: GestureDetector(
-                    onTap: () => _showLogoutConfirmationDialog(context),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const Icon(Icons.logout),
-                        const GutterTiny(),
-                        Text(
-                          context.l10n.logout,
-                          style: AppTextStyle().body.copyWith(
-                                color: Theme.of(context).colorScheme.onSurface,
-                              ),
-                        ),
-                      ],
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: GestureDetector(
+                      onTap: () {},
+                      child: const Icon(
+                        Icons.settings,
+                        color: Colors.transparent,
+                      ),
                     ),
                   ),
                 ),
@@ -87,47 +82,20 @@ class _SearchGameSectionState extends State<SearchGameSection> {
                     ),
                   ),
                 ),
-                const Expanded(child: SizedBox.shrink()),
+                Expanded(
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: GestureDetector(
+                      onTap: () => context.goNamed(AppRoute.settings.name),
+                      child: const Icon(Icons.settings),
+                    ),
+                  ),
+                ),
               ],
             ),
           );
         },
       ),
-    );
-  }
-
-  void _showLogoutConfirmationDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(context.l10n.confirmLogout),
-          content: Text(context.l10n.logoutConfirmation),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text(
-                context.l10n.cancel,
-                style: AppTextStyle().textButton.copyWith(color: Colors.white),
-              ),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-                context.read<AuthCubit>().logout();
-              },
-              child: Text(
-                context.l10n.logout,
-                style: AppTextStyle()
-                    .textButton
-                    .copyWith(color: Theme.of(context).colorScheme.primary),
-              ),
-            ),
-          ],
-        );
-      },
     );
   }
 }

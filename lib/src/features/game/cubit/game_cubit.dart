@@ -35,6 +35,16 @@ class GameCubit extends Cubit<GameState> {
   final GameRepository _gameRepository;
   final PlayerRepository _playerRepository;
 
+  void _listenAttempts(Game game, Player player) {
+    _gameRepository.listenAttempts(game, player, (callbackData) {
+      emit(state.copyWith(lastRivalResult: callbackData));
+    });
+  }
+
+  void removeLastRivalResult() {
+    emit(state.copyWith(lastRivalResult: null));
+  }
+
   void _listenPlayerNumberChanges() {
     _playerRepository.listenPlayerNumberChanges(state.player!.id,
         (callbackData) {
@@ -125,6 +135,9 @@ class GameCubit extends Cubit<GameState> {
 
     await Future.delayed(Duration.zero, () {
       if (game!.isInProgress) {
+        /// Listen to attempts in game
+        _listenAttempts(game, state.player!);
+
         getAttemptsInGameByPlayer(game, state.player!);
       }
     });
@@ -145,6 +158,9 @@ class GameCubit extends Cubit<GameState> {
           emit(
             state.copyWith(stateStatus: GameStateStatus.success, game: game),
           );
+
+          /// Listen to attempts in game
+          _listenAttempts(game!, state.player!);
         },
       );
     });

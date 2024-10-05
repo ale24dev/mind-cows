@@ -21,6 +21,7 @@ mixin _$GameState {
   List<GameStatus> get listGameStatus => throw _privateConstructorUsedError;
   List<Attempt> get listAttempts => throw _privateConstructorUsedError;
   bool get selectSecretNumberShowed => throw _privateConstructorUsedError;
+  (int, int)? get lastRivalResult => throw _privateConstructorUsedError;
   Player? get player => throw _privateConstructorUsedError;
   DateTime? get serverTime => throw _privateConstructorUsedError;
 
@@ -42,6 +43,7 @@ abstract class $GameStateCopyWith<$Res> {
       List<GameStatus> listGameStatus,
       List<Attempt> listAttempts,
       bool selectSecretNumberShowed,
+      (int, int)? lastRivalResult,
       Player? player,
       DateTime? serverTime});
 }
@@ -66,6 +68,7 @@ class _$GameStateCopyWithImpl<$Res, $Val extends GameState>
     Object? listGameStatus = null,
     Object? listAttempts = null,
     Object? selectSecretNumberShowed = null,
+    Object? lastRivalResult = freezed,
     Object? player = freezed,
     Object? serverTime = freezed,
   }) {
@@ -90,6 +93,10 @@ class _$GameStateCopyWithImpl<$Res, $Val extends GameState>
           ? _value.selectSecretNumberShowed
           : selectSecretNumberShowed // ignore: cast_nullable_to_non_nullable
               as bool,
+      lastRivalResult: freezed == lastRivalResult
+          ? _value.lastRivalResult
+          : lastRivalResult // ignore: cast_nullable_to_non_nullable
+              as (int, int)?,
       player: freezed == player
           ? _value.player
           : player // ignore: cast_nullable_to_non_nullable
@@ -116,6 +123,7 @@ abstract class _$$GameStateImplCopyWith<$Res>
       List<GameStatus> listGameStatus,
       List<Attempt> listAttempts,
       bool selectSecretNumberShowed,
+      (int, int)? lastRivalResult,
       Player? player,
       DateTime? serverTime});
 }
@@ -138,6 +146,7 @@ class __$$GameStateImplCopyWithImpl<$Res>
     Object? listGameStatus = null,
     Object? listAttempts = null,
     Object? selectSecretNumberShowed = null,
+    Object? lastRivalResult = freezed,
     Object? player = freezed,
     Object? serverTime = freezed,
   }) {
@@ -162,6 +171,10 @@ class __$$GameStateImplCopyWithImpl<$Res>
           ? _value.selectSecretNumberShowed
           : selectSecretNumberShowed // ignore: cast_nullable_to_non_nullable
               as bool,
+      lastRivalResult: freezed == lastRivalResult
+          ? _value.lastRivalResult
+          : lastRivalResult // ignore: cast_nullable_to_non_nullable
+              as (int, int)?,
       player: freezed == player
           ? _value.player
           : player // ignore: cast_nullable_to_non_nullable
@@ -183,6 +196,7 @@ class _$GameStateImpl extends _GameState {
       final List<GameStatus> listGameStatus = const [],
       final List<Attempt> listAttempts = const [],
       this.selectSecretNumberShowed = false,
+      this.lastRivalResult,
       this.player,
       this.serverTime})
       : _listGameStatus = listGameStatus,
@@ -216,13 +230,15 @@ class _$GameStateImpl extends _GameState {
   @JsonKey()
   final bool selectSecretNumberShowed;
   @override
+  final (int, int)? lastRivalResult;
+  @override
   final Player? player;
   @override
   final DateTime? serverTime;
 
   @override
   String toString() {
-    return 'GameState(game: $game, stateStatus: $stateStatus, listGameStatus: $listGameStatus, listAttempts: $listAttempts, selectSecretNumberShowed: $selectSecretNumberShowed, player: $player, serverTime: $serverTime)';
+    return 'GameState(game: $game, stateStatus: $stateStatus, listGameStatus: $listGameStatus, listAttempts: $listAttempts, selectSecretNumberShowed: $selectSecretNumberShowed, lastRivalResult: $lastRivalResult, player: $player, serverTime: $serverTime)';
   }
 
   @override
@@ -240,6 +256,8 @@ class _$GameStateImpl extends _GameState {
             (identical(
                     other.selectSecretNumberShowed, selectSecretNumberShowed) ||
                 other.selectSecretNumberShowed == selectSecretNumberShowed) &&
+            (identical(other.lastRivalResult, lastRivalResult) ||
+                other.lastRivalResult == lastRivalResult) &&
             (identical(other.player, player) || other.player == player) &&
             (identical(other.serverTime, serverTime) ||
                 other.serverTime == serverTime));
@@ -253,6 +271,7 @@ class _$GameStateImpl extends _GameState {
       const DeepCollectionEquality().hash(_listGameStatus),
       const DeepCollectionEquality().hash(_listAttempts),
       selectSecretNumberShowed,
+      lastRivalResult,
       player,
       serverTime);
 
@@ -272,6 +291,7 @@ abstract class _GameState extends GameState {
       final List<GameStatus> listGameStatus,
       final List<Attempt> listAttempts,
       final bool selectSecretNumberShowed,
+      final (int, int)? lastRivalResult,
       final Player? player,
       final DateTime? serverTime}) = _$GameStateImpl;
   const _GameState._() : super._();
@@ -286,6 +306,8 @@ abstract class _GameState extends GameState {
   List<Attempt> get listAttempts;
   @override
   bool get selectSecretNumberShowed;
+  @override
+  (int, int)? get lastRivalResult;
   @override
   Player? get player;
   @override

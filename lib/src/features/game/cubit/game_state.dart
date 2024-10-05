@@ -10,6 +10,7 @@ class GameState with _$GameState {
     @Default([]) final List<GameStatus> listGameStatus,
     @Default([]) final List<Attempt> listAttempts,
     @Default(false) final bool selectSecretNumberShowed,
+    final AttemptCallbackData? lastRivalResult,
     Player? player,
     DateTime? serverTime,
   }) = _GameState;

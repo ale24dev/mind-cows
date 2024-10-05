@@ -10,7 +10,7 @@ List<Attempt> getAttemptsMock(int quantity) {
       game: Game(id: 0, status: GameStatus.empty()),
       bulls: 0,
       cows: 0,
-      number: [1, 2, 3, 4],
+      number: [8, 8, 8, 8],
       player: Player.empty(),
     );
   });

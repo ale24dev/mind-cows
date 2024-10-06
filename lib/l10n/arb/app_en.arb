@@ -67,5 +67,13 @@
 
     "settings": "Settings",
 
-    "changeProfileImage": "Change profile image"
+    "changeProfileImage": "Change profile image",
+    "profileImage": "Profile image",
+
+    "changeLanguage": "Change language",
+    "language": "Language",
+    "english": "English",
+    "spanish": "Spanish",
+    "theme": "Theme",
+    "darkMode": "Dark mode"
   }

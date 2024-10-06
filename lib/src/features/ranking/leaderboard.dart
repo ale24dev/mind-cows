@@ -37,7 +37,6 @@ class _LeaderboardWidgetState extends State<LeaderboardWidget> {
         final rankings = state.isLoading ? rankingMock : state.ranking;
         return Column(
           children: [
-            const GutterLarge(),
             Text(
               context.l10n.leaderboard,
               style: AppTextStyle().bodyLarge.copyWith(
@@ -59,13 +58,22 @@ class _LeaderboardWidgetState extends State<LeaderboardWidget> {
                     Skeletonizer(
                       enabled: state.isLoading,
                       child: ListView.builder(
+                        padding: EdgeInsets.zero,
                         itemCount: rankings.length,
                         itemBuilder: (context, index) {
                           final ranking = rankings[index];
                           if (index <= 2) return const SizedBox.shrink();
-                          return RankCard(
-                            colorScheme: colorScheme,
-                            ranking: ranking,
+                          return Column(
+                            children: [
+                              if (index == 3)
+                                const SizedBox.square(dimension: 40),
+                              RankCard(
+                                colorScheme: colorScheme,
+                                ranking: ranking,
+                              ),
+                              if (index == rankings.length - 1)
+                                const SizedBox.square(dimension: 40),
+                            ],
                           );
                         },
                       ),

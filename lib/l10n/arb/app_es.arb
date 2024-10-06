@@ -67,5 +67,13 @@
 
     "settings": "Configuración",
 
-    "changeProfileImage": "Cambiar imagen de perfil"
+    "changeProfileImage": "Cambiar imagen de perfil",
+    "profileImage": "Imagen de perfil",
+
+    "changeLanguage": "Cambiar idioma",
+    "language": "Idioma",
+    "english": "Inglés",
+    "spanish": "Español",
+    "theme": "Tema",
+    "darkMode": "Modo oscuro"
   }

@@ -17,6 +17,8 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$SettingsState {
   SettingsStateStatus get stateStatus => throw _privateConstructorUsedError;
+  Locale get locale => throw _privateConstructorUsedError;
+  ThemeMode? get theme => throw _privateConstructorUsedError;
   AppException? get error => throw _privateConstructorUsedError;
 
   /// Create a copy of SettingsState
@@ -32,7 +34,11 @@ abstract class $SettingsStateCopyWith<$Res> {
           SettingsState value, $Res Function(SettingsState) then) =
       _$SettingsStateCopyWithImpl<$Res, SettingsState>;
   @useResult
-  $Res call({SettingsStateStatus stateStatus, AppException? error});
+  $Res call(
+      {SettingsStateStatus stateStatus,
+      Locale locale,
+      ThemeMode? theme,
+      AppException? error});
 }
 
 /// @nodoc
@@ -51,6 +57,8 @@ class _$SettingsStateCopyWithImpl<$Res, $Val extends SettingsState>
   @override
   $Res call({
     Object? stateStatus = null,
+    Object? locale = null,
+    Object? theme = freezed,
     Object? error = freezed,
   }) {
     return _then(_value.copyWith(
@@ -58,6 +66,14 @@ class _$SettingsStateCopyWithImpl<$Res, $Val extends SettingsState>
           ? _value.stateStatus
           : stateStatus // ignore: cast_nullable_to_non_nullable
               as SettingsStateStatus,
+      locale: null == locale
+          ? _value.locale
+          : locale // ignore: cast_nullable_to_non_nullable
+              as Locale,
+      theme: freezed == theme
+          ? _value.theme
+          : theme // ignore: cast_nullable_to_non_nullable
+              as ThemeMode?,
       error: freezed == error
           ? _value.error
           : error // ignore: cast_nullable_to_non_nullable
@@ -74,7 +90,11 @@ abstract class _$$SettingsStateImplCopyWith<$Res>
       __$$SettingsStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({SettingsStateStatus stateStatus, AppException? error});
+  $Res call(
+      {SettingsStateStatus stateStatus,
+      Locale locale,
+      ThemeMode? theme,
+      AppException? error});
 }
 
 /// @nodoc
@@ -91,6 +111,8 @@ class __$$SettingsStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? stateStatus = null,
+    Object? locale = null,
+    Object? theme = freezed,
     Object? error = freezed,
   }) {
     return _then(_$SettingsStateImpl(
@@ -98,6 +120,14 @@ class __$$SettingsStateImplCopyWithImpl<$Res>
           ? _value.stateStatus
           : stateStatus // ignore: cast_nullable_to_non_nullable
               as SettingsStateStatus,
+      locale: null == locale
+          ? _value.locale
+          : locale // ignore: cast_nullable_to_non_nullable
+              as Locale,
+      theme: freezed == theme
+          ? _value.theme
+          : theme // ignore: cast_nullable_to_non_nullable
+              as ThemeMode?,
       error: freezed == error
           ? _value.error
           : error // ignore: cast_nullable_to_non_nullable
@@ -110,18 +140,26 @@ class __$$SettingsStateImplCopyWithImpl<$Res>
 
 class _$SettingsStateImpl extends _SettingsState {
   const _$SettingsStateImpl(
-      {this.stateStatus = SettingsStateStatus.initial, this.error})
+      {this.stateStatus = SettingsStateStatus.initial,
+      this.locale = const Locale('en'),
+      this.theme,
+      this.error})
       : super._();
 
   @override
   @JsonKey()
   final SettingsStateStatus stateStatus;
   @override
+  @JsonKey()
+  final Locale locale;
+  @override
+  final ThemeMode? theme;
+  @override
   final AppException? error;
 
   @override
   String toString() {
-    return 'SettingsState(stateStatus: $stateStatus, error: $error)';
+    return 'SettingsState(stateStatus: $stateStatus, locale: $locale, theme: $theme, error: $error)';
   }
 
   @override
@@ -131,11 +169,14 @@ class _$SettingsStateImpl extends _SettingsState {
             other is _$SettingsStateImpl &&
             (identical(other.stateStatus, stateStatus) ||
                 other.stateStatus == stateStatus) &&
+            (identical(other.locale, locale) || other.locale == locale) &&
+            (identical(other.theme, theme) || other.theme == theme) &&
             (identical(other.error, error) || other.error == error));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, stateStatus, error);
+  int get hashCode =>
+      Object.hash(runtimeType, stateStatus, locale, theme, error);
 
   /// Create a copy of SettingsState
   /// with the given fields replaced by the non-null parameter values.
@@ -149,11 +190,17 @@ class _$SettingsStateImpl extends _SettingsState {
 abstract class _SettingsState extends SettingsState {
   const factory _SettingsState(
       {final SettingsStateStatus stateStatus,
+      final Locale locale,
+      final ThemeMode? theme,
       final AppException? error}) = _$SettingsStateImpl;
   const _SettingsState._() : super._();
 
   @override
   SettingsStateStatus get stateStatus;
+  @override
+  Locale get locale;
+  @override
+  ThemeMode? get theme;
   @override
   AppException? get error;
 

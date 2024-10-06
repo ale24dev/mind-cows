@@ -2,10 +2,25 @@ part of 'settings_cubit.dart';
 
 enum SettingsStateStatus { initial, loading, loaded, error }
 
+enum Language { english, spanish }
+
+extension LanguagesX on Language {
+  Locale get locale {
+    switch (this) {
+      case Language.english:
+        return const Locale('en');
+      case Language.spanish:
+        return const Locale('es');
+    }
+  }
+}
+
 @freezed
 class SettingsState with _$SettingsState {
   const factory SettingsState({
     @Default(SettingsStateStatus.initial) SettingsStateStatus stateStatus,
+    @Default(Locale('en')) Locale locale,
+    ThemeMode? theme,
     AppException? error,
   }) = _SettingsState;
   const SettingsState._();

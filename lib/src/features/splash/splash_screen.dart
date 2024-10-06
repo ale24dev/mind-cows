@@ -113,7 +113,7 @@ class _SplashScreenState extends State<SplashScreen> {
                     ),
                     const GutterSmall(),
                     Text(
-                      'Loading...',
+                      context.l10n.loading,
                       style: AppTextStyle().body.copyWith(color: Colors.black),
                     ),
                   ],

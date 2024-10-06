@@ -15,4 +15,15 @@ abstract class Utils {
   static String attemptResult(BuildContext context, int cows, int bulls) {
     return '${context.l10n.cowPlay}$cows  ${context.l10n.bullPlay}$bulls';
   }
+
+  static Locale getLocaleByCode(String? languageString) {
+    switch (languageString) {
+      case 'en':
+        return const Locale('en', 'US');
+      case 'es':
+        return const Locale('es', 'ES');
+      default:
+        return const Locale('en', 'US');
+    }
+  }
 }

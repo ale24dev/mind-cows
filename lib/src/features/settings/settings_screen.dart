@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:my_app/l10n/l10n.dart';
@@ -24,10 +26,12 @@ class SettingsScreen extends StatelessWidget {
             children: [
               ListTile(
                 leading: const Icon(Icons.camera_alt_outlined),
-                title: Text(context.l10n.profileImage,
-                    style: AppTextStyle()
-                        .body
-                        .copyWith(color: colorScheme.onSurface),),
+                title: Text(
+                  context.l10n.profileImage,
+                  style: AppTextStyle()
+                      .body
+                      .copyWith(color: colorScheme.onSurface),
+                ),
                 onTap: () => showDialog(
                   context: context,
                   builder: (context) {
@@ -37,10 +41,12 @@ class SettingsScreen extends StatelessWidget {
               ),
               ListTile(
                 leading: const Icon(Icons.language),
-                title: Text(context.l10n.language,
-                    style: AppTextStyle()
-                        .body
-                        .copyWith(color: colorScheme.onSurface),),
+                title: Text(
+                  context.l10n.language,
+                  style: AppTextStyle()
+                      .body
+                      .copyWith(color: colorScheme.onSurface),
+                ),
                 onTap: () => showDialog(
                   context: context,
                   builder: (context) {
@@ -50,10 +56,12 @@ class SettingsScreen extends StatelessWidget {
               ),
               ListTile(
                 leading: const Icon(Icons.brightness_6),
-                title: Text(context.l10n.darkMode,
-                    style: AppTextStyle()
-                        .body
-                        .copyWith(color: colorScheme.onSurface),),
+                title: Text(
+                  context.l10n.darkMode,
+                  style: AppTextStyle()
+                      .body
+                      .copyWith(color: colorScheme.onSurface),
+                ),
                 trailing: SwitchTheme(
                   data: Theme.of(context).switchTheme.copyWith(),
                   child: Switch(
@@ -81,8 +89,8 @@ class SettingsScreen extends StatelessWidget {
     );
   }
 
-  void _showLogoutConfirmationDialog(BuildContext context) {
-    showDialog(
+  Future<void> _showLogoutConfirmationDialog(BuildContext context) async {
+    await showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
@@ -99,9 +107,8 @@ class SettingsScreen extends StatelessWidget {
               ),
             ),
             TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-                context.read<AuthCubit>().logout();
+              onPressed: () async {
+                await context.read<AuthCubit>().logout();
               },
               child: Text(
                 context.l10n.logout,

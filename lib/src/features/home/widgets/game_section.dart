@@ -207,40 +207,47 @@ class __SendNumberSectionState extends State<_SendNumberSection> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const IconButton(
-          onPressed: null,
-          icon: Icon(Icons.send, color: Colors.transparent),
+        const Expanded(
+          child: IconButton(
+            onPressed: null,
+            icon: Icon(Icons.send, color: Colors.transparent),
+          ),
         ),
-        OTPFields(
-          key: otpFieldsKey,
-          allowRepetitions: false,
-          onChanged: _onChanged,
+        Expanded(
+          flex: 3,
+          child: OTPFields(
+            key: otpFieldsKey,
+            allowRepetitions: false,
+            onChanged: _onChanged,
+          ),
         ),
-        IconButton(
-          onPressed: !widget.canSendNumber
-              ? null
-              : () {
-                  final isValidNumber = Utils.isValidPlayerNumber(otpValue);
-                  if (!isValidNumber) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(context.l10n.introduceValidNumber),
-                        backgroundColor: Colors.red,
-                      ),
-                    );
-                    return;
-                  }
-                  context.read<GameCubit>().insertAttempt(
-                        Attempt.empty()
-                            .copyWith(number: otpValue.parseOptToNumberValue),
+        Expanded(
+          child: IconButton(
+            onPressed: !widget.canSendNumber
+                ? null
+                : () {
+                    final isValidNumber = Utils.isValidPlayerNumber(otpValue);
+                    if (!isValidNumber) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(context.l10n.introduceValidNumber),
+                          backgroundColor: Colors.red,
+                        ),
                       );
-                  otpFieldsKey.currentState?.clearFields();
-                },
-          icon: Icon(
-            Icons.send,
-            color: widget.canSendNumber
-                ? colorScheme.primary
-                : colorScheme.onSurface.withOpacity(.4),
+                      return;
+                    }
+                    context.read<GameCubit>().insertAttempt(
+                          Attempt.empty()
+                              .copyWith(number: otpValue.parseOptToNumberValue),
+                        );
+                    otpFieldsKey.currentState?.clearFields();
+                  },
+            icon: Icon(
+              Icons.send,
+              color: widget.canSendNumber
+                  ? colorScheme.primary
+                  : colorScheme.onSurface.withOpacity(.4),
+            ),
           ),
         ),
       ],

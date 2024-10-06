@@ -25,26 +25,28 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     final theme = AppTheme();
-    final settings = BlocProvider.of<SettingsCubit>(context, listen: true);
-    log('Settings: ${settings.state.theme}');
     return MultiBlocProvider(
       providers: [
+        BlocProvider<SettingsCubit>(create: (_) => getIt.get()),
         BlocProvider<RankingCubit>(create: (_) => getIt.get()),
         BlocProvider<AppCubit>(create: (_) => getIt.get()),
         BlocProvider<AuthCubit>(create: (_) => getIt.get()),
         BlocProvider<GameCubit>(create: (_) => getIt.get()),
         BlocProvider<PlayerCubit>(create: (_) => getIt.get()),
-        // BlocProvider<SettingsCubit>(create: (_) => getIt.get()),
       ],
-      child: MaterialApp.router(
-        debugShowCheckedModeBanner: false,
-        theme: theme.light,
-        darkTheme: theme.dark,
-        locale: settings.state.locale,
-        themeMode: settings.state.theme,
-        routerConfig: router,
-        localizationsDelegates: AppLocalizations.localizationsDelegates,
-        supportedLocales: AppLocalizations.supportedLocales,
+      child: BlocBuilder<SettingsCubit, SettingsState>(
+        builder: (context, state) {
+          return MaterialApp.router(
+            debugShowCheckedModeBanner: false,
+            theme: theme.light,
+            darkTheme: theme.dark,
+            locale: state.locale,
+            themeMode: state.theme,
+            routerConfig: router,
+            localizationsDelegates: AppLocalizations.localizationsDelegates,
+            supportedLocales: AppLocalizations.supportedLocales,
+          );
+        },
       ),
     );
   }

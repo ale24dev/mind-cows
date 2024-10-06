@@ -1,5 +1,6 @@
 // ignore_for_file: inference_failure_on_function_invocation
 
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gutter/flutter_gutter.dart';
@@ -26,7 +27,7 @@ class _SearchGameSectionState extends State<SearchGameSection> {
   Widget build(BuildContext context) {
     return Padding(
       padding:
-          EdgeInsets.symmetric(vertical: 15, horizontal: context.widthPx * .05),
+          EdgeInsets.symmetric(vertical: 35, horizontal: context.widthPx * .05),
       child: BlocBuilder<GameCubit, GameState>(
         builder: (context, state) {
           if (state.isGameStarted && !_hasNavigated) {

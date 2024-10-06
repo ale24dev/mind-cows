@@ -111,7 +111,6 @@ async function swapTurns(supabase: any, ownPlayerNumber: any, opponent: any, gam
       .update({
         is_turn: false,
         started_time: new Date().toISOString(),
-        // time_left: newTimeLeft, // Asegurarse de que no sea null
       })
       .eq("id", ownPlayerNumber.id);
 
@@ -130,7 +129,6 @@ async function swapTurns(supabase: any, ownPlayerNumber: any, opponent: any, gam
     .from("player_number")
     .update({
       is_turn: true,
-      // started_time: new Date().toISOString(),
     })
     .eq("id", opponent.id);
 
@@ -150,19 +148,25 @@ async function swapTurns(supabase: any, ownPlayerNumber: any, opponent: any, gam
 
     console.log("Opponent is a bot, waiting for the bot's turn...");
 
+    // Generar un número aleatorio sin repeticiones entre 0 y 9
+    const botNumber = generateUniqueRandomNumbers(4);
+
+    // Contar "Toros" y "Vacas" con el número generado para el bot
+    const { bulls, cows } = countBullsAndCows(botNumber, ownPlayerNumber.number);
+
     // Insertar intento para el bot
     const { error: botAttemptError } = await supabase.from("attempt").insert({
       player: opponent.player.id,
       game: gameId,
-      number: [], // Número vacío
-      bulls: 0, // Bulls para el bot
-      cows: 0, // Cows para el bot
+      number: botNumber,
+      bulls,
+      cows,
     });
 
     if (botAttemptError) {
       throw new Error(`Error inserting bot attempt: ${botAttemptError.message}`);
     }
-    console.log("Bot attempt inserted successfully.");
+    console.log("Bot attempt inserted successfully with generated number:", botNumber);
 
     console.log("Reverting opponent turn...");
     const { error: revertTurnError } = await supabase
@@ -185,7 +189,6 @@ async function swapTurns(supabase: any, ownPlayerNumber: any, opponent: any, gam
       .from("player_number")
       .update({
         is_turn: true,
-        // started_time: new Date().toISOString(),
       })
       .eq("id", ownPlayerNumber.id);
 
@@ -194,6 +197,18 @@ async function swapTurns(supabase: any, ownPlayerNumber: any, opponent: any, gam
     }
     console.log("Own turn updated successfully after bot's turn.");
   }
+}
+
+// Función para generar números aleatorios únicos entre 0 y 9
+function generateUniqueRandomNumbers(count) {
+  const numbers = new Set();
+
+  while (numbers.size < count) {
+    const randomNum = Math.floor(Math.random() * 10); // Generar un número entre 0 y 9
+    numbers.add(randomNum);
+  }
+
+  return Array.from(numbers);
 }
 
 // Servidor

@@ -26,7 +26,7 @@ class _SearchGameSectionState extends State<SearchGameSection> {
   Widget build(BuildContext context) {
     return Padding(
       padding:
-          EdgeInsets.symmetric(vertical: 40, horizontal: context.widthPx * .05),
+          EdgeInsets.symmetric(vertical: 15, horizontal: context.widthPx * .05),
       child: BlocBuilder<GameCubit, GameState>(
         builder: (context, state) {
           if (state.isGameStarted && !_hasNavigated) {

@@ -75,5 +75,7 @@
     "english": "Inglés",
     "spanish": "Español",
     "theme": "Tema",
-    "darkMode": "Modo oscuro"
+    "darkMode": "Modo oscuro",
+
+    "yourOpponentHasScored": "Tu rival acaba de sumar: "
   }

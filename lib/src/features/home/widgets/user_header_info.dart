@@ -42,7 +42,7 @@ class _UserHeaderInfoState extends State<UserHeaderInfo> {
                 Row(
                   children: [
                     CacheWidget(
-                      size: const Size(60, 60),
+                      size: const Size(40, 40),
                       imageUrl: player.avatarUrl,
                       fit: BoxFit.cover,
                     ),

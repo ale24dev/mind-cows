@@ -47,7 +47,7 @@ class _GameScreenState extends State<GameScreen> {
                       .body
                       .copyWith(color: colorScheme.onSurface),
                   children: [
-                    const TextSpan(text: 'Tu rival acaba de sumar: '),
+                    TextSpan(text: context.l10n.yourOpponentHasScored),
                     TextSpan(
                       text: Utils.attemptResult(
                         context,

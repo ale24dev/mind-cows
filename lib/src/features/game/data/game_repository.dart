@@ -148,7 +148,7 @@ class GameRepository extends GameDataSource {
             final newRecord = payload.newRecord['player'] as String;
             if(newRecord != rival.player.id) return;
             final cows = payload.newRecord['cows'] as int;
-            final bulls = payload.newRecord['cows'] as int;
+            final bulls = payload.newRecord['bulls'] as int;
             return callback((cows, bulls));
           },
         )

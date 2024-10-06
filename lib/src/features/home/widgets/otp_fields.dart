@@ -6,14 +6,14 @@ class OTPFields extends StatefulWidget {
     required this.onChanged,
     super.key,
     this.length = 4,
-    this.fieldWidth = 50,
+    this.fieldWidth = 40,
     this.fieldHeight,
-    this.margin = const EdgeInsets.symmetric(horizontal: 5),
+    this.margin = const EdgeInsets.symmetric(horizontal: 2),
     this.allowRepetitions = true,
   });
 
   final int length;
-  final Function(String) onChanged;
+  final void Function(String) onChanged;
   final double fieldWidth;
   final double? fieldHeight;
   final EdgeInsets margin;
@@ -69,6 +69,9 @@ class OTPFieldsState extends State<OTPFields> {
   }
 
   void clearFields() {
+    // Ocultar el teclado eliminando el foco de cualquier campo de texto activo
+    FocusManager.instance.primaryFocus?.unfocus();
+
     setState(() {
       for (var i = 0; i < widget.length; i++) {
         controllers[i].clear();
@@ -76,8 +79,9 @@ class OTPFieldsState extends State<OTPFields> {
         isFilled[i] = false;
       }
     });
+
     // Llevar el foco al primer campo de texto
-    FocusScope.of(context).requestFocus(focusNodes[0]);
+    // FocusScope.of(context).requestFocus(focusNodes[0]);
   }
 
   @override

@@ -34,7 +34,7 @@ class PlayNumberCard extends StatelessWidget {
               ),
             ),
           ),
-          const GutterLarge(),
+          // const GutterLarge(),
           Expanded(
             child: Container(
               decoration: BoxDecoration(

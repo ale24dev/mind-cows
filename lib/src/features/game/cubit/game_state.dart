@@ -13,6 +13,7 @@ class GameState with _$GameState {
     final AttemptCallbackData? lastRivalResult,
     Player? player,
     DateTime? serverTime,
+    AppException? error,
   }) = _GameState;
   const GameState._();
 

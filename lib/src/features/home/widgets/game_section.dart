@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gutter/flutter_gutter.dart';
@@ -71,10 +72,11 @@ class GameSection extends HookWidget {
       child: Column(
         children: [
           const Gutter(),
-          GameTurnWidget(ownPlayerNumber: ownPlayerNumber),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
+              GameTurnWidget(ownPlayerNumber: ownPlayerNumber),
+              const Spacer(),
               Text(
                 context.l10n.timeLeft,
                 style: AppTextStyle().body.copyWith(
@@ -133,50 +135,46 @@ class _PlayList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
-    return ListView(
-      padding: EdgeInsets.zero,
-      children: [
-        Text(
-          context.l10n.previousAttempts.toUpperCase(),
-          style: AppTextStyle().body.copyWith(
-                fontWeight: FontWeight.w600,
-                color: colorScheme.onSurface,
-              ),
-        ),
-        const GutterSmall(),
-        BlocBuilder<GameCubit, GameState>(
-          builder: (context, state) {
-            if (state.isError) {
-              // log('Error');
-            }
+    return BlocBuilder<GameCubit, GameState>(
+      builder: (context, state) {
+        if (state.isError) {
+          FirebaseCrashlytics.instance.recordFlutterError(
+            FlutterErrorDetails(exception: state.error!),
+          );
+        }
 
-            final attempts = state.isLoading
-                ? getAttemptsMock(state.listAttempts.length + 1)
-                : state.listAttempts;
-            return Skeletonizer(
-              enabled: state.isLoading,
-              child: Column(
-                children: attempts.isEmpty
-                    ? [
-                        Center(
-                          child: Text(
-                            context.l10n.noAttempts,
-                            style: AppTextStyle().body.copyWith(
-                                  color: colorScheme.onSurface,
-                                ),
-                          ),
-                        ),
-                      ]
-                    : attempts.asMap().entries.map((entry) {
+        final attempts = state.isLoading
+            ? getAttemptsMock(state.listAttempts.length + 1)
+            : state.listAttempts;
+        return attempts.isEmpty
+            ? Center(
+                child: Text(
+                  context.l10n.noAttempts,
+                  style: AppTextStyle()
+                      .body
+                      .copyWith(color: colorScheme.onSurface),
+                ),
+              )
+            : ListView(
+                padding: EdgeInsets.zero,
+                children: [
+                  const GutterSmall(),
+                  Skeletonizer(
+                    enabled: state.isLoading,
+                    child: Column(
+                      children: attempts.asMap().entries.map((entry) {
                         final index = attempts.length - entry.key;
                         final value = entry.value;
-                        return PlayNumberCard(attempt: value, index: index);
+                        return PlayNumberCard(
+                          attempt: value,
+                          index: index,
+                        );
                       }).toList(),
-              ),
-            );
-          },
-        ),
-      ],
+                    ),
+                  ),
+                ],
+              );
+      },
     );
   }
 }

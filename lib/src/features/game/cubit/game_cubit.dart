@@ -6,6 +6,7 @@ import 'dart:developer';
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
+import 'package:my_app/src/core/exceptions.dart';
 import 'package:my_app/src/core/ui/extensions.dart';
 import 'package:my_app/src/core/utils/object_extensions.dart';
 import 'package:my_app/src/features/game/data/game_repository.dart';
@@ -69,14 +70,15 @@ class GameCubit extends Cubit<GameState> {
   }
 
   void _listenGame() {
-    final game = Game.empty();
     final myChannel = _client.channel('games_channel');
+
+    log('GameCubit: Database listen on');
 
     myChannel
         .onPostgresChanges(
           event: PostgresChangeEvent.all,
           schema: 'public',
-          table: game.tableName(),
+          table: 'game',
           callback: (payload) {
             log('GameCubit: Database change detected');
 
@@ -111,21 +113,16 @@ class GameCubit extends Cubit<GameState> {
 
     final game = result.fold(
       (error) {
-        emit(state.copyWith(stateStatus: GameStateStatus.error));
+        emit(state.copyWith(stateStatus: GameStateStatus.error, error: error));
         return null;
       },
       (response) => response,
     );
 
-    if (state.isError) {
-      emit(state.copyWith(stateStatus: GameStateStatus.error));
-      return;
-    }
+    if (state.isError) return;
 
     if (game.isNull) {
-      emit(
-        state.copyWith(stateStatus: GameStateStatus.success),
-      );
+      emit(state.copyWith(stateStatus: GameStateStatus.success));
       return;
     }
 

@@ -19,7 +19,7 @@ class GameTurnWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(5),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(5),
+        padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
         child: Text(
           ownPlayerNumber.isTurn
               ? context.l10n.yourTurn

@@ -1,7 +1,9 @@
 import 'dart:async';
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gutter/flutter_gutter.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:my_app/l10n/l10n.dart';
 import 'package:my_app/src/core/extensions/string.dart';
 import 'package:my_app/src/core/ui/typography.dart';
@@ -11,7 +13,7 @@ import 'package:my_app/src/features/home/widgets/otp_fields.dart';
 import 'package:my_app/src/features/player/cubit/player_cubit.dart';
 import 'package:my_app/src/features/player/data/model/player_number.dart';
 
-class SelectSecretNumber extends StatefulWidget {
+class SelectSecretNumber extends HookWidget {
   const SelectSecretNumber({
     required this.onSelect,
     required this.playerNumber,
@@ -22,48 +24,40 @@ class SelectSecretNumber extends StatefulWidget {
   final PlayerNumber playerNumber;
 
   @override
-  State<SelectSecretNumber> createState() => _SelectSecretNumberState();
-}
-
-class _SelectSecretNumberState extends State<SelectSecretNumber> {
-  String secretNumber = '';
-  Timer? _timer;
-  int _start = 60;
-
-  void onChangedNumber(String secretNumber) {
-    setState(() {
-      this.secretNumber = secretNumber;
-    });
-  }
-
-  void startTimer() {
-    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      if (_start == 0) {
-        setState(() {
-          timer.cancel();
-        });
-      } else {
-        setState(() {
-          _start--;
-        });
-      }
-    });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    startTimer();
-  }
-
-  @override
-  void dispose() {
-    _timer?.cancel();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final secretNumber = useState('');
+    final start = useState(60);
+    final timer = useRef<Timer?>(null);
+
+    final isValidNumber = useState(false);
+
+    void onChangedNumber(String newSecretNumber) {
+      secretNumber.value = newSecretNumber;
+
+      isValidNumber.value = Utils.isValidPlayerNumber(newSecretNumber);
+      log(isValidNumber.value.toString());
+    }
+
+    void startTimer() {
+      timer.value = Timer.periodic(const Duration(seconds: 1), (timer) {
+        if (start.value == 0) {
+          timer.cancel();
+        } else {
+          start.value--;
+        }
+      });
+    }
+
+    useEffect(
+      () {
+        startTimer();
+        return () {
+          timer.value?.cancel();
+        };
+      },
+      [],
+    );
+
     final colorScheme = Theme.of(context).colorScheme;
     return AlertDialog(
       title: Text(
@@ -79,10 +73,10 @@ class _SelectSecretNumberState extends State<SelectSecretNumber> {
           ),
           const SizedBox(height: 16),
           Text(
-            context.l10n.timeRemaining(_start),
+            context.l10n.timeRemaining(start.value),
             style: AppTextStyle().body.copyWith(
                   fontWeight: FontWeight.w600,
-                  color: _start <= 10 ? Colors.red : colorScheme.onSurface,
+                  color: start.value <= 10 ? Colors.red : colorScheme.onSurface,
                 ),
           ),
           const GutterSmall(),
@@ -100,26 +94,15 @@ class _SelectSecretNumberState extends State<SelectSecretNumber> {
               context.l10n.send,
               style: AppTextStyle().body.copyWith(color: Colors.white),
             ),
-            onPressed: secretNumber.length != 4
+            onPressed: !isValidNumber.value
                 ? null
                 : () async {
-                    final isValidNumber =
-                        Utils.isValidPlayerNumber(secretNumber);
-                    if (!isValidNumber) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(context.l10n.introduceValidNumber),
-                          backgroundColor: Colors.red,
-                        ),
-                      );
-                      return;
-                    }
                     await context.read<PlayerCubit>().updatePlayerNumber(
-                          widget.playerNumber.copyWith(
-                            number: secretNumber.parseOptToNumberValue,
+                          playerNumber.copyWith(
+                            number: secretNumber.value.parseOptToNumberValue,
                           ),
                         );
-                    widget.onSelect();
+                    onSelect();
                   },
           ),
         ],

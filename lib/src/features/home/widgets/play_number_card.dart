@@ -34,7 +34,7 @@ class PlayNumberCard extends StatelessWidget {
               ),
             ),
           ),
-          // const GutterLarge(),
+          const GutterSmall(),
           Expanded(
             child: Container(
               decoration: BoxDecoration(
@@ -44,7 +44,7 @@ class PlayNumberCard extends StatelessWidget {
               ),
               child: Padding(
                 padding:
-                    const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                    const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

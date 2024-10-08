@@ -5,13 +5,16 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:injectable/injectable.dart';
+import 'package:my_app/src/core/exceptions.dart';
 import 'package:my_app/src/core/utils/object_extensions.dart';
 import 'package:my_app/src/features/auth/views/auth_screen.dart';
 import 'package:my_app/src/features/auth/views/signup_screen.dart';
 import 'package:my_app/src/features/game/game_screen.dart';
 import 'package:my_app/src/features/game/search_game_screen.dart';
 import 'package:my_app/src/features/home/home_screen.dart';
-import 'package:my_app/src/features/settings/settings_screen.dart';
+import 'package:my_app/src/features/settings/data/model/rules.dart';
+import 'package:my_app/src/features/settings/pages/how_to_play_screen.dart';
+import 'package:my_app/src/features/settings/pages/settings_screen.dart';
 import 'package:my_app/src/features/splash/splash_screen.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -24,6 +27,7 @@ enum AppRoute {
   game,
   searchGame,
   settings,
+  howToPlay,
 }
 
 final rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'root');
@@ -109,6 +113,19 @@ final class RouterController {
                   child: const SettingsScreen(),
                 );
               },
+              routes: [
+                GoRoute(
+                  path: 'how-to-play',
+                  name: AppRoute.howToPlay.name,
+                  pageBuilder: (context, state) {
+                    final rules = extraFromState<Rules>(state);
+                    return adaptivePageRoute(
+                      key: ValueKey(state.pageKey.value),
+                      child: HowToPlayScreen(rules: rules),
+                    );
+                  },
+                ),
+              ],
             ),
           ],
         ),
@@ -157,4 +174,13 @@ Page<T> adaptivePageRoute<T>({
     maintainState: maintainState,
     restorationId: restorationId,
   );
+}
+
+T extraFromState<T>(GoRouterState state, [T? orElse]) {
+  if (state.extra is T) {
+    return state.extra as T;
+  } else {
+    if (orElse != null) return orElse;
+    throw Exception(state.uri.path);
+  }
 }

@@ -55,12 +55,15 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i454.SupabaseClient>(() => supabaseModule.client);
     gh.singleton<_i220.Preferences>(
         () => _i220.Preferences(gh<_i460.SharedPreferences>()));
+    gh.singleton<_i94.SettingsDatasource>(() => _i621.SettingsRepository(
+          gh<_i220.Preferences>(),
+          gh<_i454.SupabaseClient>(),
+          gh<_i330.SupabaseServiceImpl>(),
+        ));
     gh.singleton<_i427.AuthRepository>(
         () => _i427.AuthRepository(gh<_i454.SupabaseClient>()));
     gh.singleton<_i63.RouterController>(
         () => _i63.RouterController(gh<_i454.SupabaseClient>()));
-    gh.singleton<_i94.SettingsLocalDatasource>(
-        () => _i621.SettingsRepository(gh<_i220.Preferences>()));
     gh.singleton<_i34.RankingRepository>(() => _i34.RankingRepository(
           gh<_i330.SupabaseServiceImpl>(),
           gh<_i454.SupabaseClient>(),
@@ -78,6 +81,8 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i34.GameRepository>(),
           gh<_i406.PlayerRepository>(),
         ));
+    gh.factory<_i303.SettingsCubit>(
+        () => _i303.SettingsCubit(gh<_i94.SettingsDatasource>()));
     gh.factory<_i931.RankingCubit>(
         () => _i931.RankingCubit(gh<_i34.RankingRepository>()));
     gh.factory<_i126.PlayerCubit>(() => _i126.PlayerCubit(
@@ -88,8 +93,6 @@ extension GetItInjectableX on _i174.GetIt {
           gh<_i427.AuthRepository>(),
           gh<_i454.SupabaseClient>(),
         ));
-    gh.factory<_i303.SettingsCubit>(
-        () => _i303.SettingsCubit(gh<_i94.SettingsLocalDatasource>()));
     gh.factory<_i1038.AppCubit>(() => _i1038.AppCubit(
           gh<_i34.GameRepository>(),
           gh<_i454.SupabaseClient>(),

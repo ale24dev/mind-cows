@@ -1,5 +1,7 @@
 ///This class contains all tables inside of supabase database
 abstract class QuerySupabase {
+  static String get rules => 'id, rules, language, updated_at';
+
   static String get player => 'id, username, avatar_url';
 
   static String get playerNumber =>

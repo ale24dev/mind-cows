@@ -2,13 +2,16 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:my_app/l10n/l10n.dart';
 import 'package:my_app/src/core/ui/colors.dart';
 import 'package:my_app/src/core/ui/typography.dart';
+import 'package:my_app/src/core/utils/utils.dart';
 import 'package:my_app/src/features/auth/cubit/auth_cubit.dart';
 import 'package:my_app/src/features/settings/cubit/settings_cubit.dart';
 import 'package:my_app/src/features/settings/widgets/change_language_dialog.dart';
 import 'package:my_app/src/features/settings/widgets/change_profile_image_dialog.dart';
+import 'package:my_app/src/router/router.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
@@ -37,6 +40,22 @@ class SettingsScreen extends StatelessWidget {
                   builder: (context) {
                     return const ChangeProfileImageDialog();
                   },
+                ),
+              ),
+              ListTile(
+                leading: const Icon(Icons.question_mark),
+                title: Text(
+                  context.l10n.howToPlay,
+                  style: AppTextStyle()
+                      .body
+                      .copyWith(color: colorScheme.onSurface),
+                ),
+                onTap: () => context.goNamed(
+                  AppRoute.howToPlay.name,
+                  extra: Utils.getRulesByLanguage(
+                    context.l10n.localeName,
+                    rules: state.rules!,
+                  ),
                 ),
               ),
               ListTile(

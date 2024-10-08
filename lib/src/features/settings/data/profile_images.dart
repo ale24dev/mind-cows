@@ -9,5 +9,5 @@ final profileImagesUrl = [
   '${Constants.publicStorageUrl}/avatars/51491.jpg',
   '${Constants.publicStorageUrl}/avatars/businesswoman-cartoon-character-gray-background-3d-illustration-business-concept.jpg',
   '${Constants.publicStorageUrl}/avatars/50955.jpg',
-  '${Constants.publicStorageUrl}/avatars/portrait-beautiful-young-woman-with-stylish-hairstyle-glasses.jpg?t=2024-10-05T04%3A16%3A07.395Z',
+  '${Constants.publicStorageUrl}/avatars/portrait-beautiful-young-woman-with-stylish-hairstyle-glasses.jpg',
 ];

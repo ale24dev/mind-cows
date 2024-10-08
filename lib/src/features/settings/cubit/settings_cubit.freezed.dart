@@ -18,6 +18,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$SettingsState {
   SettingsStateStatus get stateStatus => throw _privateConstructorUsedError;
   Locale get locale => throw _privateConstructorUsedError;
+  List<Rules>? get rules => throw _privateConstructorUsedError;
   ThemeMode? get theme => throw _privateConstructorUsedError;
   AppException? get error => throw _privateConstructorUsedError;
 
@@ -37,6 +38,7 @@ abstract class $SettingsStateCopyWith<$Res> {
   $Res call(
       {SettingsStateStatus stateStatus,
       Locale locale,
+      List<Rules>? rules,
       ThemeMode? theme,
       AppException? error});
 }
@@ -58,6 +60,7 @@ class _$SettingsStateCopyWithImpl<$Res, $Val extends SettingsState>
   $Res call({
     Object? stateStatus = null,
     Object? locale = null,
+    Object? rules = freezed,
     Object? theme = freezed,
     Object? error = freezed,
   }) {
@@ -70,6 +73,10 @@ class _$SettingsStateCopyWithImpl<$Res, $Val extends SettingsState>
           ? _value.locale
           : locale // ignore: cast_nullable_to_non_nullable
               as Locale,
+      rules: freezed == rules
+          ? _value.rules
+          : rules // ignore: cast_nullable_to_non_nullable
+              as List<Rules>?,
       theme: freezed == theme
           ? _value.theme
           : theme // ignore: cast_nullable_to_non_nullable
@@ -93,6 +100,7 @@ abstract class _$$SettingsStateImplCopyWith<$Res>
   $Res call(
       {SettingsStateStatus stateStatus,
       Locale locale,
+      List<Rules>? rules,
       ThemeMode? theme,
       AppException? error});
 }
@@ -112,6 +120,7 @@ class __$$SettingsStateImplCopyWithImpl<$Res>
   $Res call({
     Object? stateStatus = null,
     Object? locale = null,
+    Object? rules = freezed,
     Object? theme = freezed,
     Object? error = freezed,
   }) {
@@ -124,6 +133,10 @@ class __$$SettingsStateImplCopyWithImpl<$Res>
           ? _value.locale
           : locale // ignore: cast_nullable_to_non_nullable
               as Locale,
+      rules: freezed == rules
+          ? _value._rules
+          : rules // ignore: cast_nullable_to_non_nullable
+              as List<Rules>?,
       theme: freezed == theme
           ? _value.theme
           : theme // ignore: cast_nullable_to_non_nullable
@@ -142,9 +155,11 @@ class _$SettingsStateImpl extends _SettingsState {
   const _$SettingsStateImpl(
       {this.stateStatus = SettingsStateStatus.initial,
       this.locale = const Locale('en'),
+      final List<Rules>? rules,
       this.theme,
       this.error})
-      : super._();
+      : _rules = rules,
+        super._();
 
   @override
   @JsonKey()
@@ -152,6 +167,16 @@ class _$SettingsStateImpl extends _SettingsState {
   @override
   @JsonKey()
   final Locale locale;
+  final List<Rules>? _rules;
+  @override
+  List<Rules>? get rules {
+    final value = _rules;
+    if (value == null) return null;
+    if (_rules is EqualUnmodifiableListView) return _rules;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
   @override
   final ThemeMode? theme;
   @override
@@ -159,7 +184,7 @@ class _$SettingsStateImpl extends _SettingsState {
 
   @override
   String toString() {
-    return 'SettingsState(stateStatus: $stateStatus, locale: $locale, theme: $theme, error: $error)';
+    return 'SettingsState(stateStatus: $stateStatus, locale: $locale, rules: $rules, theme: $theme, error: $error)';
   }
 
   @override
@@ -170,13 +195,14 @@ class _$SettingsStateImpl extends _SettingsState {
             (identical(other.stateStatus, stateStatus) ||
                 other.stateStatus == stateStatus) &&
             (identical(other.locale, locale) || other.locale == locale) &&
+            const DeepCollectionEquality().equals(other._rules, _rules) &&
             (identical(other.theme, theme) || other.theme == theme) &&
             (identical(other.error, error) || other.error == error));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, stateStatus, locale, theme, error);
+  int get hashCode => Object.hash(runtimeType, stateStatus, locale,
+      const DeepCollectionEquality().hash(_rules), theme, error);
 
   /// Create a copy of SettingsState
   /// with the given fields replaced by the non-null parameter values.
@@ -191,6 +217,7 @@ abstract class _SettingsState extends SettingsState {
   const factory _SettingsState(
       {final SettingsStateStatus stateStatus,
       final Locale locale,
+      final List<Rules>? rules,
       final ThemeMode? theme,
       final AppException? error}) = _$SettingsStateImpl;
   const _SettingsState._() : super._();
@@ -199,6 +226,8 @@ abstract class _SettingsState extends SettingsState {
   SettingsStateStatus get stateStatus;
   @override
   Locale get locale;
+  @override
+  List<Rules>? get rules;
   @override
   ThemeMode? get theme;
   @override

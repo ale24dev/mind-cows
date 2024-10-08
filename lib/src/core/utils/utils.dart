@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/l10n/l10n.dart';
+import 'package:my_app/src/features/settings/data/model/rules.dart';
 
 abstract class Utils {
   static bool isValidPlayerNumber(String value) {
@@ -25,5 +26,15 @@ abstract class Utils {
       default:
         return const Locale('en', 'US');
     }
+  }
+
+  static Rules getRulesByLanguage(
+    String language, {
+    required List<Rules> rules,
+  }) {
+    final rule =
+        rules.firstWhere((element) => element.language.name == language);
+
+    return rule;
   }
 }

@@ -112,15 +112,15 @@ async function findOrCreateGame(supabase: any, playerId: string) {
 async function verifyIfGameIsSearching(supabase: any, gameId: number, searchingStatusId: number) {
   console.log("Verifying if game is in progress for game ID:", gameId);
 
-  const { status, error } = await supabase.from("game").select("status").eq("id", gameId).single();
+  const { data: foundGame, error } = await supabase.from("game").select("id, status").eq("id", gameId).single();
 
   if (error) {
     console.error("Error searching game:", error);
     throw new Error(`Error searching game: ${error.message}`);
   }
 
-  console.log("Game status:", status);
-  if (status.id === searchingStatusId) return true;
+  console.log("Game status:", foundGame.status);
+  if (foundGame.status === searchingStatusId) return true;
 
   return false;
 }

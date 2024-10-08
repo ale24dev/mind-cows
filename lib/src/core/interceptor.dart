@@ -1,8 +1,13 @@
+// ignore_for_file: avoid_dynamic_calls
+
+import 'dart:convert';
+
 import 'package:fpdart/fpdart.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logger/logger.dart';
 import 'package:my_app/src/core/di/dependency_injection.dart';
 import 'package:my_app/src/core/exceptions.dart';
+import 'package:my_app/src/core/utils/object_extensions.dart';
 import 'package:my_app/src/features/auth/data/auth_repository.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -11,6 +16,7 @@ enum QueryOption { select, insert, uploadStorage, update, delete }
 @singleton
 class SupabaseServiceImpl {
   SupabaseServiceImpl();
+
   /// Executes a query to the database.
   ///
   /// [table] The name of the table.
@@ -48,9 +54,15 @@ class SupabaseServiceImpl {
         return right(response as T);
       }
 
-      final parsedData = fromJsonParse != null
-          ? fromJsonParse(table == 'result' ? response[0] : response) as T
-          : response as T;
+      T parsedData;
+      if (response is FunctionResponse && fromJsonParse.isNotNull) {
+        final responseString = json.decode(response.data.toString());
+        parsedData = fromJsonParse!(responseString['data']) as T;
+      } else {
+        parsedData = fromJsonParse != null
+            ? fromJsonParse(response) as T
+            : response as T;
+      }
 
       logger.d('✅ Request to -> ${queryOption.name} $table');
       return right(parsedData);

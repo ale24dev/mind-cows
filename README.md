@@ -3,10 +3,10 @@
 Welcome to **MindCows**, a fun and interactive game developed for the [Supabase Hackathon Launch Week 12, 2024](https://supabase.com/blog/supabase-lw12-hackathon). This project was built using **Flutter** and **Supabase** and is fully open-source.
 
 # Screenshots
+![Screenshot 2024-10-08 at 3 26 00 AM](https://github.com/user-attachments/assets/4f50f436-99c4-4994-81b4-28b0f300f455)
 
-<img width="458" alt="Screenshot 2024-09-23 at 1 19 27 AM" src="https://github.com/user-attachments/assets/e1f8a731-cf9c-47e2-a4cf-867f7f59e5b9">
+![Screenshot 2024-10-08 at 3 24 24 AM](https://github.com/user-attachments/assets/b558ae35-615b-4f36-9cd0-55ab83f6078c)
 
-<img width="1363" alt="Screenshot 2024-09-23 at 1 21 02 AM" src="https://github.com/user-attachments/assets/86f2e662-62e2-4dd0-a619-3aaf671dc7a4">
 
 ## Overview
 

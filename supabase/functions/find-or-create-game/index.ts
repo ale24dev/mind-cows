@@ -90,7 +90,7 @@ async function findOrCreateGame(supabase: any, playerId: string) {
     console.log("Creating new game...");
     newGameId = await createNewGame(supabase, playerNumberId, searchingStatus.id);
 
-    await wait(5000); // Esperar 10 segundos para que otro jugador se una al juego
+    await wait(5000); // Esperar 5 segundos para que otro jugador se una al juego
 
     const isSearching = await verifyIfGameIsSearching(supabase, newGameId, searchingStatus.id);
     console.log("Is searching yet?", isSearching);

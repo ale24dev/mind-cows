@@ -1,5 +1,7 @@
 // ignore_for_file: prefer_interpolation_to_compose_strings
 
+import 'dart:developer';
+
 import 'package:fpdart/fpdart.dart';
 import 'package:injectable/injectable.dart';
 import 'package:my_app/src/core/exceptions.dart';
@@ -22,14 +24,17 @@ class GameRepository extends GameDataSource {
   final SupabaseClient _client;
 
   final gameStatus = GameStatus.empty();
+
   @override
-  Future<Either<AppException?, Game?>> findOrCreateGame(Player player) {
+  Future<Either<AppException?, Game?>> findOrCreateGame(Player player) async{
     return _supabaseServiceImpl.query<Game>(
       table: 'RPC create_game',
-      request: () =>
-          // _client.rpc('create_game', params: {'player_id': player.id}),
-          _client
-              .rpc('find_or_create_game', params: {'p_player_id': player.id}),
+      request: () => _client.functions.invoke(
+        'find-or-create-game',
+        body: {
+          'playerId': player.id,
+        },
+      ),
       queryOption: QueryOption.insert,
       fromJsonParse: Game.fromJson,
     );
@@ -142,11 +147,10 @@ class GameRepository extends GameDataSource {
           schema: 'public',
           table: 'attempt',
           callback: (payload) {
-
             final rival = game.getRivalPlayerNumber(player);
 
             final newRecord = payload.newRecord['player'] as String;
-            if(newRecord != rival.player.id) return;
+            if (newRecord != rival.player.id) return;
             final cows = payload.newRecord['cows'] as int;
             final bulls = payload.newRecord['bulls'] as int;
             return callback((cows, bulls));

@@ -77,5 +77,6 @@
     "theme": "Tema",
     "darkMode": "Modo oscuro",
 
-    "yourOpponentHasScored": "Tu rival acaba de sumar: "
+    "yourOpponentHasScored": "Tu rival acaba de sumar: ",
+    "howToPlay": "¿Cómo jugar?"
   }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:my_app/l10n/l10n.dart';
-import 'package:my_app/src/core/ui/typography.dart';
-import 'package:my_app/src/features/player/data/model/player_number.dart';
+import 'package:mind_cows/l10n/l10n.dart';
+import 'package:mind_cows/src/core/ui/typography.dart';
+import 'package:mind_cows/src/features/player/data/model/player_number.dart';
 
 class GameTurnWidget extends StatelessWidget {
   const GameTurnWidget({

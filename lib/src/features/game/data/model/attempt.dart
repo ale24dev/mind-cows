@@ -1,11 +1,11 @@
 import 'package:flutter/widgets.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:my_app/l10n/l10n.dart';
-import 'package:my_app/src/core/supabase/table_interface.dart';
-import 'package:my_app/src/core/utils/object_extensions.dart';
-import 'package:my_app/src/features/auth/views/auth_screen.dart';
-import 'package:my_app/src/features/game/data/model/game.dart';
-import 'package:my_app/src/features/player/data/model/player.dart';
+import 'package:mind_cows/l10n/l10n.dart';
+import 'package:mind_cows/src/core/supabase/table_interface.dart';
+import 'package:mind_cows/src/core/utils/object_extensions.dart';
+import 'package:mind_cows/src/features/auth/views/auth_screen.dart';
+import 'package:mind_cows/src/features/game/data/model/game.dart';
+import 'package:mind_cows/src/features/player/data/model/player.dart';
 
 part 'attempt.g.dart';
 

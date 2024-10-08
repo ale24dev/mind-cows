@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:fpdart/src/either.dart';
 import 'package:injectable/injectable.dart';
-import 'package:my_app/src/core/exceptions.dart';
-import 'package:my_app/src/core/interceptor.dart';
-import 'package:my_app/src/core/preferences/preferences.dart';
-import 'package:my_app/src/core/services/settings_datasource.dart';
-import 'package:my_app/src/core/supabase/query_supabase.dart';
-import 'package:my_app/src/core/utils/utils.dart';
-import 'package:my_app/src/features/settings/data/model/rules.dart';
+import 'package:mind_cows/src/core/exceptions.dart';
+import 'package:mind_cows/src/core/interceptor.dart';
+import 'package:mind_cows/src/core/preferences/preferences.dart';
+import 'package:mind_cows/src/core/services/settings_datasource.dart';
+import 'package:mind_cows/src/core/supabase/query_supabase.dart';
+import 'package:mind_cows/src/core/utils/utils.dart';
+import 'package:mind_cows/src/features/settings/data/model/rules.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 @Singleton(as: SettingsDatasource)
@@ -21,7 +21,7 @@ class SettingsRepository extends SettingsDatasource {
   @override
   Locale changeLanguage(String language) {
     _preferences.setLanguage(language);
-    return Utils.getLocaleByCode(language);
+    return Utils.getLocaleByCode(language)!;
   }
 
   @override
@@ -32,7 +32,7 @@ class SettingsRepository extends SettingsDatasource {
   }
 
   @override
-  Locale getLanguage() {
+  Locale? getLanguage() {
     return _preferences.getLanguage();
   }
 

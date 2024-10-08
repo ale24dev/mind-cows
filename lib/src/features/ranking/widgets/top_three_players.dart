@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gutter/flutter_gutter.dart';
-import 'package:my_app/src/core/ui/typography.dart';
-import 'package:my_app/src/core/utils/widgets/cache_widget.dart';
-import 'package:my_app/src/features/player/data/model/player.dart';
-import 'package:my_app/src/features/ranking/data/model/ranking.dart';
-import 'package:my_app/src/features/ranking/uitls/ranking_utils.dart';
+import 'package:mind_cows/src/core/ui/typography.dart';
+import 'package:mind_cows/src/core/utils/widgets/cache_widget.dart';
+import 'package:mind_cows/src/features/player/data/model/player.dart';
+import 'package:mind_cows/src/features/ranking/data/model/ranking.dart';
+import 'package:mind_cows/src/features/ranking/uitls/ranking_utils.dart';
 
 class TopThreePlayers extends StatelessWidget {
   const TopThreePlayers(this.ranking, {super.key});

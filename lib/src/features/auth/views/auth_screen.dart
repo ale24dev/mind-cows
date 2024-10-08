@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gutter/flutter_gutter.dart';
 import 'package:go_router/go_router.dart';
-import 'package:my_app/l10n/l10n.dart';
-import 'package:my_app/src/core/extensions/string.dart';
-import 'package:my_app/src/core/ui/device.dart';
-import 'package:my_app/src/core/ui/typography.dart';
-import 'package:my_app/src/core/utils/widgets/generic_button.dart';
-import 'package:my_app/src/core/utils/widgets/generic_text_field.dart';
-import 'package:my_app/src/features/auth/cubit/auth_cubit.dart';
-import 'package:my_app/src/router/router.dart';
+import 'package:mind_cows/l10n/l10n.dart';
+import 'package:mind_cows/src/core/extensions/string.dart';
+import 'package:mind_cows/src/core/ui/device.dart';
+import 'package:mind_cows/src/core/ui/typography.dart';
+import 'package:mind_cows/src/core/utils/widgets/generic_button.dart';
+import 'package:mind_cows/src/core/utils/widgets/generic_text_field.dart';
+import 'package:mind_cows/src/features/auth/cubit/auth_cubit.dart';
+import 'package:mind_cows/src/router/router.dart';
 import 'package:sized_context/sized_context.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

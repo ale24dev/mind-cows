@@ -4,7 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:cached_network_image_platform_interface/cached_network_image_platform_interface.dart';
 import 'package:flutter/material.dart';
-import 'package:my_app/resources/resources.dart';
+import 'package:mind_cows/resources/resources.dart';
 
 class CacheWidget extends StatelessWidget {
   /// Widget to show images from the internet and keep them in the cache directory.

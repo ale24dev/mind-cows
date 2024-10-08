@@ -26,9 +26,7 @@ mixin _$GameState {
   DateTime? get serverTime => throw _privateConstructorUsedError;
   AppException? get error => throw _privateConstructorUsedError;
 
-  /// Create a copy of GameState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $GameStateCopyWith<GameState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -60,8 +58,6 @@ class _$GameStateCopyWithImpl<$Res, $Val extends GameState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of GameState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -144,8 +140,6 @@ class __$$GameStateImplCopyWithImpl<$Res>
       _$GameStateImpl _value, $Res Function(_$GameStateImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of GameState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -293,9 +287,7 @@ class _$GameStateImpl extends _GameState {
       serverTime,
       error);
 
-  /// Create a copy of GameState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$GameStateImplCopyWith<_$GameStateImpl> get copyWith =>
@@ -333,11 +325,8 @@ abstract class _GameState extends GameState {
   DateTime? get serverTime;
   @override
   AppException? get error;
-
-  /// Create a copy of GameState
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$GameStateImplCopyWith<_$GameStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

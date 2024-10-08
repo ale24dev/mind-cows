@@ -1,8 +1,8 @@
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 
-import 'package:my_app/src/core/ui/colors.dart';
-import 'package:my_app/src/core/ui/typography.dart';
+import 'package:mind_cows/src/core/ui/colors.dart';
+import 'package:mind_cows/src/core/ui/typography.dart';
 
 class AppTheme {
   AppTheme();

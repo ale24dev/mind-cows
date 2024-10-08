@@ -1,8 +1,8 @@
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
-import 'package:my_app/l10n/l10n.dart';
-import 'package:my_app/src/core/ui/colors.dart';
-import 'package:my_app/src/core/utils/widgets/bottom_snackbar.dart';
+import 'package:mind_cows/l10n/l10n.dart';
+import 'package:mind_cows/src/core/ui/colors.dart';
+import 'package:mind_cows/src/core/utils/widgets/bottom_snackbar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 /// Adds extensions to num  to make creating durations more succint:

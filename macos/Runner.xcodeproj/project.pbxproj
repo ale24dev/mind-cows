@@ -387,7 +387,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.mindcows.app.RunnerTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/my_app.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/my_app";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/mind_cows.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/mind_cows";
 			};
 			name = "Debug-production";
 		};
@@ -401,7 +401,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.mindcows.app.RunnerTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/my_app.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/my_app";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/mind_cows.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/mind_cows";
 			};
 			name = "Release-production";
 		};
@@ -415,7 +415,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.mindcows.app.RunnerTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/my_app.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/my_app";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/mind_cows.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/mind_cows";
 			};
 			name = "Profile-production";
 		};
@@ -738,7 +738,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.mindcows.app.RunnerTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/my_app.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/my_app";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/mind_cows.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/mind_cows";
 			};
 			name = "Debug-staging";
 		};
@@ -836,7 +836,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.mindcows.app.RunnerTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/my_app.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/my_app";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/mind_cows.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/mind_cows";
 			};
 			name = "Debug-development";
 		};
@@ -926,7 +926,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.mindcows.app.RunnerTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/my_app.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/my_app";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/mind_cows.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/mind_cows";
 			};
 			name = "Release-development";
 		};
@@ -1016,7 +1016,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.mindcows.app.RunnerTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/my_app.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/my_app";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/mind_cows.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/mind_cows";
 			};
 			name = "Release-staging";
 		};
@@ -1106,7 +1106,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.mindcows.app.RunnerTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/my_app.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/my_app";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/mind_cows.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/mind_cows";
 			};
 			name = "Profile-development";
 		};
@@ -1196,7 +1196,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.mindcows.app.RunnerTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/my_app.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/my_app";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/mind_cows.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/mind_cows";
 			};
 			name = "Profile-staging";
 		};

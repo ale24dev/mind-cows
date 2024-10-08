@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gutter/flutter_gutter.dart';
-import 'package:my_app/l10n/l10n.dart';
-import 'package:my_app/src/core/ui/colors.dart';
-import 'package:my_app/src/core/ui/typography.dart';
-import 'package:my_app/src/core/utils/widgets/cache_widget.dart';
-import 'package:my_app/src/features/game/cubit/game_cubit.dart';
-import 'package:my_app/src/features/game/data/model/game.dart';
-import 'package:my_app/src/features/player/cubit/player_cubit.dart';
-import 'package:my_app/src/features/ranking/cubit/ranking_cubit.dart';
-import 'package:my_app/src/features/ranking/data/model/ranking.dart';
-import 'package:my_app/src/features/ranking/uitls/ranking_utils.dart';
+import 'package:mind_cows/l10n/l10n.dart';
+import 'package:mind_cows/src/core/ui/colors.dart';
+import 'package:mind_cows/src/core/ui/typography.dart';
+import 'package:mind_cows/src/core/utils/widgets/cache_widget.dart';
+import 'package:mind_cows/src/features/game/cubit/game_cubit.dart';
+import 'package:mind_cows/src/features/game/data/model/game.dart';
+import 'package:mind_cows/src/features/player/cubit/player_cubit.dart';
+import 'package:mind_cows/src/features/ranking/cubit/ranking_cubit.dart';
+import 'package:mind_cows/src/features/ranking/data/model/ranking.dart';
+import 'package:mind_cows/src/features/ranking/uitls/ranking_utils.dart';
 
 class VersusSection extends StatelessWidget {
   const VersusSection({required this.game, super.key});

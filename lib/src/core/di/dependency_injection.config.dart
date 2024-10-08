@@ -10,27 +10,27 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
-import 'package:my_app/src/core/di/modules/modules.dart' as _i560;
-import 'package:my_app/src/core/interceptor.dart' as _i330;
-import 'package:my_app/src/core/preferences/preferences.dart' as _i220;
-import 'package:my_app/src/core/services/settings_datasource.dart' as _i94;
-import 'package:my_app/src/core/supabase/client.dart' as _i880;
-import 'package:my_app/src/features/auth/cubit/auth_cubit.dart' as _i992;
-import 'package:my_app/src/features/auth/data/auth_repository.dart' as _i427;
-import 'package:my_app/src/features/game/cubit/game_cubit.dart' as _i584;
-import 'package:my_app/src/features/game/data/game_repository.dart' as _i34;
-import 'package:my_app/src/features/player/cubit/player_cubit.dart' as _i126;
-import 'package:my_app/src/features/player/data/player_repository.dart'
+import 'package:mind_cows/src/core/di/modules/modules.dart' as _i560;
+import 'package:mind_cows/src/core/interceptor.dart' as _i330;
+import 'package:mind_cows/src/core/preferences/preferences.dart' as _i220;
+import 'package:mind_cows/src/core/services/settings_datasource.dart' as _i94;
+import 'package:mind_cows/src/core/supabase/client.dart' as _i880;
+import 'package:mind_cows/src/features/auth/cubit/auth_cubit.dart' as _i992;
+import 'package:mind_cows/src/features/auth/data/auth_repository.dart' as _i427;
+import 'package:mind_cows/src/features/game/cubit/game_cubit.dart' as _i584;
+import 'package:mind_cows/src/features/game/data/game_repository.dart' as _i34;
+import 'package:mind_cows/src/features/player/cubit/player_cubit.dart' as _i126;
+import 'package:mind_cows/src/features/player/data/player_repository.dart'
     as _i406;
-import 'package:my_app/src/features/ranking/cubit/ranking_cubit.dart' as _i931;
-import 'package:my_app/src/features/ranking/data/ranking_repository.dart'
+import 'package:mind_cows/src/features/ranking/cubit/ranking_cubit.dart' as _i931;
+import 'package:mind_cows/src/features/ranking/data/ranking_repository.dart'
     as _i34;
-import 'package:my_app/src/features/settings/cubit/settings_cubit.dart'
+import 'package:mind_cows/src/features/settings/cubit/settings_cubit.dart'
     as _i303;
-import 'package:my_app/src/features/settings/data/settings_repository.dart'
+import 'package:mind_cows/src/features/settings/data/settings_repository.dart'
     as _i621;
-import 'package:my_app/src/features/splash/cubit/app_cubit.dart' as _i1038;
-import 'package:my_app/src/router/router.dart' as _i63;
+import 'package:mind_cows/src/features/splash/cubit/app_cubit.dart' as _i1038;
+import 'package:mind_cows/src/router/router.dart' as _i63;
 import 'package:shared_preferences/shared_preferences.dart' as _i460;
 import 'package:supabase_flutter/supabase_flutter.dart' as _i454;
 

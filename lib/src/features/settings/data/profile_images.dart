@@ -1,4 +1,4 @@
-import 'package:my_app/src/core/constants.dart';
+import 'package:mind_cows/src/core/constants.dart';
 
 final profileImagesUrl = [
   '${Constants.publicStorageUrl}/avatars/2151021955.jpg?t=2024-10-05T03%3A55%3A11.685Z',

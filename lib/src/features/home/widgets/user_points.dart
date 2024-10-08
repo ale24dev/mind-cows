@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gutter/flutter_gutter.dart';
-import 'package:my_app/resources/resources.dart';
-import 'package:my_app/src/core/ui/typography.dart';
-import 'package:my_app/src/features/player/data/model/player.dart';
-import 'package:my_app/src/features/ranking/cubit/ranking_cubit.dart';
-import 'package:my_app/src/features/ranking/uitls/ranking_utils.dart';
+import 'package:mind_cows/resources/resources.dart';
+import 'package:mind_cows/src/core/ui/typography.dart';
+import 'package:mind_cows/src/features/player/data/model/player.dart';
+import 'package:mind_cows/src/features/ranking/cubit/ranking_cubit.dart';
+import 'package:mind_cows/src/features/ranking/uitls/ranking_utils.dart';
 
 class UserPoints extends StatelessWidget {
   const UserPoints({

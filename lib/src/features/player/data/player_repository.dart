@@ -4,14 +4,14 @@ import 'dart:developer';
 
 import 'package:fpdart/fpdart.dart';
 import 'package:injectable/injectable.dart';
-import 'package:my_app/src/core/exceptions.dart';
-import 'package:my_app/src/core/extensions/list.dart';
-import 'package:my_app/src/core/interceptor.dart';
-import 'package:my_app/src/core/services/player_datasource.dart';
-import 'package:my_app/src/core/supabase/query_supabase.dart';
-import 'package:my_app/src/features/player/data/model/player.dart';
-import 'package:my_app/src/features/player/data/model/player_number.dart';
-import 'package:my_app/src/features/player/domain/player_number_realtime.dart';
+import 'package:mind_cows/src/core/exceptions.dart';
+import 'package:mind_cows/src/core/extensions/list.dart';
+import 'package:mind_cows/src/core/interceptor.dart';
+import 'package:mind_cows/src/core/services/player_datasource.dart';
+import 'package:mind_cows/src/core/supabase/query_supabase.dart';
+import 'package:mind_cows/src/features/player/data/model/player.dart';
+import 'package:mind_cows/src/features/player/data/model/player_number.dart';
+import 'package:mind_cows/src/features/player/domain/player_number_realtime.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 typedef PlayerNumberCallbackData = (

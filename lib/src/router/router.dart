@@ -5,17 +5,17 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:injectable/injectable.dart';
-import 'package:my_app/src/core/exceptions.dart';
-import 'package:my_app/src/core/utils/object_extensions.dart';
-import 'package:my_app/src/features/auth/views/auth_screen.dart';
-import 'package:my_app/src/features/auth/views/signup_screen.dart';
-import 'package:my_app/src/features/game/game_screen.dart';
-import 'package:my_app/src/features/game/search_game_screen.dart';
-import 'package:my_app/src/features/home/home_screen.dart';
-import 'package:my_app/src/features/settings/data/model/rules.dart';
-import 'package:my_app/src/features/settings/pages/how_to_play_screen.dart';
-import 'package:my_app/src/features/settings/pages/settings_screen.dart';
-import 'package:my_app/src/features/splash/splash_screen.dart';
+import 'package:mind_cows/src/core/exceptions.dart';
+import 'package:mind_cows/src/core/utils/object_extensions.dart';
+import 'package:mind_cows/src/features/auth/views/auth_screen.dart';
+import 'package:mind_cows/src/features/auth/views/signup_screen.dart';
+import 'package:mind_cows/src/features/game/game_screen.dart';
+import 'package:mind_cows/src/features/game/search_game_screen.dart';
+import 'package:mind_cows/src/features/home/home_screen.dart';
+import 'package:mind_cows/src/features/settings/data/model/rules.dart';
+import 'package:mind_cows/src/features/settings/pages/how_to_play_screen.dart';
+import 'package:mind_cows/src/features/settings/pages/settings_screen.dart';
+import 'package:mind_cows/src/features/splash/splash_screen.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 enum AppRoute {

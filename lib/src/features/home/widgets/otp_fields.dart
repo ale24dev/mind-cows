@@ -1,23 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:my_app/src/core/ui/typography.dart';
 
 class OTPFields extends StatefulWidget {
   const OTPFields({
     required this.onChanged,
     super.key,
     this.length = 4,
-    this.fieldWidth = 50,
+    this.fieldWidth = 40,
     this.fieldHeight,
-    this.margin = const EdgeInsets.symmetric(horizontal: 5),
-    this.borderFilledColor = Colors.black,
+    this.margin = const EdgeInsets.symmetric(horizontal: 2),
     this.allowRepetitions = true,
   });
 
   final int length;
-  final Function(String) onChanged;
+  final void Function(String) onChanged;
   final double fieldWidth;
   final double? fieldHeight;
   final EdgeInsets margin;
-  final Color borderFilledColor;
   final bool allowRepetitions;
 
   @override
@@ -69,12 +68,10 @@ class OTPFieldsState extends State<OTPFields> {
     widget.onChanged(otp);
   }
 
-  // bool _hasRepetitions(List<String> values) {
-  //   final uniqueValues = values.where((e) => e.isNotEmpty).toSet();
-  //   return uniqueValues.length != values.where((e) => e.isNotEmpty).length;
-  // }
-
   void clearFields() {
+    // Ocultar el teclado eliminando el foco de cualquier campo de texto activo
+    FocusManager.instance.primaryFocus?.unfocus();
+
     setState(() {
       for (var i = 0; i < widget.length; i++) {
         controllers[i].clear();
@@ -82,10 +79,14 @@ class OTPFieldsState extends State<OTPFields> {
         isFilled[i] = false;
       }
     });
+
+    // Llevar el foco al primer campo de texto
+    // FocusScope.of(context).requestFocus(focusNodes[0]);
   }
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: List.generate(widget.length, (index) {
@@ -97,20 +98,23 @@ class OTPFieldsState extends State<OTPFields> {
             controller: controllers[index],
             focusNode: focusNodes[index],
             maxLength: 1,
+            style: AppTextStyle().body.copyWith(
+                  fontFamily: AppTextStyle.secondaryFontFamily,
+                  color: Theme.of(context).colorScheme.onSurface,
+                ),
             textAlign: TextAlign.center,
             keyboardType: TextInputType.number,
             decoration: InputDecoration(
+              fillColor: colorScheme.surfaceContainer,
               counterText: '',
               border: OutlineInputBorder(
                 borderSide: BorderSide(
-                  color:
-                      isFilled[index] ? widget.borderFilledColor : Colors.grey,
+                  color: isFilled[index] ? colorScheme.onSurface : Colors.grey,
                 ),
               ),
               enabledBorder: OutlineInputBorder(
                 borderSide: BorderSide(
-                  color:
-                      isFilled[index] ? widget.borderFilledColor : Colors.grey,
+                  color: isFilled[index] ? colorScheme.onSurface : Colors.grey,
                 ),
               ),
             ),

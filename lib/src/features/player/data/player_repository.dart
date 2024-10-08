@@ -8,11 +8,17 @@ import 'package:my_app/src/core/exceptions.dart';
 import 'package:my_app/src/core/extensions/list.dart';
 import 'package:my_app/src/core/interceptor.dart';
 import 'package:my_app/src/core/services/player_datasource.dart';
+import 'package:my_app/src/core/supabase/query_supabase.dart';
 import 'package:my_app/src/features/player/data/model/player.dart';
 import 'package:my_app/src/features/player/data/model/player_number.dart';
+import 'package:my_app/src/features/player/domain/player_number_realtime.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-typedef PlayerNumberCallbackData = (bool isTurn, int timeLeft);
+typedef PlayerNumberCallbackData = (
+  bool isTurn,
+  int timeLeft,
+  DateTime? startedTime
+);
 
 @singleton
 class PlayerRepository extends PlayerDatasource {
@@ -24,7 +30,7 @@ class PlayerRepository extends PlayerDatasource {
   @override
   void listenPlayerNumberChanges(
     String playerId,
-    void Function(PlayerNumberCallbackData) callback,
+    void Function(PlayerNumberRealtime) callback,
   ) {
     final myChannel = _client.channel('player_number_channel');
     log('Game Database Changes Listen On');
@@ -39,9 +45,8 @@ class PlayerRepository extends PlayerDatasource {
 
             if (playerId != payload.newRecord['player']) return;
             log(payload.toString());
-            final isTurn = payload.newRecord['is_turn'] as bool;
-            final timeLeft = payload.newRecord['time_left'] as int;
-            return callback((isTurn, timeLeft));
+
+            return callback(PlayerNumberRealtime.fromJson(payload.newRecord));
           },
         )
         .subscribe();
@@ -98,6 +103,25 @@ class PlayerRepository extends PlayerDatasource {
       queryOption: QueryOption.update,
       responseNullable: true,
       fromJsonParse: PlayerNumber.fromJson,
+    );
+  }
+
+  @override
+  Future<Either<AppException?, Player?>> setProfileImage(
+    Player player,
+    String imageUrl,
+  ) {
+    return _supabaseServiceImpl.query<Player>(
+      table: 'setProfileImage',
+      request: () => _client
+          .from('player')
+          .update({'avatar_url': imageUrl})
+          .eq('id', player.id)
+          .select(QuerySupabase.player)
+          .single(),
+      queryOption: QueryOption.update,
+      responseNullable: true,
+      fromJsonParse: Player.fromJson,
     );
   }
 }

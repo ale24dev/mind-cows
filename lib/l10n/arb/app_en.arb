@@ -1,7 +1,82 @@
 {
-    "@@locale": "en",
-    "counterAppBarTitle": "Counter",
-    "@counterAppBarTitle": {
-        "description": "Text shown in the AppBar of the Counter Page"
-    }
-}
+    "signUp": "Sign Up",
+    "username": "Username",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "alreadyHaveAccount": "Already have an account?",
+    "dontHaveAccount": "Don't have an account?",
+    "createAccount": "Create an account",
+    "signIn": "Sign In",
+    "waitingForRival": "Waiting for rival",
+    "waitingForRivalDescription": "Please wait for your rival to add the secret number",
+    "congratulations": "Congratulations!!!",
+    "youLose": "You Lose",
+    "theSecretNumberWas": "The secret number was: ",
+    "accept": "Accept",
+    "pleaseWait": "Please wait...",
+    "error": "Error",
+    "retry": "Retry",
+    "email": "Email",
+    "signUpSuccess": "Signed up successfully!",
+    "signUpError": "Error signing up. Please try again.",
+    "anErrorOccurred": "An error occurred",
+
+    "searchingForPlayers": "Searching for players",
+    "cancel": "Cancel",
+
+    "yourTurn": "Your turn",
+    "rivalTurn": "Rival turn",
+
+    "timeLeft": "Time left: ",
+    "previousAttempts": "Previous attempts",
+    "noAttempts": "No attempts",
+    "introduceValidNumber": "Introduce un número válido",
+
+    "cow": "Cow",
+    "cowPlay": "C",
+    "bull": "Bull",
+    "bullPlay": "B",
+
+    "exit": "Exit",
+    "play": "Play",
+    "confirmLogout": "Confirm Logout",
+    "logoutConfirmation": "Are you sure you want to logout?",
+    "logout": "Logout",
+
+    "timeRemaining": "Time remaining: {time}",
+    "@timeRemaining": {
+        "placeholders": {
+        "time": {
+            "type": "int"
+            }
+        }
+    },
+    "selectSecretNumber": "Select your secret number",
+    "note": "Note: If you don't select a number in the time you will lose the game",
+    "send": "Send",
+    "validNumber": "Introduce a valid number",
+    "rank": "Rank",
+
+    "areYouSure": "Are you sure?",
+    "doYouWantToSurrender": "Do you want to surrender?",
+    "no": "No",
+    "yes": "Yes",
+
+    "leaderboard": "Leaderboard",
+    "loading": "Loading...",
+
+    "settings": "Settings",
+
+    "changeProfileImage": "Change profile image",
+    "profileImage": "Profile image",
+
+    "changeLanguage": "Change language",
+    "language": "Language",
+    "english": "English",
+    "spanish": "Spanish",
+    "theme": "Theme",
+    "darkMode": "Dark mode",
+
+    "yourOpponentHasScored": "Your opponent has scored: ",
+    "howToPlay": "How to play?"
+  }

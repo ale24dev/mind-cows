@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gutter/flutter_gutter.dart';
 import 'package:my_app/src/core/ui/theme.dart';
+import 'package:my_app/src/core/ui/typography.dart';
 import 'package:my_app/src/features/game/data/model/attempt.dart';
 
 class PlayNumberCard extends StatelessWidget {
@@ -16,8 +17,24 @@ class PlayNumberCard extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
       child: Row(
         children: [
-          Text(index.toString()),
-          const GutterLarge(),
+          Container(
+            height: 30,
+            width: 30,
+            decoration: BoxDecoration(
+              color: colorScheme.primary,
+              shape: BoxShape.circle,
+            ),
+            child: Center(
+              child: Text(
+                index.toString(),
+                style: AppTextStyle().body.copyWith(
+                      fontFamily: AppTextStyle.secondaryFontFamily,
+                      color: Colors.black,
+                    ),
+              ),
+            ),
+          ),
+          const GutterSmall(),
           Expanded(
             child: Container(
               decoration: BoxDecoration(
@@ -27,7 +44,7 @@ class PlayNumberCard extends StatelessWidget {
               ),
               child: Padding(
                 padding:
-                    const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                    const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -35,9 +52,13 @@ class PlayNumberCard extends StatelessWidget {
                       return _NumberPlay(attempt.number[index].toString());
                     }),
                     const Gutter(),
-                    Text('${attempt.cows}V'),
-                    const Gutter(),
-                    Text('${attempt.bulls}T'),
+                    Text(
+                      attempt.attemptResult(context),
+                      style: AppTextStyle().body.copyWith(
+                            color: colorScheme.primary,
+                            fontFamily: AppTextStyle.secondaryFontFamily,
+                          ),
+                    ),
                   ],
                 ),
               ),
@@ -59,13 +80,20 @@ class _NumberPlay extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 5),
       child: Container(
+        height: 45,
+        width: 30,
         decoration: BoxDecoration(
           border: Border.all(color: Theme.of(context).colorScheme.primary),
           borderRadius: BorderRadius.circular(5),
         ),
-        child: Padding(
-          padding: const EdgeInsets.all(8),
-          child: Text(number),
+        child: Center(
+          child: Text(
+            number,
+            style: AppTextStyle().body.copyWith(
+                  fontFamily: AppTextStyle.secondaryFontFamily,
+                  color: Theme.of(context).colorScheme.onSurface,
+                ),
+          ),
         ),
       ),
     );

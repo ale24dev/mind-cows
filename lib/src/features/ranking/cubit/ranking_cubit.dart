@@ -9,9 +9,15 @@ part 'ranking_cubit.freezed.dart';
 
 @injectable
 class RankingCubit extends Cubit<RankingState> {
-  RankingCubit(this._rankingRepository) : super(const RankingState());
+  RankingCubit(this._rankingRepository) : super(const RankingState()) {
+    _listenRankingChanges();
+  }
 
   final RankingRepository _rankingRepository;
+
+  void _listenRankingChanges() {
+    _rankingRepository.listenRanking(loadRanking);
+  }
 
   void loadRanking() {
     emit(state.copyWith(status: RankingStateStatus.loading));

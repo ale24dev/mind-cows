@@ -1,26 +1,33 @@
-import 'dart:developer';
+// ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:injectable/injectable.dart';
+import 'package:my_app/src/core/exceptions.dart';
 import 'package:my_app/src/core/utils/object_extensions.dart';
 import 'package:my_app/src/features/auth/views/auth_screen.dart';
+import 'package:my_app/src/features/auth/views/signup_screen.dart';
 import 'package:my_app/src/features/game/game_screen.dart';
 import 'package:my_app/src/features/game/search_game_screen.dart';
 import 'package:my_app/src/features/home/home_screen.dart';
-import 'package:my_app/src/features/splash/loading_profile_data.dart';
+import 'package:my_app/src/features/settings/data/model/rules.dart';
+import 'package:my_app/src/features/settings/pages/how_to_play_screen.dart';
+import 'package:my_app/src/features/settings/pages/settings_screen.dart';
 import 'package:my_app/src/features/splash/splash_screen.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 enum AppRoute {
   splash,
-  initProfileData,
+  // initProfileData,
   auth,
+  signUp,
   home,
   game,
   searchGame,
+  settings,
+  howToPlay,
 }
 
 final rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'root');
@@ -31,13 +38,10 @@ final class RouterController {
     final currentSession = _client.auth.currentSession;
     router = GoRouter(
       debugLogDiagnostics: kDebugMode,
-      initialLocation: currentSession.isNull ? '/auth' : '/init-profile-data',
+      initialLocation: currentSession.isNull ? '/auth' : '/splash',
       navigatorKey: rootNavigatorKey,
       redirect: (context, state) {
-        final routeName = _listenAuthChanges(_client, context);
-
-        log('Route: $routeName');
-        return routeName;
+        return null;
       },
       routes: [
         GoRoute(
@@ -57,6 +61,16 @@ final class RouterController {
             return adaptivePageRoute(
               key: ValueKey(state.pageKey.value),
               child: const AuthScreen(),
+            );
+          },
+        ),
+        GoRoute(
+          path: '/signUp',
+          name: AppRoute.signUp.name,
+          pageBuilder: (context, state) {
+            return adaptivePageRoute(
+              key: ValueKey(state.pageKey.value),
+              child: const SignUpScreen(),
             );
           },
         ),
@@ -90,17 +104,30 @@ final class RouterController {
                 );
               },
             ),
+            GoRoute(
+              path: 'settings',
+              name: AppRoute.settings.name,
+              pageBuilder: (context, state) {
+                return adaptivePageRoute(
+                  key: ValueKey(state.pageKey.value),
+                  child: const SettingsScreen(),
+                );
+              },
+              routes: [
+                GoRoute(
+                  path: 'how-to-play',
+                  name: AppRoute.howToPlay.name,
+                  pageBuilder: (context, state) {
+                    final rules = extraFromState<Rules>(state);
+                    return adaptivePageRoute(
+                      key: ValueKey(state.pageKey.value),
+                      child: HowToPlayScreen(rules: rules),
+                    );
+                  },
+                ),
+              ],
+            ),
           ],
-        ),
-        GoRoute(
-          path: '/init-profile-data',
-          name: AppRoute.initProfileData.name,
-          pageBuilder: (context, state) {
-            return adaptivePageRoute(
-              key: ValueKey(state.pageKey.value),
-              child: const LoadingProfileData(),
-            );
-          },
         ),
       ],
     );
@@ -108,21 +135,6 @@ final class RouterController {
 
   final SupabaseClient _client;
   late final GoRouter router;
-}
-
-String? _listenAuthChanges(SupabaseClient client, BuildContext context) {
-  String? route;
-  client.auth.onAuthStateChange.listen((authSupState) {
-    log('AAAAAA: ${authSupState.event}');
-    route = switch (authSupState.event) {
-      AuthChangeEvent.initialSession =>
-        authSupState.session.isNull ? AppRoute.auth.name : AppRoute.home.name,
-      AuthChangeEvent.signedIn => AppRoute.home.name,
-      AuthChangeEvent.signedOut => AppRoute.auth.name,
-      _ => null
-    };
-  });
-  return route;
 }
 
 /// Adaptive route that uses cupertino pages on iOS and macos, no transitions on web and material on the rest of the
@@ -162,4 +174,13 @@ Page<T> adaptivePageRoute<T>({
     maintainState: maintainState,
     restorationId: restorationId,
   );
+}
+
+T extraFromState<T>(GoRouterState state, [T? orElse]) {
+  if (state.extra is T) {
+    return state.extra as T;
+  } else {
+    if (orElse != null) return orElse;
+    throw Exception(state.uri.path);
+  }
 }

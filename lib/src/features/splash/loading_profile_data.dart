@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gutter/flutter_gutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
+import 'package:my_app/l10n/l10n.dart';
 import 'package:my_app/resources/resources.dart';
 import 'package:my_app/src/core/utils/object_extensions.dart';
 import 'package:my_app/src/features/game/cubit/game_cubit.dart';
@@ -21,25 +22,22 @@ class LoadingProfileData extends StatefulWidget {
 class _LoadingProfileDataState extends State<LoadingProfileData> {
   @override
   Widget build(BuildContext context) {
-    final gameCubit = context.watch<GameCubit>();
-    log('LOADING PROFILE DATA');
+    final gameCubit = context.read<GameCubit>();
     return Scaffold(
       body: BlocListener<PlayerCubit, PlayerState>(
         listenWhen: (previous, current) => previous.status != current.status,
         listener: (context, state) {
-          log('PlayerCubit: ${state.status}');
-
           if (state.status == PlayerStatus.success) {
             if (gameCubit.state.player == null) {
               context.read<GameCubit>().setUserPlayer(state.player!);
             }
 
-            if (gameCubit.state.game.isNull) {
+            // if (gameCubit.state.game.isNull) {
               WidgetsFlutterBinding.ensureInitialized()
                   .addPostFrameCallback((_) {
                 context.goNamed(AppRoute.home.name);
               });
-            }
+            // }
           }
         },
         child: Center(
@@ -52,7 +50,7 @@ class _LoadingProfileDataState extends State<LoadingProfileData> {
                 fit: BoxFit.cover,
               ),
               const GutterSmall(),
-              const Text('Loading...'),
+              Text(context.l10n.loading),
             ],
           ),
         ),

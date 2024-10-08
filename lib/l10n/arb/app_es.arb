@@ -1,7 +1,82 @@
 {
-    "@@locale": "es",
-    "counterAppBarTitle": "Contador",
-    "@counterAppBarTitle": {
-        "description": "Texto mostrado en la AppBar de la página del contador"
-    }
-}
+    "signUp": "Registrarse",
+    "username": "Nombre de usuario",
+    "password": "Contraseña",
+    "confirmPassword": "Confirmar contraseña",
+    "alreadyHaveAccount": "¿Ya tienes una cuenta?",
+    "dontHaveAccount": "¿No tienes una cuenta?",
+    "createAccount": "Crear una cuenta",
+    "signIn": "Iniciar sesión",
+    "waitingForRival": "Esperando al rival",
+    "waitingForRivalDescription": "Por favor, espera a que tu rival añada el número secreto",
+    "congratulations": "¡Felicidades!",
+    "youLose": "Has perdido",
+    "theSecretNumberWas": "El número secreto era: ",
+    "accept": "Aceptar",
+    "pleaseWait": "Por favor espera...",
+    "error": "Error",
+    "retry": "Reintentar",
+    "email": "Correo electrónico",
+    "signUpSuccess": "¡Registro exitoso!",
+    "signUpError": "Error al registrarse. Por favor, inténtalo de nuevo.",
+    "anErrorOccurred": "Ocurrió un error",
+
+    "searchingForPlayers": "Buscando jugadores",
+    "cancel": "Cancelar",
+
+    "yourTurn": "Tu turno",
+    "rivalTurn": "Turno del rival",
+
+    "timeLeft": "Tiempo restante: ",
+    "previousAttempts": "Intentos anteriores",
+    "noAttempts": "No hay intentos",
+    "introduceValidNumber": "Introduce un número válido",
+
+    "cow": "Vaca",
+    "cowPlay": "V",
+    "bull": "Toro",
+    "bullPlay": "T",
+
+    "exit": "Salir",
+    "play": "Jugar",
+    "confirmLogout": "Confirmar Cierre de Sesión",
+    "logoutConfirmation": "¿Estás seguro de que deseas cerrar sesión?",
+    "logout": "Cerrar Sesión",
+
+    "timeRemaining": "Tiempo restante: {time}",
+    "@timeRemaining": {
+        "placeholders": {
+        "time": {
+            "type": "int"
+            }
+        }
+    },
+    "selectSecretNumber": "Selecciona tu número secreto",
+    "note": "Nota: Si no seleccionas un número en el tiempo, perderás el juego",
+    "send": "Enviar",
+    "validNumber": "Introduce un número válido",
+    "rank": "Posición",
+
+    "areYouSure": "¿Estás seguro?",
+    "doYouWantToSurrender": "¿Quieres rendirte?",
+    "no": "No",
+    "yes": "Sí",
+
+    "leaderboard": "Tabla de posiciones",
+    "loading": "Cargando...",
+
+    "settings": "Configuración",
+
+    "changeProfileImage": "Cambiar imagen de perfil",
+    "profileImage": "Imagen de perfil",
+
+    "changeLanguage": "Cambiar idioma",
+    "language": "Idioma",
+    "english": "Inglés",
+    "spanish": "Español",
+    "theme": "Tema",
+    "darkMode": "Modo oscuro",
+
+    "yourOpponentHasScored": "Tu rival acaba de sumar: ",
+    "howToPlay": "¿Cómo jugar?"
+  }

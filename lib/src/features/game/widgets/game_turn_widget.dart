@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_app/l10n/l10n.dart';
 import 'package:my_app/src/core/ui/typography.dart';
 import 'package:my_app/src/features/player/data/model/player_number.dart';
 
@@ -18,9 +19,11 @@ class GameTurnWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(5),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(5),
+        padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
         child: Text(
-          ownPlayerNumber.isTurn ? 'Your turn' : 'Rival turn',
+          ownPlayerNumber.isTurn
+              ? context.l10n.yourTurn
+              : context.l10n.rivalTurn,
           style: AppTextStyle().body.copyWith(color: Colors.white),
         ),
       ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gutter/flutter_gutter.dart';
 import 'package:go_router/go_router.dart';
+import 'package:my_app/l10n/l10n.dart';
 import 'package:my_app/src/core/extensions/string.dart';
 import 'package:my_app/src/core/ui/device.dart';
 import 'package:my_app/src/core/ui/typography.dart';
@@ -43,6 +44,7 @@ class _AuthScreenState extends State<AuthScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     return Scaffold(
       body: Padding(
         padding: context.responsiveContentPadding,
@@ -52,21 +54,22 @@ class _AuthScreenState extends State<AuthScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                'SignIn',
+                context.l10n.signIn,
                 style: AppTextStyle().body.copyWith(
                       fontFamily: AppTextStyle.secondaryFontFamily,
                       fontSize: 30,
+                      color: Theme.of(context).colorScheme.onSurface,
                     ),
               ),
               const GutterLarge(),
               GenericTextField(
-                labelText: 'Username',
+                labelText: context.l10n.username,
                 controller: _usernameController,
               ),
               const GutterTiny(),
               GenericTextField(
                 obscureText: true,
-                labelText: 'Password',
+                labelText: context.l10n.password,
                 controller: _passwordController,
               ),
               const Gutter(),
@@ -76,7 +79,7 @@ class _AuthScreenState extends State<AuthScreen> {
                     WidgetsFlutterBinding.ensureInitialized()
                         .addPostFrameCallback(
                       (_) {
-                        context.goNamed(AppRoute.initProfileData.name);
+                        context.goNamed(AppRoute.splash.name);
                       },
                     );
                   }
@@ -87,33 +90,62 @@ class _AuthScreenState extends State<AuthScreen> {
                         context.read<AuthCubit>().refresh();
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
-                            content:
-                                Text(state.errorMessage ?? 'An error occurred'),
+                            content: Text(
+                              state.errorMessage ??
+                                  context.l10n.anErrorOccurred,
+                            ),
                             backgroundColor: Colors.red,
                           ),
                         );
                       },
                     );
                   }
-                  return GenericButton(
-                    onPressed: !enableButton
-                        ? null
-                        : () {
-                            context.read<AuthCubit>().signIn(
-                                  email: _usernameController
-                                      .text.parseStringToEmail,
-                                  password: _passwordController.text,
-                                );
-                          },
-                    width: context.widthPx,
-                    widget: state.authStatus.isLoading
-                        ? const CircularProgressIndicator.adaptive()
-                        : Text(
-                            'SignIn',
+                  return Column(
+                    children: [
+                      GenericButton(
+                        onPressed: !enableButton
+                            ? null
+                            : () {
+                                context.read<AuthCubit>().signIn(
+                                      email: _usernameController
+                                          .text.parseStringToEmail,
+                                      password: _passwordController.text,
+                                    );
+                              },
+                        width: context.widthPx,
+                        widget: state.authStatus.isLoading
+                            ? const CircularProgressIndicator.adaptive()
+                            : Text(
+                                'SignIn',
+                                style: AppTextStyle()
+                                    .textButton
+                                    .copyWith(color: Colors.white),
+                              ),
+                      ),
+                      const GutterSmall(),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            context.l10n.dontHaveAccount,
                             style: AppTextStyle()
-                                .textButton
-                                .copyWith(color: Colors.white),
+                                .body
+                                .copyWith(color: colorScheme.onSurface),
                           ),
+                          TextButton(
+                            onPressed: () {
+                              context.goNamed(AppRoute.signUp.name);
+                            },
+                            child: Text(
+                              context.l10n.createAccount,
+                              style: AppTextStyle().body.copyWith(
+                                    color: colorScheme.primary,
+                                  ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
                   );
                 },
               ),

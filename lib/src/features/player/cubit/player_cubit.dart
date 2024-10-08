@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
@@ -45,7 +43,6 @@ class PlayerCubit extends Cubit<PlayerState> {
                 state.copyWith(status: PlayerStatus.error),
               ), (player) {
         emit(state.copyWith(player: player, status: PlayerStatus.success));
-        log('Termine');
       });
     });
   }
@@ -79,6 +76,26 @@ class PlayerCubit extends Cubit<PlayerState> {
         (playerNumber) => emit(
           state.copyWith(
             playerNumber: playerNumber,
+            status: PlayerStatus.success,
+          ),
+        ),
+      );
+    });
+  }
+
+  Future<void> setProfileImage(String imageUrl) async {
+    emit(state.copyWith(status: PlayerStatus.loading));
+
+    await _playerRepository
+        .setProfileImage(state.player!, imageUrl)
+        .then((result) {
+      result.fold(
+        (error) => emit(
+          state.copyWith(status: PlayerStatus.error),
+        ),
+        (player) => emit(
+          state.copyWith(
+            player: player,
             status: PlayerStatus.success,
           ),
         ),

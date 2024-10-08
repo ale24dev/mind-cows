@@ -1,14 +1,20 @@
+import 'dart:async';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gutter/flutter_gutter.dart';
+import 'package:go_router/go_router.dart';
+import 'package:lottie/lottie.dart';
+import 'package:my_app/l10n/l10n.dart';
+import 'package:my_app/resources/resources.dart';
 import 'package:my_app/src/core/ui/typography.dart';
-import 'package:my_app/src/core/utils/widgets/generic_button.dart';
+import 'package:my_app/src/core/utils/object_extensions.dart';
 import 'package:my_app/src/features/game/cubit/game_cubit.dart';
+import 'package:my_app/src/features/player/cubit/player_cubit.dart';
 import 'package:my_app/src/features/splash/cubit/app_cubit.dart';
 import 'package:my_app/src/router/router.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:sized_context/sized_context.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -18,61 +24,105 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  final Completer<void> _appInitCompleter = Completer<void>();
+  final Completer<void> _profileDataCompleter = Completer<void>();
+
   @override
   void initState() {
-    // final client = Supabase.instance.client;
-    context.read<AppCubit>().initialize();
-
-    // client.auth.onAuthStateChange.listen((authSupState) {
-    //   log('AUTH message');
-
-    //   final route = switch (authSupState.event) {
-    //     AuthChangeEvent.initialSession => AppRoutes.initProfileData,
-    //     AuthChangeEvent.signedIn => AppRoutes.initProfileData,
-    //     AuthChangeEvent.signedOut => AppRoutes.auth,
-    //     _ => AppRoutes.home,
-    //   };
-    //   WidgetsFlutterBinding.ensureInitialized().addPostFrameCallback((_) {
-    //     log(route);
-    //     Navigator.pushReplacementNamed(context, route);
-    //   });
-    // });
-
     super.initState();
+    context.read<AppCubit>().initialize();
+    _waitForInitialization();
+  }
+
+  Future<void> _waitForInitialization() async {
+    await Future.wait([
+      _appInitCompleter.future,
+      _profileDataCompleter.future,
+    ]);
+    WidgetsFlutterBinding.ensureInitialized().addPostFrameCallback((_) {
+      context.goNamed(AppRoute.home.name);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    final gameCubit = context.read<GameCubit>();
+
     return Scaffold(
-      body: BlocBuilder<AppCubit, AppState>(
-        builder: (context, state) {
-          if (state.isSuccess && state.initialized) {
-            context.read<GameCubit>().setGameStatus(state.gameStatus);
-          }
-          if (state.isError) {
-            return Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Center(
-                  child: Text('An error has occurred'),
-                ),
-                const Gutter(),
-                GenericButton(
-                  widget: Text(
-                    'Retry',
-                    style: AppTextStyle().body.copyWith(color: Colors.white),
+      backgroundColor: Colors.white,
+      body: MultiBlocListener(
+        listeners: [
+          BlocListener<AppCubit, AppState>(
+            listener: (context, state) {
+              if (state.isSuccess && state.initialized) {
+                context.read<GameCubit>().setGameStatus(state.gameStatus);
+                if (!_appInitCompleter.isCompleted) {
+                  _appInitCompleter.complete();
+                }
+              }
+              if (state.isError) {
+                showDialog(
+                  context: context,
+                  builder: (context) => AlertDialog(
+                    title: Text(context.l10n.error),
+                    content: Text(context.l10n.anErrorOccurred),
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          context.read<AppCubit>().initialize();
+                          Navigator.of(context).pop();
+                        },
+                        child: Text(context.l10n.retry),
+                      ),
+                    ],
                   ),
-                  onPressed: () {
-                    context.read<AppCubit>().initialize();
-                  },
+                );
+              }
+            },
+          ),
+          BlocListener<PlayerCubit, PlayerState>(
+            listenWhen: (previous, current) =>
+                previous.status != current.status,
+            listener: (context, state) {
+              if (state.status == PlayerStatus.success) {
+                if (gameCubit.state.player == null) {
+                  context.read<GameCubit>().setUserPlayer(state.player!);
+                }
+
+                if (gameCubit.state.game.isNull) {
+                  if (!_profileDataCompleter.isCompleted) {
+                    _profileDataCompleter.complete();
+                  }
+                }
+              }
+            },
+          ),
+        ],
+        child: BlocBuilder<AppCubit, AppState>(
+          builder: (context, state) {
+            if (state.isLoading) {
+              return SizedBox(
+                width: context.widthPx,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    LottieBuilder.asset(
+                      AppImages.appLoading,
+                      height: 100,
+                      fit: BoxFit.cover,
+                    ),
+                    const GutterSmall(),
+                    Text(
+                      context.l10n.loading,
+                      style: AppTextStyle().body.copyWith(color: Colors.black),
+                    ),
+                  ],
                 ),
-              ],
-            );
-          }
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        },
+              );
+            }
+            return Container();
+          },
+        ),
       ),
     );
   }

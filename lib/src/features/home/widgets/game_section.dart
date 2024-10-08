@@ -1,107 +1,131 @@
 import 'dart:async';
+
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gutter/flutter_gutter.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:my_app/l10n/l10n.dart';
 import 'package:my_app/src/core/extensions/string.dart';
-import 'package:my_app/src/core/utils/object_extensions.dart';
-import 'package:my_app/src/features/game/game_screen.dart';
-import 'package:my_app/src/features/player/cubit/player_cubit.dart';
-import 'package:my_app/src/features/player/data/model/player.dart';
-import 'package:my_app/src/features/game/data/model/game.dart';
-import 'package:my_app/src/features/game/widgets/game_turn_widget.dart';
-import 'package:my_app/src/core/ui/typography.dart';
 import 'package:my_app/src/core/ui/device.dart';
-import 'package:my_app/src/features/home/widgets/play_number_card.dart';
-import 'package:my_app/src/features/home/widgets/otp_fields.dart';
+import 'package:my_app/src/core/ui/typography.dart';
+import 'package:my_app/src/core/utils/utils.dart';
 import 'package:my_app/src/features/game/cubit/game_cubit.dart';
 import 'package:my_app/src/features/game/data/model/attempt.dart';
-import 'package:flutter_gutter/flutter_gutter.dart';
-import 'package:my_app/src/core/utils/utils.dart';
+import 'package:my_app/src/features/game/data/model/game.dart';
+import 'package:my_app/src/features/game/domain/mocks/attempt_mock.dart';
+import 'package:my_app/src/features/game/widgets/game_turn_widget.dart';
+import 'package:my_app/src/features/home/widgets/otp_fields.dart';
+import 'package:my_app/src/features/home/widgets/play_number_card.dart';
+import 'package:my_app/src/features/player/cubit/player_cubit.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
-class GameSection extends StatefulWidget {
-  const GameSection({required this.game, super.key});
+class GameSection extends HookWidget {
+  const GameSection({required this.gameState, super.key});
 
-  final Game game;
-
-  @override
-  State<GameSection> createState() => _GameSectionState();
-}
-
-class _GameSectionState extends State<GameSection> {
-  late Player player;
-  late Player rival;
-  late int timeLeft;
-  Timer? timer;
-
-  @override
-  void initState() {
-    super.initState();
-    player = context.read<PlayerCubit>().state.player!;
-    rival = widget.game.getRivalPlayerNumber(player).player;
-    final ownPlayerNumber = widget.game.getOwnPlayerNumber(player);
-    timeLeft = ownPlayerNumber.timeLeft;
-    if (ownPlayerNumber.isTurn) {
-      startTimer(rival);
-    }
-  }
-
-  void startTimer(Player playerWinner) {
-    timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      setState(() {
-        if (timeLeft > 0) {
-          timeLeft--;
-        } else {
-          timer.cancel();
-        }
-      });
-    });
-  }
-
-  void stopTimer() {
-    timer?.cancel();
-    timer = null;
-  }
-
-  @override
-  void dispose() {
-    stopTimer();
-    super.dispose();
-  }
+  final GameState gameState;
 
   @override
   Widget build(BuildContext context) {
-    final ownPlayerNumber = widget.game.getOwnPlayerNumber(player);
+    final player = context.read<PlayerCubit>().state.player!;
+    final game = gameState.game!;
+    // final rival = game.getRivalPlayerNumber(player).player;
+    final ownPlayerNumber = game.getOwnPlayerNumber(player);
 
-    if (ownPlayerNumber.isTurn && timer == null) {
-      startTimer(rival);
-    } else if (!ownPlayerNumber.isTurn && timer != null) {
-      stopTimer();
-    }
+    final initialTimeLeft = useState<int>(
+      calculateInitialTimeLeft(
+        ownPlayerNumber.startedTime,
+        ownPlayerNumber.finishTime,
+      ),
+    );
+
+    final isFirstRender = useState<bool>(true);
+
+    useEffect(
+      () {
+        Timer? timer;
+        if (gameState.isGameInProgress && ownPlayerNumber.isTurn) {
+          if (isFirstRender.value) {
+            initialTimeLeft.value = calculateInitialTimeLeft(
+              ownPlayerNumber.startedTime,
+              ownPlayerNumber.finishTime,
+            );
+            isFirstRender.value = false;
+          }
+          timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+            if (initialTimeLeft.value > 0) {
+              initialTimeLeft.value--;
+            } else {
+              timer.cancel();
+            }
+          });
+        }
+        return timer?.cancel;
+      },
+      [gameState.isGameInProgress, ownPlayerNumber.isTurn],
+    );
+
+    final colorScheme = Theme.of(context).colorScheme;
 
     return Padding(
       padding: context.responsiveContentPadding,
       child: Column(
         children: [
           const Gutter(),
-          GameTurnWidget(ownPlayerNumber: ownPlayerNumber),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              Text('Time left: ', style: AppTextStyle().body),
+              GameTurnWidget(ownPlayerNumber: ownPlayerNumber),
+              const Spacer(),
               Text(
-                '${(timeLeft ~/ 60).toString().padLeft(2, '0')}:${(timeLeft % 60).toString().padLeft(2, '0')}',
+                context.l10n.timeLeft,
+                style: AppTextStyle().body.copyWith(
+                      color: colorScheme.onSurface,
+                    ),
+              ),
+              Text(
+                '${(initialTimeLeft.value ~/ 60).toString().padLeft(2, '0')}:${(initialTimeLeft.value % 60).toString().padLeft(2, '0')}',
+                style: AppTextStyle().body.copyWith(
+                      color: colorScheme.onSurface,
+                    ),
               ),
             ],
           ),
           const Expanded(child: _PlayList()),
           const Gutter(),
           _SendNumberSection(
-            game: widget.game,
+            game: game,
             canSendNumber: ownPlayerNumber.isTurn,
           ),
           const GutterLarge(),
         ],
       ),
     );
+  }
+
+  int calculateInitialTimeLeft(DateTime? startedTime, DateTime? finishedTime) {
+    // Retorna 0 si no hay tiempo para calcular
+    if (startedTime == null || finishedTime == null) {
+      return 0;
+    }
+
+    // Obtén el tiempo actual del servidor
+    final currentTime = gameState.serverTime ??
+        DateTime.now(); // Usa el servidor, o la hora local como respaldo
+
+    // Asegúrate de que ambas horas están en UTC
+    final currentTimeUtc = currentTime.toUtc();
+    final finishedTimeUtc = finishedTime.toUtc();
+
+    // Lógica para verificar si el tiempo actual ha pasado el tiempo final
+    if (currentTimeUtc.isAfter(finishedTimeUtc)) {
+      return 0; // Retorna 0 si el tiempo ha pasado
+    }
+
+    // Calcula la diferencia en segundos
+    final timeLeft = finishedTimeUtc.difference(currentTimeUtc).inSeconds;
+
+    return timeLeft;
   }
 }
 
@@ -110,35 +134,47 @@ class _PlayList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      padding: EdgeInsets.zero,
-      children: [
-        Text(
-          'Previous attempts'.toUpperCase(),
-          style: AppTextStyle().body.copyWith(fontWeight: FontWeight.w600),
-        ),
-        const GutterSmall(),
-        BlocBuilder<GameCubit, GameState>(
-          builder: (context, state) {
-            if (state.isLoading) {
-              return const Center(child: CircularProgressIndicator());
-            }
+    final colorScheme = Theme.of(context).colorScheme;
+    return BlocBuilder<GameCubit, GameState>(
+      builder: (context, state) {
+        if (state.isError) {
+          FirebaseCrashlytics.instance.recordFlutterError(
+            FlutterErrorDetails(exception: state.error!),
+          );
+        }
 
-            if (state.isError) {
-              // log('Error');
-            }
-            return Column(
-              children: state.listAttempts.isEmpty
-                  ? [const Text('No attempts')]
-                  : state.listAttempts.asMap().entries.map((entry) {
-                      final index = state.listAttempts.length - entry.key;
-                      final value = entry.value;
-                      return PlayNumberCard(attempt: value, index: index);
-                    }).toList(),
-            );
-          },
-        ),
-      ],
+        final attempts = state.isLoading
+            ? getAttemptsMock(state.listAttempts.length + 1)
+            : state.listAttempts;
+        return attempts.isEmpty
+            ? Center(
+                child: Text(
+                  context.l10n.noAttempts,
+                  style: AppTextStyle()
+                      .body
+                      .copyWith(color: colorScheme.onSurface),
+                ),
+              )
+            : ListView(
+                padding: EdgeInsets.zero,
+                children: [
+                  const GutterSmall(),
+                  Skeletonizer(
+                    enabled: state.isLoading,
+                    child: Column(
+                      children: attempts.asMap().entries.map((entry) {
+                        final index = attempts.length - entry.key;
+                        final value = entry.value;
+                        return PlayNumberCard(
+                          attempt: value,
+                          index: index,
+                        );
+                      }).toList(),
+                    ),
+                  ),
+                ],
+              );
+      },
     );
   }
 }
@@ -147,7 +183,6 @@ class _SendNumberSection extends StatefulWidget {
   const _SendNumberSection({required this.game, required this.canSendNumber});
 
   final Game game;
-
   final bool canSendNumber;
 
   @override
@@ -170,40 +205,47 @@ class __SendNumberSectionState extends State<_SendNumberSection> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const IconButton(
-          onPressed: null,
-          icon: Icon(Icons.send, color: Colors.transparent),
+        const Expanded(
+          child: IconButton(
+            onPressed: null,
+            icon: Icon(Icons.send, color: Colors.transparent),
+          ),
         ),
-        OTPFields(
-          key: otpFieldsKey,
-          allowRepetitions: false,
-          onChanged: _onChanged,
+        Expanded(
+          flex: 3,
+          child: OTPFields(
+            key: otpFieldsKey,
+            allowRepetitions: false,
+            onChanged: _onChanged,
+          ),
         ),
-        IconButton(
-          onPressed: !widget.canSendNumber
-              ? null
-              : () {
-                  final isValidNumber = Utils.isValidPlayerNumber(otpValue);
-                  if (!isValidNumber) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Introduce a valid number'),
-                        backgroundColor: Colors.red,
-                      ),
-                    );
-                    return;
-                  }
-                  context.read<GameCubit>().insertAttempt(
-                        Attempt.empty()
-                            .copyWith(number: otpValue.parseOptToNumberValue),
+        Expanded(
+          child: IconButton(
+            onPressed: !widget.canSendNumber
+                ? null
+                : () {
+                    final isValidNumber = Utils.isValidPlayerNumber(otpValue);
+                    if (!isValidNumber) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(context.l10n.introduceValidNumber),
+                          backgroundColor: Colors.red,
+                        ),
                       );
-                  otpFieldsKey.currentState?.clearFields();
-                },
-          icon: Icon(
-            Icons.send,
-            color: widget.canSendNumber
-                ? colorScheme.primary
-                : colorScheme.onSurface.withOpacity(.4),
+                      return;
+                    }
+                    context.read<GameCubit>().insertAttempt(
+                          Attempt.empty()
+                              .copyWith(number: otpValue.parseOptToNumberValue),
+                        );
+                    otpFieldsKey.currentState?.clearFields();
+                  },
+            icon: Icon(
+              Icons.send,
+              color: widget.canSendNumber
+                  ? colorScheme.primary
+                  : colorScheme.onSurface.withOpacity(.4),
+            ),
           ),
         ),
       ],

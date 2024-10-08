@@ -21,7 +21,10 @@ mixin _$GameState {
   List<GameStatus> get listGameStatus => throw _privateConstructorUsedError;
   List<Attempt> get listAttempts => throw _privateConstructorUsedError;
   bool get selectSecretNumberShowed => throw _privateConstructorUsedError;
+  (int, int)? get lastRivalResult => throw _privateConstructorUsedError;
   Player? get player => throw _privateConstructorUsedError;
+  DateTime? get serverTime => throw _privateConstructorUsedError;
+  AppException? get error => throw _privateConstructorUsedError;
 
   /// Create a copy of GameState
   /// with the given fields replaced by the non-null parameter values.
@@ -41,7 +44,10 @@ abstract class $GameStateCopyWith<$Res> {
       List<GameStatus> listGameStatus,
       List<Attempt> listAttempts,
       bool selectSecretNumberShowed,
-      Player? player});
+      (int, int)? lastRivalResult,
+      Player? player,
+      DateTime? serverTime,
+      AppException? error});
 }
 
 /// @nodoc
@@ -64,7 +70,10 @@ class _$GameStateCopyWithImpl<$Res, $Val extends GameState>
     Object? listGameStatus = null,
     Object? listAttempts = null,
     Object? selectSecretNumberShowed = null,
+    Object? lastRivalResult = freezed,
     Object? player = freezed,
+    Object? serverTime = freezed,
+    Object? error = freezed,
   }) {
     return _then(_value.copyWith(
       game: freezed == game
@@ -87,10 +96,22 @@ class _$GameStateCopyWithImpl<$Res, $Val extends GameState>
           ? _value.selectSecretNumberShowed
           : selectSecretNumberShowed // ignore: cast_nullable_to_non_nullable
               as bool,
+      lastRivalResult: freezed == lastRivalResult
+          ? _value.lastRivalResult
+          : lastRivalResult // ignore: cast_nullable_to_non_nullable
+              as (int, int)?,
       player: freezed == player
           ? _value.player
           : player // ignore: cast_nullable_to_non_nullable
               as Player?,
+      serverTime: freezed == serverTime
+          ? _value.serverTime
+          : serverTime // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      error: freezed == error
+          ? _value.error
+          : error // ignore: cast_nullable_to_non_nullable
+              as AppException?,
     ) as $Val);
   }
 }
@@ -109,7 +130,10 @@ abstract class _$$GameStateImplCopyWith<$Res>
       List<GameStatus> listGameStatus,
       List<Attempt> listAttempts,
       bool selectSecretNumberShowed,
-      Player? player});
+      (int, int)? lastRivalResult,
+      Player? player,
+      DateTime? serverTime,
+      AppException? error});
 }
 
 /// @nodoc
@@ -130,7 +154,10 @@ class __$$GameStateImplCopyWithImpl<$Res>
     Object? listGameStatus = null,
     Object? listAttempts = null,
     Object? selectSecretNumberShowed = null,
+    Object? lastRivalResult = freezed,
     Object? player = freezed,
+    Object? serverTime = freezed,
+    Object? error = freezed,
   }) {
     return _then(_$GameStateImpl(
       game: freezed == game
@@ -153,10 +180,22 @@ class __$$GameStateImplCopyWithImpl<$Res>
           ? _value.selectSecretNumberShowed
           : selectSecretNumberShowed // ignore: cast_nullable_to_non_nullable
               as bool,
+      lastRivalResult: freezed == lastRivalResult
+          ? _value.lastRivalResult
+          : lastRivalResult // ignore: cast_nullable_to_non_nullable
+              as (int, int)?,
       player: freezed == player
           ? _value.player
           : player // ignore: cast_nullable_to_non_nullable
               as Player?,
+      serverTime: freezed == serverTime
+          ? _value.serverTime
+          : serverTime // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      error: freezed == error
+          ? _value.error
+          : error // ignore: cast_nullable_to_non_nullable
+              as AppException?,
     ));
   }
 }
@@ -170,7 +209,10 @@ class _$GameStateImpl extends _GameState {
       final List<GameStatus> listGameStatus = const [],
       final List<Attempt> listAttempts = const [],
       this.selectSecretNumberShowed = false,
-      this.player})
+      this.lastRivalResult,
+      this.player,
+      this.serverTime,
+      this.error})
       : _listGameStatus = listGameStatus,
         _listAttempts = listAttempts,
         super._();
@@ -202,11 +244,17 @@ class _$GameStateImpl extends _GameState {
   @JsonKey()
   final bool selectSecretNumberShowed;
   @override
+  final (int, int)? lastRivalResult;
+  @override
   final Player? player;
+  @override
+  final DateTime? serverTime;
+  @override
+  final AppException? error;
 
   @override
   String toString() {
-    return 'GameState(game: $game, stateStatus: $stateStatus, listGameStatus: $listGameStatus, listAttempts: $listAttempts, selectSecretNumberShowed: $selectSecretNumberShowed, player: $player)';
+    return 'GameState(game: $game, stateStatus: $stateStatus, listGameStatus: $listGameStatus, listAttempts: $listAttempts, selectSecretNumberShowed: $selectSecretNumberShowed, lastRivalResult: $lastRivalResult, player: $player, serverTime: $serverTime, error: $error)';
   }
 
   @override
@@ -224,7 +272,12 @@ class _$GameStateImpl extends _GameState {
             (identical(
                     other.selectSecretNumberShowed, selectSecretNumberShowed) ||
                 other.selectSecretNumberShowed == selectSecretNumberShowed) &&
-            (identical(other.player, player) || other.player == player));
+            (identical(other.lastRivalResult, lastRivalResult) ||
+                other.lastRivalResult == lastRivalResult) &&
+            (identical(other.player, player) || other.player == player) &&
+            (identical(other.serverTime, serverTime) ||
+                other.serverTime == serverTime) &&
+            (identical(other.error, error) || other.error == error));
   }
 
   @override
@@ -235,7 +288,10 @@ class _$GameStateImpl extends _GameState {
       const DeepCollectionEquality().hash(_listGameStatus),
       const DeepCollectionEquality().hash(_listAttempts),
       selectSecretNumberShowed,
-      player);
+      lastRivalResult,
+      player,
+      serverTime,
+      error);
 
   /// Create a copy of GameState
   /// with the given fields replaced by the non-null parameter values.
@@ -253,7 +309,10 @@ abstract class _GameState extends GameState {
       final List<GameStatus> listGameStatus,
       final List<Attempt> listAttempts,
       final bool selectSecretNumberShowed,
-      final Player? player}) = _$GameStateImpl;
+      final (int, int)? lastRivalResult,
+      final Player? player,
+      final DateTime? serverTime,
+      final AppException? error}) = _$GameStateImpl;
   const _GameState._() : super._();
 
   @override
@@ -267,7 +326,13 @@ abstract class _GameState extends GameState {
   @override
   bool get selectSecretNumberShowed;
   @override
+  (int, int)? get lastRivalResult;
+  @override
   Player? get player;
+  @override
+  DateTime? get serverTime;
+  @override
+  AppException? get error;
 
   /// Create a copy of GameState
   /// with the given fields replaced by the non-null parameter values.

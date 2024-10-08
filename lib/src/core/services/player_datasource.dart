@@ -2,7 +2,7 @@ import 'package:fpdart/fpdart.dart';
 import 'package:my_app/src/core/exceptions.dart';
 import 'package:my_app/src/features/player/data/model/player.dart';
 import 'package:my_app/src/features/player/data/model/player_number.dart';
-import 'package:my_app/src/features/player/data/player_repository.dart';
+import 'package:my_app/src/features/player/domain/player_number_realtime.dart';
 
 abstract class PlayerDatasource {
   Future<Either<AppException, Player?>> getPlayerById(String id);
@@ -18,6 +18,11 @@ abstract class PlayerDatasource {
 
   void listenPlayerNumberChanges(
     String playerId,
-    void Function(PlayerNumberCallbackData) callback,
+    void Function(PlayerNumberRealtime) callback,
+  );
+
+  Future<Either<AppException?, Player?>> setProfileImage(
+    Player player,
+    String imageUrl,
   );
 }

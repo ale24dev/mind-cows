@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "43890310910",
+    "project_id": "mindcows-e6b33",
+    "storage_bucket": "mindcows-e6b33.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:43890310910:android:a2ac88ac0ab8108b0defaf",
+        "android_client_info": {
+          "package_name": "com.mindcows.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCwT6qBwOxItq7Mh3Xp9w-xNECUv7ZTiP0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

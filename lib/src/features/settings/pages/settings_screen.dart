@@ -91,6 +91,17 @@ class SettingsScreen extends StatelessWidget {
                 ),
               ),
               ListTile(
+                leading: const Icon(
+                  Icons.warning_amber_rounded,
+                  color: AppColor.warning,
+                ),
+                title: Text(
+                  context.l10n.removeAccount,
+                  style: AppTextStyle().body.copyWith(color: AppColor.warning),
+                ),
+                onTap: () => _showRemoveAccountConfirmationDialog(context),
+              ),
+              ListTile(
                 onTap: () => _showLogoutConfirmationDialog(context),
                 leading: const Icon(
                   Icons.logout,
@@ -131,6 +142,41 @@ class SettingsScreen extends StatelessWidget {
               },
               child: Text(
                 context.l10n.logout,
+                style: AppTextStyle()
+                    .textButton
+                    .copyWith(color: Theme.of(context).colorScheme.primary),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _showRemoveAccountConfirmationDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(context.l10n.confirmRemoveAccount),
+          content: Text(context.l10n.removeAccountConfirmation),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text(
+                context.l10n.cancel,
+                style: AppTextStyle().textButton.copyWith(color: Colors.white),
+              ),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                context.read<AuthCubit>().removeAccount();
+              },
+              child: Text(
+                context.l10n.removeAccount,
                 style: AppTextStyle()
                     .textButton
                     .copyWith(color: Theme.of(context).colorScheme.primary),

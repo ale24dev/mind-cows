@@ -131,7 +131,6 @@
 				5DEDD12E574F3BC5908F561D /* Pods-RunnerTests.profile-staging.xcconfig */,
 				ACC4130FC0EE3F23510FEE81 /* Pods-RunnerTests.profile-development.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -523,7 +522,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
-				DEVELOPMENT_TEAM = 9FU3PGG489;
+				DEVELOPMENT_TEAM = 48AM4F2AMH;
 				ENABLE_BITCODE = NO;
 				FLAVOR_APP_NAME = "My App";
 				FLUTTER_TARGET = "/Volumes/Ale Work/Developer/my_app/lib/main.dart";
@@ -622,7 +621,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
-				DEVELOPMENT_TEAM = 9FU3PGG489;
+				DEVELOPMENT_TEAM = 48AM4F2AMH;
 				ENABLE_BITCODE = NO;
 				FLAVOR_APP_NAME = "My App";
 				FLUTTER_TARGET = "/Volumes/Ale Work/Developer/my_app/lib/main.dart";
@@ -716,7 +715,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
-				DEVELOPMENT_TEAM = 9FU3PGG489;
+				DEVELOPMENT_TEAM = 48AM4F2AMH;
 				ENABLE_BITCODE = NO;
 				FLAVOR_APP_NAME = "My App";
 				FLUTTER_TARGET = "/Volumes/Ale Work/Developer/my_app/lib/main.dart";
@@ -813,7 +812,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
-				DEVELOPMENT_TEAM = 9FU3PGG489;
+				DEVELOPMENT_TEAM = 48AM4F2AMH;
 				ENABLE_BITCODE = NO;
 				FLAVOR_APP_NAME = "[DEV] My App";
 				FLUTTER_TARGET = "/Volumes/Ale Work/Developer/my_app/lib/main.dart";
@@ -907,7 +906,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
-				DEVELOPMENT_TEAM = 9FU3PGG489;
+				DEVELOPMENT_TEAM = 48AM4F2AMH;
 				ENABLE_BITCODE = NO;
 				FLAVOR_APP_NAME = "[DEV] My App";
 				FLUTTER_TARGET = "/Volumes/Ale Work/Developer/my_app/lib/main.dart";
@@ -1000,7 +999,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
-				DEVELOPMENT_TEAM = 9FU3PGG489;
+				DEVELOPMENT_TEAM = 48AM4F2AMH;
 				ENABLE_BITCODE = NO;
 				FLAVOR_APP_NAME = "[DEV] My App";
 				FLUTTER_TARGET = "/Volumes/Ale Work/Developer/my_app/lib/main.dart";
@@ -1096,6 +1095,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
+				DEVELOPMENT_TEAM = 48AM4F2AMH;
 				ENABLE_BITCODE = NO;
 				FLAVOR_APP_NAME = "[STG] My App";
 				FLUTTER_TARGET = "/Volumes/Ale Work/Developer/my_app/lib/main.dart";
@@ -1191,6 +1191,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
+				DEVELOPMENT_TEAM = 48AM4F2AMH;
 				ENABLE_BITCODE = NO;
 				FLAVOR_APP_NAME = "[STG] My App";
 				FLUTTER_TARGET = "/Volumes/Ale Work/Developer/my_app/lib/main.dart";
@@ -1281,6 +1282,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
+				DEVELOPMENT_TEAM = 48AM4F2AMH;
 				ENABLE_BITCODE = NO;
 				FLAVOR_APP_NAME = "[STG] My App";
 				FLUTTER_TARGET = "/Volumes/Ale Work/Developer/my_app/lib/main.dart";

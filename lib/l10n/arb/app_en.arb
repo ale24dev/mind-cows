@@ -20,6 +20,9 @@
     "signUpSuccess": "Signed up successfully!",
     "signUpError": "Error signing up. Please try again.",
     "anErrorOccurred": "An error occurred",
+    "removeAccount": "Remove account",
+    "confirmRemoveAccount": "Confirm Remove Account",
+    "removeAccountConfirmation": "Are you sure you want to remove your account? This action cannot be undone.",
 
     "searchingForPlayers": "Searching for players",
     "cancel": "Cancel",

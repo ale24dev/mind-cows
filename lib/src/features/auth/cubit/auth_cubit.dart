@@ -98,6 +98,25 @@ class AuthCubit extends Cubit<AuthState> {
     );
   }
 
+  Future<void> removeAccount() async {
+    emit(const AuthState(authStatus: AuthStatus.loading));
+
+    final result = await _authRepository.removeAccount();
+
+    result.fold(
+      (error) => emit(
+        const AuthState(
+          authStatus: AuthStatus.error,
+          errorMessage: 'Error removing account',
+        ),
+      ),
+      (success) {
+        logout();
+        emit(const AuthState(authStatus: AuthStatus.success));
+      },
+    );
+  }
+
   void refresh() {
     emit(const AuthState());
   }

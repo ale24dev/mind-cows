@@ -1,3 +1,4 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:injectable/injectable.dart';
 import 'package:my_app/src/core/exceptions.dart';
@@ -40,6 +41,18 @@ class AuthRepository {
       return right(true);
     } catch (e) {
       return left(Exception('Error sign up'));
+    }
+  }
+
+  Future<Either<Exception, bool>> removeAccount() async {
+    try {
+      final supabase = SupabaseClient(
+          dotenv.get('SUPABASE_URL'), dotenv.get('SERVICE_ROLE_KEY'),);
+      final resp =
+          await supabase.auth.admin.deleteUser(_client.auth.currentUser!.id);
+      return right(true);
+    } catch (e) {
+      return left(Exception('Error removing account'));
     }
   }
 

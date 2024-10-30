@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
-import 'package:my_app/src/core/utils/utils.dart';
+import 'package:mind_cows/src/core/utils/utils.dart';
+import 'package:mind_cows/src/core/utils/utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 enum PrefsKey {
@@ -26,7 +27,7 @@ class Preferences {
     _prefs.setBool(PrefsKey.darkMode.name, !theme);
   }
 
-  Locale getLanguage() {
+  Locale? getLanguage() {
     final languageString = _prefs.getString(PrefsKey.language.name);
 
     return Utils.getLocaleByCode(languageString);

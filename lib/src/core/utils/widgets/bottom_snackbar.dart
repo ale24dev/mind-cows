@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_app/src/core/ui/typography.dart';
+import 'package:mind_cows/src/core/ui/typography.dart';
 
 class BottomSnackbar extends StatelessWidget {
   const BottomSnackbar({

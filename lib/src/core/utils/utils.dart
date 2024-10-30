@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:my_app/l10n/l10n.dart';
-import 'package:my_app/src/features/settings/data/model/rules.dart';
+import 'package:mind_cows/l10n/l10n.dart';
+import 'package:mind_cows/src/features/settings/data/model/rules.dart';
 
 abstract class Utils {
   static bool isValidPlayerNumber(String value) {
@@ -17,14 +17,14 @@ abstract class Utils {
     return '${context.l10n.cowPlay}$cows  ${context.l10n.bullPlay}$bulls';
   }
 
-  static Locale getLocaleByCode(String? languageString) {
+  static Locale? getLocaleByCode(String? languageString) {
     switch (languageString) {
       case 'en':
         return const Locale('en', 'US');
       case 'es':
         return const Locale('es', 'ES');
       default:
-        return const Locale('en', 'US');
+        return null;
     }
   }
 

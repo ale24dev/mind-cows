@@ -1,8 +1,8 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:my_app/src/core/supabase/table_interface.dart';
-import 'package:my_app/src/features/game/data/model/game_status.dart';
-import 'package:my_app/src/features/player/data/model/player.dart';
-import 'package:my_app/src/features/player/data/model/player_number.dart';
+import 'package:mind_cows/src/core/supabase/table_interface.dart';
+import 'package:mind_cows/src/features/game/data/model/game_status.dart';
+import 'package:mind_cows/src/features/player/data/model/player.dart';
+import 'package:mind_cows/src/features/player/data/model/player_number.dart';
 
 part 'game.g.dart';
 

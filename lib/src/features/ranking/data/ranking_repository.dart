@@ -3,12 +3,12 @@ import 'dart:developer';
 
 import 'package:fpdart/fpdart.dart';
 import 'package:injectable/injectable.dart';
-import 'package:my_app/src/core/exceptions.dart';
-import 'package:my_app/src/core/interceptor.dart';
-import 'package:my_app/src/core/services/ranking_datasource.dart';
-import 'package:my_app/src/core/supabase/query_supabase.dart';
-import 'package:my_app/src/core/ui/extensions.dart';
-import 'package:my_app/src/features/ranking/data/model/ranking.dart';
+import 'package:mind_cows/src/core/exceptions.dart';
+import 'package:mind_cows/src/core/interceptor.dart';
+import 'package:mind_cows/src/core/services/ranking_datasource.dart';
+import 'package:mind_cows/src/core/supabase/query_supabase.dart';
+import 'package:mind_cows/src/core/ui/extensions.dart';
+import 'package:mind_cows/src/features/ranking/data/model/ranking.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 @singleton

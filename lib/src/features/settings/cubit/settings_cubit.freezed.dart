@@ -17,14 +17,12 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$SettingsState {
   SettingsStateStatus get stateStatus => throw _privateConstructorUsedError;
-  Locale get locale => throw _privateConstructorUsedError;
+  Locale? get locale => throw _privateConstructorUsedError;
   List<Rules>? get rules => throw _privateConstructorUsedError;
   ThemeMode? get theme => throw _privateConstructorUsedError;
   AppException? get error => throw _privateConstructorUsedError;
 
-  /// Create a copy of SettingsState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $SettingsStateCopyWith<SettingsState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -37,7 +35,7 @@ abstract class $SettingsStateCopyWith<$Res> {
   @useResult
   $Res call(
       {SettingsStateStatus stateStatus,
-      Locale locale,
+      Locale? locale,
       List<Rules>? rules,
       ThemeMode? theme,
       AppException? error});
@@ -53,13 +51,11 @@ class _$SettingsStateCopyWithImpl<$Res, $Val extends SettingsState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of SettingsState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
     Object? stateStatus = null,
-    Object? locale = null,
+    Object? locale = freezed,
     Object? rules = freezed,
     Object? theme = freezed,
     Object? error = freezed,
@@ -69,10 +65,10 @@ class _$SettingsStateCopyWithImpl<$Res, $Val extends SettingsState>
           ? _value.stateStatus
           : stateStatus // ignore: cast_nullable_to_non_nullable
               as SettingsStateStatus,
-      locale: null == locale
+      locale: freezed == locale
           ? _value.locale
           : locale // ignore: cast_nullable_to_non_nullable
-              as Locale,
+              as Locale?,
       rules: freezed == rules
           ? _value.rules
           : rules // ignore: cast_nullable_to_non_nullable
@@ -99,7 +95,7 @@ abstract class _$$SettingsStateImplCopyWith<$Res>
   @useResult
   $Res call(
       {SettingsStateStatus stateStatus,
-      Locale locale,
+      Locale? locale,
       List<Rules>? rules,
       ThemeMode? theme,
       AppException? error});
@@ -113,13 +109,11 @@ class __$$SettingsStateImplCopyWithImpl<$Res>
       _$SettingsStateImpl _value, $Res Function(_$SettingsStateImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of SettingsState
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
     Object? stateStatus = null,
-    Object? locale = null,
+    Object? locale = freezed,
     Object? rules = freezed,
     Object? theme = freezed,
     Object? error = freezed,
@@ -129,10 +123,10 @@ class __$$SettingsStateImplCopyWithImpl<$Res>
           ? _value.stateStatus
           : stateStatus // ignore: cast_nullable_to_non_nullable
               as SettingsStateStatus,
-      locale: null == locale
+      locale: freezed == locale
           ? _value.locale
           : locale // ignore: cast_nullable_to_non_nullable
-              as Locale,
+              as Locale?,
       rules: freezed == rules
           ? _value._rules
           : rules // ignore: cast_nullable_to_non_nullable
@@ -154,7 +148,7 @@ class __$$SettingsStateImplCopyWithImpl<$Res>
 class _$SettingsStateImpl extends _SettingsState {
   const _$SettingsStateImpl(
       {this.stateStatus = SettingsStateStatus.initial,
-      this.locale = const Locale('en'),
+      this.locale,
       final List<Rules>? rules,
       this.theme,
       this.error})
@@ -165,8 +159,7 @@ class _$SettingsStateImpl extends _SettingsState {
   @JsonKey()
   final SettingsStateStatus stateStatus;
   @override
-  @JsonKey()
-  final Locale locale;
+  final Locale? locale;
   final List<Rules>? _rules;
   @override
   List<Rules>? get rules {
@@ -204,9 +197,7 @@ class _$SettingsStateImpl extends _SettingsState {
   int get hashCode => Object.hash(runtimeType, stateStatus, locale,
       const DeepCollectionEquality().hash(_rules), theme, error);
 
-  /// Create a copy of SettingsState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$SettingsStateImplCopyWith<_$SettingsStateImpl> get copyWith =>
@@ -216,7 +207,7 @@ class _$SettingsStateImpl extends _SettingsState {
 abstract class _SettingsState extends SettingsState {
   const factory _SettingsState(
       {final SettingsStateStatus stateStatus,
-      final Locale locale,
+      final Locale? locale,
       final List<Rules>? rules,
       final ThemeMode? theme,
       final AppException? error}) = _$SettingsStateImpl;
@@ -225,18 +216,15 @@ abstract class _SettingsState extends SettingsState {
   @override
   SettingsStateStatus get stateStatus;
   @override
-  Locale get locale;
+  Locale? get locale;
   @override
   List<Rules>? get rules;
   @override
   ThemeMode? get theme;
   @override
   AppException? get error;
-
-  /// Create a copy of SettingsState
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$SettingsStateImplCopyWith<_$SettingsStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

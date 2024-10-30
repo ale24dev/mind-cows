@@ -5,14 +5,14 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:my_app/src/core/di/dependency_injection.dart';
-import 'package:my_app/src/core/utils/object_extensions.dart';
-import 'package:my_app/src/features/game/cubit/game_cubit.dart';
-import 'package:my_app/src/features/home/widgets/user_header_info.dart';
-import 'package:my_app/src/features/ranking/cubit/ranking_cubit.dart';
-import 'package:my_app/src/features/ranking/leaderboard.dart';
-import 'package:my_app/src/features/home/widgets/search_game_section.dart';
-import 'package:my_app/src/router/router.dart';
+import 'package:mind_cows/src/core/di/dependency_injection.dart';
+import 'package:mind_cows/src/core/utils/object_extensions.dart';
+import 'package:mind_cows/src/features/game/cubit/game_cubit.dart';
+import 'package:mind_cows/src/features/home/widgets/user_header_info.dart';
+import 'package:mind_cows/src/features/ranking/cubit/ranking_cubit.dart';
+import 'package:mind_cows/src/features/ranking/leaderboard.dart';
+import 'package:mind_cows/src/features/home/widgets/search_game_section.dart';
+import 'package:mind_cows/src/router/router.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class HomeScreen extends StatefulWidget {

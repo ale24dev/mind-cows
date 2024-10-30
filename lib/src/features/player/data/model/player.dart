@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'package:my_app/src/core/supabase/table_interface.dart';
+import 'package:mind_cows/src/core/supabase/table_interface.dart';
 
 part 'player.g.dart';
 

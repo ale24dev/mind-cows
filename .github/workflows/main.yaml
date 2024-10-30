@@ -1,4 +1,4 @@
-name: my_app
+name: mind_cows
 
 concurrency:
   group: $-$

@@ -1,8 +1,8 @@
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:injectable/injectable.dart';
-import 'package:my_app/src/core/exceptions.dart';
-import 'package:my_app/src/core/utils/object_extensions.dart';
+import 'package:mind_cows/src/core/exceptions.dart';
+import 'package:mind_cows/src/core/utils/object_extensions.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 @singleton

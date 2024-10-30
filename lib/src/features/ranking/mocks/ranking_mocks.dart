@@ -1,5 +1,5 @@
-import 'package:my_app/src/features/player/data/model/player.dart';
-import 'package:my_app/src/features/ranking/data/model/ranking.dart';
+import 'package:mind_cows/src/features/player/data/model/player.dart';
+import 'package:mind_cows/src/features/ranking/data/model/ranking.dart';
 
 final rankingMock = List.generate(20, (index) {
   return Ranking(

@@ -3,15 +3,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:my_app/l10n/l10n.dart';
-import 'package:my_app/src/core/ui/colors.dart';
-import 'package:my_app/src/core/ui/typography.dart';
-import 'package:my_app/src/core/utils/utils.dart';
-import 'package:my_app/src/features/auth/cubit/auth_cubit.dart';
-import 'package:my_app/src/features/settings/cubit/settings_cubit.dart';
-import 'package:my_app/src/features/settings/widgets/change_language_dialog.dart';
-import 'package:my_app/src/features/settings/widgets/change_profile_image_dialog.dart';
-import 'package:my_app/src/router/router.dart';
+import 'package:mind_cows/l10n/l10n.dart';
+import 'package:mind_cows/src/core/ui/colors.dart';
+import 'package:mind_cows/src/core/ui/typography.dart';
+import 'package:mind_cows/src/core/utils/utils.dart';
+import 'package:mind_cows/src/features/auth/cubit/auth_cubit.dart';
+import 'package:mind_cows/src/features/settings/cubit/settings_cubit.dart';
+import 'package:mind_cows/src/features/settings/widgets/change_language_dialog.dart';
+import 'package:mind_cows/src/features/settings/widgets/change_profile_image_dialog.dart';
+import 'package:mind_cows/src/router/router.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});

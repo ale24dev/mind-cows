@@ -5,9 +5,9 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:my_app/firebase_options.dart';
-import 'package:my_app/src/app.dart';
-import 'package:my_app/src/core/di/dependency_injection.dart';
+import 'package:mind_cows/firebase_options.dart';
+import 'package:mind_cows/src/app.dart';
+import 'package:mind_cows/src/core/di/dependency_injection.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 Future<void> main() async {

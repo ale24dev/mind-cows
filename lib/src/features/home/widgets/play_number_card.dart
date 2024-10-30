@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gutter/flutter_gutter.dart';
-import 'package:my_app/src/core/ui/theme.dart';
-import 'package:my_app/src/core/ui/typography.dart';
-import 'package:my_app/src/features/game/data/model/attempt.dart';
+import 'package:mind_cows/src/core/ui/theme.dart';
+import 'package:mind_cows/src/core/ui/typography.dart';
+import 'package:mind_cows/src/features/game/data/model/attempt.dart';
 
 class PlayNumberCard extends StatelessWidget {
   const PlayNumberCard({required this.attempt, required this.index, super.key});

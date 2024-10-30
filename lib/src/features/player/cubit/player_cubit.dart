@@ -1,9 +1,9 @@
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
-import 'package:my_app/src/features/player/data/model/player.dart';
-import 'package:my_app/src/features/player/data/model/player_number.dart';
-import 'package:my_app/src/features/player/data/player_repository.dart';
+import 'package:mind_cows/src/features/player/data/model/player.dart';
+import 'package:mind_cows/src/features/player/data/model/player_number.dart';
+import 'package:mind_cows/src/features/player/data/player_repository.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 part 'player_state.dart';

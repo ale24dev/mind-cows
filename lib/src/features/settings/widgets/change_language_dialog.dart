@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:my_app/l10n/l10n.dart';
-import 'package:my_app/src/core/ui/typography.dart';
-import 'package:my_app/src/core/utils/widgets/generic_button.dart';
-import 'package:my_app/src/features/settings/cubit/settings_cubit.dart';
+import 'package:mind_cows/l10n/l10n.dart';
+import 'package:mind_cows/src/core/ui/typography.dart';
+import 'package:mind_cows/src/core/utils/widgets/generic_button.dart';
+import 'package:mind_cows/src/features/settings/cubit/settings_cubit.dart';
 
 class ChangeLanguageDialog extends StatefulWidget {
   const ChangeLanguageDialog({super.key});
@@ -13,13 +13,19 @@ class ChangeLanguageDialog extends StatefulWidget {
 }
 
 class _ChangeLanguageDialogState extends State<ChangeLanguageDialog> {
-  late String _selectedLanguage;
+  String _selectedLanguage = 'es';
 
   @override
   void initState() {
     super.initState();
     final settingsCubit = context.read<SettingsCubit>();
-    _selectedLanguage = settingsCubit.state.locale.languageCode;
+    WidgetsFlutterBinding.ensureInitialized().addPostFrameCallback((_) {
+      final locale =
+          settingsCubit.state.locale?.languageCode ?? context.l10n.localeName;
+      setState(() {
+        _selectedLanguage = locale;
+      });
+    });
   }
 
   @override

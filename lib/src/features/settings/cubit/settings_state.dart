@@ -19,7 +19,7 @@ extension LanguagesX on Language {
 class SettingsState with _$SettingsState {
   const factory SettingsState({
     @Default(SettingsStateStatus.initial) SettingsStateStatus stateStatus,
-    @Default(Locale('en')) Locale locale,
+    Locale? locale,
     List<Rules>? rules,
     ThemeMode? theme,
     AppException? error,

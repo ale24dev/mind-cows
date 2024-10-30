@@ -1,7 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:my_app/src/core/supabase/table_interface.dart';
-import 'package:my_app/src/core/utils/object_extensions.dart';
-import 'package:my_app/src/features/player/data/model/player.dart';
+import 'package:mind_cows/src/core/supabase/table_interface.dart';
+import 'package:mind_cows/src/core/utils/object_extensions.dart';
+import 'package:mind_cows/src/features/player/data/model/player.dart';
 
 part 'ranking.g.dart';
 

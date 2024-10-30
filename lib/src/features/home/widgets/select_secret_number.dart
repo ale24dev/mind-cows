@@ -4,14 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gutter/flutter_gutter.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:my_app/l10n/l10n.dart';
-import 'package:my_app/src/core/extensions/string.dart';
-import 'package:my_app/src/core/ui/typography.dart';
-import 'package:my_app/src/core/utils/utils.dart';
-import 'package:my_app/src/core/utils/widgets/generic_button.dart';
-import 'package:my_app/src/features/home/widgets/otp_fields.dart';
-import 'package:my_app/src/features/player/cubit/player_cubit.dart';
-import 'package:my_app/src/features/player/data/model/player_number.dart';
+import 'package:mind_cows/l10n/l10n.dart';
+import 'package:mind_cows/src/core/extensions/string.dart';
+import 'package:mind_cows/src/core/ui/typography.dart';
+import 'package:mind_cows/src/core/utils/utils.dart';
+import 'package:mind_cows/src/core/utils/widgets/generic_button.dart';
+import 'package:mind_cows/src/features/home/widgets/otp_fields.dart';
+import 'package:mind_cows/src/features/player/cubit/player_cubit.dart';
+import 'package:mind_cows/src/features/player/data/model/player_number.dart';
 
 class SelectSecretNumber extends HookWidget {
   const SelectSecretNumber({

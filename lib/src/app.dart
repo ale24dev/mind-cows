@@ -2,16 +2,16 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:my_app/l10n/l10n.dart';
-import 'package:my_app/src/core/di/dependency_injection.dart';
-import 'package:my_app/src/core/ui/theme.dart';
-import 'package:my_app/src/features/auth/cubit/auth_cubit.dart';
-import 'package:my_app/src/features/game/cubit/game_cubit.dart';
-import 'package:my_app/src/features/player/cubit/player_cubit.dart';
-import 'package:my_app/src/features/ranking/cubit/ranking_cubit.dart';
-import 'package:my_app/src/features/settings/cubit/settings_cubit.dart';
-import 'package:my_app/src/features/splash/cubit/app_cubit.dart';
-import 'package:my_app/src/router/router.dart';
+import 'package:mind_cows/l10n/l10n.dart';
+import 'package:mind_cows/src/core/di/dependency_injection.dart';
+import 'package:mind_cows/src/core/ui/theme.dart';
+import 'package:mind_cows/src/features/auth/cubit/auth_cubit.dart';
+import 'package:mind_cows/src/features/game/cubit/game_cubit.dart';
+import 'package:mind_cows/src/features/player/cubit/player_cubit.dart';
+import 'package:mind_cows/src/features/ranking/cubit/ranking_cubit.dart';
+import 'package:mind_cows/src/features/settings/cubit/settings_cubit.dart';
+import 'package:mind_cows/src/features/splash/cubit/app_cubit.dart';
+import 'package:mind_cows/src/router/router.dart';
 
 class MyApp extends StatefulWidget {
   const MyApp({super.key});

@@ -1,8 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
-import 'package:my_app/src/features/ranking/data/model/ranking.dart';
-import 'package:my_app/src/features/ranking/data/ranking_repository.dart';
+import 'package:mind_cows/src/features/ranking/data/model/ranking.dart';
+import 'package:mind_cows/src/features/ranking/data/ranking_repository.dart';
 
 part 'ranking_state.dart';
 part 'ranking_cubit.freezed.dart';

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:my_app/l10n/l10n.dart';
-import 'package:my_app/src/core/ui/typography.dart';
-import 'package:my_app/src/core/utils/widgets/cache_widget.dart';
-import 'package:my_app/src/core/utils/widgets/generic_button.dart';
-import 'package:my_app/src/features/game/cubit/game_cubit.dart';
-import 'package:my_app/src/features/player/cubit/player_cubit.dart';
-import 'package:my_app/src/features/settings/cubit/settings_cubit.dart';
-import 'package:my_app/src/features/settings/data/profile_images.dart';
+import 'package:mind_cows/l10n/l10n.dart';
+import 'package:mind_cows/src/core/ui/typography.dart';
+import 'package:mind_cows/src/core/utils/widgets/cache_widget.dart';
+import 'package:mind_cows/src/core/utils/widgets/generic_button.dart';
+import 'package:mind_cows/src/features/game/cubit/game_cubit.dart';
+import 'package:mind_cows/src/features/player/cubit/player_cubit.dart';
+import 'package:mind_cows/src/features/settings/cubit/settings_cubit.dart';
+import 'package:mind_cows/src/features/settings/data/profile_images.dart';
 import 'package:sized_context/sized_context.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 

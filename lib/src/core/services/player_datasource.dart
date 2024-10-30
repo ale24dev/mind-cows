@@ -1,8 +1,8 @@
 import 'package:fpdart/fpdart.dart';
-import 'package:my_app/src/core/exceptions.dart';
-import 'package:my_app/src/features/player/data/model/player.dart';
-import 'package:my_app/src/features/player/data/model/player_number.dart';
-import 'package:my_app/src/features/player/domain/player_number_realtime.dart';
+import 'package:mind_cows/src/core/exceptions.dart';
+import 'package:mind_cows/src/features/player/data/model/player.dart';
+import 'package:mind_cows/src/features/player/data/model/player_number.dart';
+import 'package:mind_cows/src/features/player/domain/player_number_realtime.dart';
 
 abstract class PlayerDatasource {
   Future<Either<AppException, Player?>> getPlayerById(String id);

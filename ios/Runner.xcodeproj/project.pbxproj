@@ -525,7 +525,7 @@
 				DEVELOPMENT_TEAM = 48AM4F2AMH;
 				ENABLE_BITCODE = NO;
 				FLAVOR_APP_NAME = "My App";
-				FLUTTER_TARGET = "/Volumes/Ale Work/Developer/my_app/lib/main.dart";
+				FLUTTER_TARGET = "/Volumes/Ale Work/Developer/mind_cows/lib/main.dart";
 				INFOPLIST_FILE = Runner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -624,7 +624,7 @@
 				DEVELOPMENT_TEAM = 48AM4F2AMH;
 				ENABLE_BITCODE = NO;
 				FLAVOR_APP_NAME = "My App";
-				FLUTTER_TARGET = "/Volumes/Ale Work/Developer/my_app/lib/main.dart";
+				FLUTTER_TARGET = "/Volumes/Ale Work/Developer/mind_cows/lib/main.dart";
 				INFOPLIST_FILE = Runner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -718,7 +718,7 @@
 				DEVELOPMENT_TEAM = 48AM4F2AMH;
 				ENABLE_BITCODE = NO;
 				FLAVOR_APP_NAME = "My App";
-				FLUTTER_TARGET = "/Volumes/Ale Work/Developer/my_app/lib/main.dart";
+				FLUTTER_TARGET = "/Volumes/Ale Work/Developer/mind_cows/lib/main.dart";
 				INFOPLIST_FILE = Runner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -815,7 +815,7 @@
 				DEVELOPMENT_TEAM = 48AM4F2AMH;
 				ENABLE_BITCODE = NO;
 				FLAVOR_APP_NAME = "[DEV] My App";
-				FLUTTER_TARGET = "/Volumes/Ale Work/Developer/my_app/lib/main.dart";
+				FLUTTER_TARGET = "/Volumes/Ale Work/Developer/mind_cows/lib/main.dart";
 				INFOPLIST_FILE = Runner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -909,7 +909,7 @@
 				DEVELOPMENT_TEAM = 48AM4F2AMH;
 				ENABLE_BITCODE = NO;
 				FLAVOR_APP_NAME = "[DEV] My App";
-				FLUTTER_TARGET = "/Volumes/Ale Work/Developer/my_app/lib/main.dart";
+				FLUTTER_TARGET = "/Volumes/Ale Work/Developer/mind_cows/lib/main.dart";
 				INFOPLIST_FILE = Runner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1002,7 +1002,7 @@
 				DEVELOPMENT_TEAM = 48AM4F2AMH;
 				ENABLE_BITCODE = NO;
 				FLAVOR_APP_NAME = "[DEV] My App";
-				FLUTTER_TARGET = "/Volumes/Ale Work/Developer/my_app/lib/main.dart";
+				FLUTTER_TARGET = "/Volumes/Ale Work/Developer/mind_cows/lib/main.dart";
 				INFOPLIST_FILE = Runner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1098,7 +1098,7 @@
 				DEVELOPMENT_TEAM = 48AM4F2AMH;
 				ENABLE_BITCODE = NO;
 				FLAVOR_APP_NAME = "[STG] My App";
-				FLUTTER_TARGET = "/Volumes/Ale Work/Developer/my_app/lib/main.dart";
+				FLUTTER_TARGET = "/Volumes/Ale Work/Developer/mind_cows/lib/main.dart";
 				INFOPLIST_FILE = Runner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1194,7 +1194,7 @@
 				DEVELOPMENT_TEAM = 48AM4F2AMH;
 				ENABLE_BITCODE = NO;
 				FLAVOR_APP_NAME = "[STG] My App";
-				FLUTTER_TARGET = "/Volumes/Ale Work/Developer/my_app/lib/main.dart";
+				FLUTTER_TARGET = "/Volumes/Ale Work/Developer/mind_cows/lib/main.dart";
 				INFOPLIST_FILE = Runner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1285,7 +1285,7 @@
 				DEVELOPMENT_TEAM = 48AM4F2AMH;
 				ENABLE_BITCODE = NO;
 				FLAVOR_APP_NAME = "[STG] My App";
-				FLUTTER_TARGET = "/Volumes/Ale Work/Developer/my_app/lib/main.dart";
+				FLUTTER_TARGET = "/Volumes/Ale Work/Developer/mind_cows/lib/main.dart";
 				INFOPLIST_FILE = Runner/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

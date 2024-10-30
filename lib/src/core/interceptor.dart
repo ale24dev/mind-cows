@@ -5,10 +5,10 @@ import 'dart:convert';
 import 'package:fpdart/fpdart.dart';
 import 'package:injectable/injectable.dart';
 import 'package:logger/logger.dart';
-import 'package:my_app/src/core/di/dependency_injection.dart';
-import 'package:my_app/src/core/exceptions.dart';
-import 'package:my_app/src/core/utils/object_extensions.dart';
-import 'package:my_app/src/features/auth/data/auth_repository.dart';
+import 'package:mind_cows/src/core/di/dependency_injection.dart';
+import 'package:mind_cows/src/core/exceptions.dart';
+import 'package:mind_cows/src/core/utils/object_extensions.dart';
+import 'package:mind_cows/src/features/auth/data/auth_repository.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 enum QueryOption { select, insert, uploadStorage, update, delete }

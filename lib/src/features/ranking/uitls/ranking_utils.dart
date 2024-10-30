@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:my_app/resources/resources.dart';
-import 'package:my_app/src/features/ranking/data/model/ranking.dart';
+import 'package:mind_cows/resources/resources.dart';
+import 'package:mind_cows/src/features/ranking/data/model/ranking.dart';
 
 enum PodiumPosition { first, second, third }
 

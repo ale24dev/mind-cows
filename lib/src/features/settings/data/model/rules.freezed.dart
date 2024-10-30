@@ -26,12 +26,8 @@ mixin _$Rules {
   @JsonKey(name: 'updated_at')
   DateTime get updatedAt => throw _privateConstructorUsedError;
 
-  /// Serializes this Rules to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-
-  /// Create a copy of Rules
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   $RulesCopyWith<Rules> get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -57,8 +53,6 @@ class _$RulesCopyWithImpl<$Res, $Val extends Rules>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of Rules
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -110,8 +104,6 @@ class __$$RulesImplCopyWithImpl<$Res>
       _$RulesImpl _value, $Res Function(_$RulesImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of Rules
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -181,13 +173,11 @@ class _$RulesImpl implements _Rules {
                 other.updatedAt == updatedAt));
   }
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, id, rules, language, updatedAt);
 
-  /// Create a copy of Rules
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$RulesImplCopyWith<_$RulesImpl> get copyWith =>
@@ -220,11 +210,8 @@ abstract class _Rules implements Rules {
   @override
   @JsonKey(name: 'updated_at')
   DateTime get updatedAt;
-
-  /// Create a copy of Rules
-  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(ignore: true)
   _$$RulesImplCopyWith<_$RulesImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:my_app/src/core/ui/colors.dart';
+import 'package:mind_cows/src/core/ui/colors.dart';
 
 class AppTextStyle {
   static const fontFamily = 'Poppins';

@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
-import 'package:my_app/src/features/auth/data/auth_repository.dart';
+import 'package:mind_cows/src/features/auth/data/auth_repository.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 part 'auth_state.dart';

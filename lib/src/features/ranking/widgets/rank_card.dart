@@ -1,9 +1,9 @@
 import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gutter/flutter_gutter.dart';
-import 'package:my_app/src/core/ui/theme.dart';
-import 'package:my_app/src/core/ui/typography.dart';
-import 'package:my_app/src/features/ranking/data/model/ranking.dart';
+import 'package:mind_cows/src/core/ui/theme.dart';
+import 'package:mind_cows/src/core/ui/typography.dart';
+import 'package:mind_cows/src/features/ranking/data/model/ranking.dart';
 import 'package:sized_context/sized_context.dart';
 
 class RankCard extends StatelessWidget {

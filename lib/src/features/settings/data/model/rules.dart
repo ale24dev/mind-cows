@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:my_app/src/core/utils/object_extensions.dart';
-import 'package:my_app/src/features/settings/cubit/settings_cubit.dart';
+import 'package:mind_cows/src/core/utils/object_extensions.dart';
+import 'package:mind_cows/src/features/settings/cubit/settings_cubit.dart';
 
 part 'rules.freezed.dart';
 part 'rules.g.dart';

@@ -5,12 +5,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gutter/flutter_gutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
-import 'package:my_app/l10n/l10n.dart';
-import 'package:my_app/resources/resources.dart';
-import 'package:my_app/src/core/utils/object_extensions.dart';
-import 'package:my_app/src/features/game/cubit/game_cubit.dart';
-import 'package:my_app/src/features/player/cubit/player_cubit.dart';
-import 'package:my_app/src/router/router.dart';
+import 'package:mind_cows/l10n/l10n.dart';
+import 'package:mind_cows/resources/resources.dart';
+import 'package:mind_cows/src/core/utils/object_extensions.dart';
+import 'package:mind_cows/src/features/game/cubit/game_cubit.dart';
+import 'package:mind_cows/src/features/player/cubit/player_cubit.dart';
+import 'package:mind_cows/src/router/router.dart';
 
 class LoadingProfileData extends StatefulWidget {
   const LoadingProfileData({super.key});

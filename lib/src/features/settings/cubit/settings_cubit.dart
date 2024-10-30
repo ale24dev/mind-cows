@@ -2,9 +2,9 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
-import 'package:my_app/src/core/exceptions.dart';
-import 'package:my_app/src/core/services/settings_datasource.dart';
-import 'package:my_app/src/features/settings/data/model/rules.dart';
+import 'package:mind_cows/src/core/exceptions.dart';
+import 'package:mind_cows/src/core/services/settings_datasource.dart';
+import 'package:mind_cows/src/features/settings/data/model/rules.dart';
 
 part 'settings_state.dart';
 part 'settings_cubit.freezed.dart';

@@ -60,6 +60,7 @@ dev_dependencies:
   package_rename: ^1.7.1
   flutter_launcher_icons: "^0.14.1"
   flutter_native_splash: ^2.4.2
+  icons_launcher: ^3.0.0
 
 flutter:
   uses-material-design: true
@@ -85,7 +86,7 @@ flutter:
 
 flutter_launcher_icons:
   android: "launcher_icon"
-  ios: true
+  ios: false
   image_path: "assets/images/logo.png"
   min_sdk_android: 21
 

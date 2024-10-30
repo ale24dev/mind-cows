@@ -165,48 +165,25 @@ class _GameScreenState extends State<GameScreen> {
     );
 
     if (mounted) {
-      WidgetsFlutterBinding.ensureInitialized().addPostFrameCallback(
-        (_) => showAdaptiveDialog<void>(
-          barrierDismissible: false,
-          context: context,
-          builder: (context) {
-            return PopScope(
-              canPop: false,
-              child: AlertDialog.adaptive(
-                title: Text(title),
-                content: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    if (!isWinner)
-                      Text.rich(
+      showAdaptiveDialog<void>(
+        barrierDismissible: false,
+        context: context,
+        builder: (context) {
+          return AlertDialog.adaptive(
+            title: Text(title),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (!isWinner)
+                  Text.rich(
+                    TextSpan(
+                      text: context.l10n.theSecretNumberWas,
+                      style: AppTextStyle().body.copyWith(
+                            color: Theme.of(context).colorScheme.onSurface,
+                          ),
+                      children: <TextSpan>[
                         TextSpan(
-                          text: context.l10n.theSecretNumberWas,
-                          style: AppTextStyle().body.copyWith(
-                                color: Theme.of(context).colorScheme.onSurface,
-                              ),
-                          children: <TextSpan>[
-                            TextSpan(
-                              text: rival.number!.parseNumberListToString,
-                              style: AppTextStyle().body.copyWith(
-                                    fontWeight: FontWeight.bold,
-                                    color:
-                                        Theme.of(context).colorScheme.onSurface,
-                                  ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    LottieBuilder.asset(
-                      imageResult,
-                      height: isWinner ? 160 : 130,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Image.asset(AppImages.gamePoints, height: 20),
-                        const GutterTiny(),
-                        Text(
-                          '${isWinner ? '+' : ''}$resultPoints',
+                          text: rival.number!.parseNumberListToString,
                           style: AppTextStyle().body.copyWith(
                                 fontWeight: FontWeight.bold,
                                 color: Theme.of(context).colorScheme.onSurface,
@@ -214,23 +191,103 @@ class _GameScreenState extends State<GameScreen> {
                         ),
                       ],
                     ),
+                  ),
+                LottieBuilder.asset(
+                  imageResult,
+                  height: isWinner ? 160 : 130,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset(AppImages.gamePoints, height: 20),
+                    const GutterTiny(),
+                    Text(
+                      '${isWinner ? '+' : ''}$resultPoints',
+                      style: AppTextStyle().body.copyWith(
+                            fontWeight: FontWeight.bold,
+                            color: Theme.of(context).colorScheme.onSurface,
+                          ),
+                    ),
                   ],
                 ),
-                actions: [
-                  TextButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                      context.goNamed(AppRoute.home.name);
-                      context.read<GameCubit>().refresh();
-                    },
-                    child: Text(context.l10n.accept),
-                  ),
-                ],
+              ],
+            ),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                  context.goNamed(AppRoute.home.name);
+                  context.read<GameCubit>().refresh();
+                },
+                child: Text(context.l10n.accept),
               ),
-            );
-          },
-        ),
+            ],
+          );
+        },
       );
+      //   WidgetsFlutterBinding.ensureInitialized().addPostFrameCallback(
+      //     (_) => showAdaptiveDialog<void>(
+      //       barrierDismissible: false,
+      //       context: context,
+      //       builder: (context) {
+      //         return AlertDialog.adaptive(
+      //           title: Text(title),
+      //           content: Column(
+      //             mainAxisSize: MainAxisSize.min,
+      //             children: [
+      //               if (!isWinner)
+      //                 Text.rich(
+      //                   TextSpan(
+      //                     text: context.l10n.theSecretNumberWas,
+      //                     style: AppTextStyle().body.copyWith(
+      //                           color: Theme.of(context).colorScheme.onSurface,
+      //                         ),
+      //                     children: <TextSpan>[
+      //                       TextSpan(
+      //                         text: rival.number!.parseNumberListToString,
+      //                         style: AppTextStyle().body.copyWith(
+      //                               fontWeight: FontWeight.bold,
+      //                               color:
+      //                                   Theme.of(context).colorScheme.onSurface,
+      //                             ),
+      //                       ),
+      //                     ],
+      //                   ),
+      //                 ),
+      //               LottieBuilder.asset(
+      //                 imageResult,
+      //                 height: isWinner ? 160 : 130,
+      //               ),
+      //               Row(
+      //                 mainAxisAlignment: MainAxisAlignment.center,
+      //                 children: [
+      //                   Image.asset(AppImages.gamePoints, height: 20),
+      //                   const GutterTiny(),
+      //                   Text(
+      //                     '${isWinner ? '+' : ''}$resultPoints',
+      //                     style: AppTextStyle().body.copyWith(
+      //                           fontWeight: FontWeight.bold,
+      //                           color: Theme.of(context).colorScheme.onSurface,
+      //                         ),
+      //                   ),
+      //                 ],
+      //               ),
+      //             ],
+      //           ),
+      //           actions: [
+      //             TextButton(
+      //               onPressed: () {
+      //                 Navigator.pop(context);
+      //                 context.goNamed(AppRoute.home.name);
+      //                 context.read<GameCubit>().refresh();
+      //               },
+      //               child: Text(context.l10n.accept),
+      //             ),
+      //           ],
+      //         );
+      //       },
+      //     ),
+      //   );
     }
   }
 }

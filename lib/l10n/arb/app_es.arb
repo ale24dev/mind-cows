@@ -20,6 +20,9 @@
     "signUpSuccess": "¡Registro exitoso!",
     "signUpError": "Error al registrarse. Por favor, inténtalo de nuevo.",
     "anErrorOccurred": "Ocurrió un error",
+    "removeAccount": "Eliminar cuenta",
+    "confirmRemoveAccount": "Confirmar Eliminación de Cuenta",
+    "removeAccountConfirmation": "¿Estás seguro de que deseas eliminar tu cuenta? Esta acción no se puede deshacer.",
 
     "searchingForPlayers": "Buscando jugadores",
     "cancel": "Cancelar",

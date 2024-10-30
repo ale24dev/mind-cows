@@ -88,8 +88,10 @@ async function verifyAndInsertAttempt(supabase: any, gameId: number, playerId: n
     cows, // Número de vacas
   });
 
-  // Intercambiar el turno de los jugadores
-  swapTurns(supabase, ownPlayerNumber, opponent, gameId);
+  if (bulls != 4) {
+    // Intercambiar el turno de los jugadores
+    swapTurns(supabase, ownPlayerNumber, opponent, gameId);
+  }
 }
 
 // Función para intercambiar turnos y verificar si el oponente es un bot
@@ -140,7 +142,6 @@ async function swapTurns(supabase: any, ownPlayerNumber: any, opponent: any, gam
 
   // Verificar si el oponente es un bot
   if (opponent.player.is_bot) {
-
     // Esperar un tiempo aleatorio entre 10 y 30 segundos
     const randomDelay = Math.floor(Math.random() * (30000 - 10000 + 1)) + 10000; // Entre 10 y 30 segundos
     console.log(`Waiting for ${randomDelay / 1000} seconds for the bot's turn...`);
@@ -174,7 +175,7 @@ async function swapTurns(supabase: any, ownPlayerNumber: any, opponent: any, gam
       .update({
         is_turn: false,
         started_time: new Date().toISOString(),
-        attempts_to_win: opponent.attempts_to_win - 1
+        attempts_to_win: opponent.attempts_to_win - 1,
       })
       .eq("id", opponent.id);
 
